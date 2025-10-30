@@ -1,4 +1,4 @@
-import {GoogleAuth, JWT} from "google-auth-library";
+import { GoogleAuth, JWT } from 'google-auth-library'
 
 export const googleAuth = () => {
   const { GC_PRIVATE_KEY, GC_EMAIL } = process.env

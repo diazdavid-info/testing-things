@@ -1,6 +1,6 @@
-import {PubSub} from '@google-cloud/pubsub';
-import { setTimeout } from 'timers/promises'
-import {googleAuth} from "./auth";
+import { PubSub } from '@google-cloud/pubsub'
+import { setTimeout } from 'node:timers/promises'
+import { googleAuth } from './auth'
 
 const main = async () => {
   const { GC_PROJECT_ID } = process.env
@@ -14,8 +14,8 @@ const main = async () => {
   let messageNumber = 0
 
   while (true) {
-    const json = { count: ++messageNumber };
-    await topic.publishMessage({ json });
+    const json = { count: ++messageNumber }
+    await topic.publishMessage({ json })
     console.log(json)
     await setTimeout(1000)
   }

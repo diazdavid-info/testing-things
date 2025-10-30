@@ -1,5 +1,5 @@
-import {PubSub} from '@google-cloud/pubsub';
-import {googleAuth} from "./auth";
+import { PubSub } from '@google-cloud/pubsub'
+import { googleAuth } from './auth'
 
 const main = async () => {
   const { GC_PROJECT_ID } = process.env
@@ -11,11 +11,11 @@ const main = async () => {
   const topic = await pubsub.topic('topic-pub_sub')
   const subscription = await topic.subscription('subscription-2')
 
-  subscription.on('message', message => {
-    const {data} = message
-    console.log(`Consumer 3: ${data.toString()}`);
+  subscription.on('message', (message) => {
+    const { data } = message
+    console.log(`Consumer 3: ${data.toString()}`)
     message.ack()
-  });
+  })
 }
 
 main().then(console.log).catch(console.error)
