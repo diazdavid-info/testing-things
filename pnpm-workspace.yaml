@@ -3,6 +3,7 @@ packages:
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
+  - msgpackr-extract
+  - protobufjs
   - sharp
   - sqlite3
-  - protobufjs
