@@ -1,131 +1,133 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro'
 
 const columns = ['To Do', 'In Progress', 'Review', 'Done']
 ---
 
 <Layout title="Task Board">
-	<main class="flex flex-col items-center h-screen p-2">
-		<h1>Astro</h1>
-		<section class="flex flex-row gap-4 w-full">
-			{columns.map((column) => (
-				<article class="bg-gray-300 flex flex-col gap-2 min-w-64 p-2 rounded-lg border-2 border-transparent">
-					<header class="px-2 py-1">
-						<h2>{column}</h2>
-					</header>
-				</article>
-			))}
-		</section>
-	</main>
+  <main class="flex flex-col items-center h-screen p-2">
+    <h1>Astro</h1>
+    <section class="flex flex-row gap-4 w-full">
+      {
+        columns.map((column) => (
+          <article class="bg-gray-300 flex flex-col gap-2 min-w-64 p-2 rounded-lg border-2 border-transparent">
+            <header class="px-2 py-1">
+              <h2>{column}</h2>
+            </header>
+          </article>
+        ))
+      }
+    </section>
+  </main>
 </Layout>
 
 <style is:global>
-	.drag-over {
-		border-color: rgb(159, 159, 159);
-	}
-	.drag-previous {
-		pointer-events: none;
-		opacity: 0.5;
-	}
+  .drag-over {
+    border-color: rgb(159, 159, 159);
+  }
+  .drag-previous {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 </style>
 
 <script>
-	const firstColumn = document.querySelector('article') as HTMLElement
-	const button = document.getElementById('add-task') as HTMLElement
-	const tasks = document.querySelectorAll('.task') as NodeListOf<HTMLElement>
-	const articles = document.querySelectorAll('article') as NodeListOf<HTMLElement>
+  const firstColumn = document.querySelector('article') as HTMLElement
+  const button = document.getElementById('add-task') as HTMLElement
+  const tasks = document.querySelectorAll('.task') as NodeListOf<HTMLElement>
+  const articles = document.querySelectorAll('article') as NodeListOf<HTMLElement>
 
-	articles.forEach((article) => {
-		article.addEventListener('drop', handlerDrop)
-		article.addEventListener('dragover', handlerDragOver)
-		article.addEventListener('dragleave', handlerDragLeave)
-	})
+  articles.forEach((article) => {
+    article.addEventListener('drop', handlerDrop)
+    article.addEventListener('dragover', handlerDragOver)
+    article.addEventListener('dragleave', handlerDragLeave)
+  })
 
-	tasks.forEach((task) => {
-		task.addEventListener('dragstart', handlerDragStart)
-		task.addEventListener('dragend', handlerDragEnd)
-	})
+  tasks.forEach((task) => {
+    task.addEventListener('dragstart', handlerDragStart)
+    task.addEventListener('dragend', handlerDragEnd)
+  })
 
-	button?.addEventListener('click', (e) => {
-		const target = e.target as HTMLElement
-		const newElement = createTask('Nombre task')
-		target.parentElement?.insertBefore(newElement, target)
-	})
+  button?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement
+    const newElement = createTask('Nombre task')
+    target.parentElement?.insertBefore(newElement, target)
+  })
 
-	function createTask(title: string) {
-		const newElement = document.createElement('div')
-		newElement.classList.add('task', 'bg-red-200', 'rounded-lg', 'px-2', 'py-1')
-		newElement.draggable = true
-		newElement.innerHTML = `<h3>${title}</h3>`
-		newElement.addEventListener('dragstart', handlerDragStart)
-		newElement.addEventListener('dragend', handlerDragEnd)
-		return newElement
-	}
+  function createTask(title: string) {
+    const newElement = document.createElement('div')
+    newElement.classList.add('task', 'bg-red-200', 'rounded-lg', 'px-2', 'py-1')
+    newElement.draggable = true
+    newElement.innerHTML = `<h3>${title}</h3>`
+    newElement.addEventListener('dragstart', handlerDragStart)
+    newElement.addEventListener('dragend', handlerDragEnd)
+    return newElement
+  }
 
-	firstColumn.appendChild(createTask('Nombre task 1'))
-	firstColumn.appendChild(createTask('Nombre task 2'))
+  firstColumn.appendChild(createTask('Nombre task 1'))
+  firstColumn.appendChild(createTask('Nombre task 2'))
 
-	let draggedElement: HTMLElement | null = null
-	let sourceContainer: ParentNode | null = null
+  let draggedElement: HTMLElement | null = null
+  let sourceContainer: ParentNode | null = null
 
-	function handlerDrop (event: HTMLElementEventMap['drop']) {
-		event.preventDefault()
+  function handlerDrop(event: HTMLElementEventMap['drop']) {
+    event.preventDefault()
 
-		if(draggedElement && sourceContainer) {
-			sourceContainer?.removeChild(draggedElement)
-		}
+    if (draggedElement && sourceContainer) {
+      sourceContainer?.removeChild(draggedElement)
+    }
 
-		const {currentTarget, dataTransfer} = event;
+    const { currentTarget, dataTransfer } = event
 
-		(currentTarget as HTMLElement).classList.remove('drag-over')
-		const title = dataTransfer?.getData('text/plain') || ''
+    ;(currentTarget as HTMLElement).classList.remove('drag-over')
+    const title = dataTransfer?.getData('text/plain') || ''
 
-		const newElement = createTask(title);
+    const newElement = createTask(title)
 
-		(currentTarget as HTMLElement).appendChild(newElement);
-		(currentTarget as HTMLElement).querySelector('.drag-previous')?.remove()
-	}
+    ;(currentTarget as HTMLElement).appendChild(newElement)
+    ;(currentTarget as HTMLElement).querySelector('.drag-previous')?.remove()
+  }
 
-	function handlerDragOver (event: HTMLElementEventMap['dragover']) {
-		event.preventDefault()
+  function handlerDragOver(event: HTMLElementEventMap['dragover']) {
+    event.preventDefault()
 
-		const {currentTarget} = event
-		if(!currentTarget || sourceContainer === currentTarget) return;
+    const { currentTarget } = event
+    if (!currentTarget || sourceContainer === currentTarget) return
 
-		(currentTarget as HTMLElement).classList.add('drag-over')
+    ;(currentTarget as HTMLElement).classList.add('drag-over')
 
-		const draggedPreview = document.querySelector('.drag-previous') as HTMLElement
+    const draggedPreview = document.querySelector('.drag-previous') as HTMLElement
 
-		if(draggedElement && !draggedPreview) {
-			const previousElement = draggedElement.cloneNode(true) as HTMLElement
-			previousElement.classList.add('drag-previous');
-			(currentTarget as HTMLElement).appendChild(previousElement)
-		}
-	}
+    if (draggedElement && !draggedPreview) {
+      const previousElement = draggedElement.cloneNode(true) as HTMLElement
+      previousElement.classList.add('drag-previous')
+      ;(currentTarget as HTMLElement).appendChild(previousElement)
+    }
+  }
 
-	function handlerDragLeave (event: HTMLElementEventMap['dragleave']) {
-		event.preventDefault()
+  function handlerDragLeave(event: HTMLElementEventMap['dragleave']) {
+    event.preventDefault()
 
-		const {currentTarget} = event;
+    const { currentTarget } = event
 
-		(currentTarget as HTMLElement).classList.remove('drag-over');
-		(currentTarget as HTMLElement).querySelector('.drag-previous')?.remove()
-	}
+    ;(currentTarget as HTMLElement).classList.remove('drag-over')
+    ;(currentTarget as HTMLElement).querySelector('.drag-previous')?.remove()
+  }
 
-	function handlerDragStart (event: HTMLElementEventMap['dragstart']) {
-		draggedElement = event.target as HTMLElement
-		sourceContainer = draggedElement.parentNode
+  function handlerDragStart(event: HTMLElementEventMap['dragstart']) {
+    draggedElement = event.target as HTMLElement
+    sourceContainer = draggedElement.parentNode
 
-		const target = event.target as HTMLElement
-		const titleElement = target.querySelector('h3')
-		const text = titleElement?.innerText || ''
-		// e.target elemento que se esta arrastrando
-		// e.parentElement desde que sitio se está arrastrando
-		event.dataTransfer?.setData('text/plain', text)
-	}
+    const target = event.target as HTMLElement
+    const titleElement = target.querySelector('h3')
+    const text = titleElement?.innerText || ''
+    // e.target elemento que se esta arrastrando
+    // e.parentElement desde que sitio se está arrastrando
+    event.dataTransfer?.setData('text/plain', text)
+  }
 
-	function handlerDragEnd () {
-		draggedElement = null
-		sourceContainer = null
-	}
+  function handlerDragEnd() {
+    draggedElement = null
+    sourceContainer = null
+  }
 </script>

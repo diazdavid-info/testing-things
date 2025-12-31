@@ -2,7 +2,6 @@ import path from 'path'
 import { apiRouter } from 'api-route'
 import * as fs from 'node:fs'
 import Stripe from 'stripe'
-import { setTimeout } from 'node:timers/promises'
 
 const stripeSecretKey =
   'sk_test_51KsNaFK5jvkJ3LGPod0kj11lXHBb6c38V5M2XMoXA5zyoTpoUCuSTS40wLjt1yHtDRm3HDVctuuTGpvOmfaxQ1bY00WbKYcti7'
@@ -41,14 +40,14 @@ app.add('POST', '/init', async () => {
           product_data: {
             name: 'Example Product',
             description: 'Example Product Description',
-            images: ['https://storage.googleapis.com/elevate-production-bucket/space/5db03ec6e9464fe92ccf600040538da7']
+            images: ['https://storage.googleapis.com/elevate-production-bucket/space/5db03ec6e9464fe92ccf600040538da7'],
           },
-          unit_amount: 1000
+          unit_amount: 1000,
         },
-        quantity: 10
-      }
+        quantity: 10,
+      },
     ],
-    mode: 'payment'
+    mode: 'payment',
   })
 
   // const { url } = session
@@ -59,6 +58,6 @@ app.add('POST', '/init', async () => {
   // return new Response('Redirect', { status: 302, headers: { Location: url as string } })
 })
 
-app.run(3000, () => {
+app.run(3000, '0.0.0.0', () => {
   console.log('Server running on port 3000')
 })

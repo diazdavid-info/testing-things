@@ -7,18 +7,12 @@ import * as process from 'node:process'
 
 // ---- PRODUCTION LOGGERS ---- //
 // const pinoProd = pino({ name: 'pino-logger-pro', level: 'info' })
-const pinoProd = pino(
-  { name: 'pino-logger-pro', level: 'info' },
-  pino.destination({ minLength: 4096, sync: false })
-)
+const pinoProd = pino({ name: 'pino-logger-pro', level: 'info' }, pino.destination({ minLength: 4096, sync: false }))
 
 const winstonProd = winston.createLogger({
   level: 'info',
   defaultMeta: { name: 'winston-logger-pro' },
-  format: winston.format.combine(
-    winston.format.errors({ stack: true }),
-    winston.format.json()
-  ),
+  format: winston.format.combine(winston.format.errors({ stack: true }), winston.format.json()),
   transports: [new winston.transports.Console()],
 })
 
@@ -41,10 +35,7 @@ const pinoLocal = pino({
 
 const winstonLocal = winston.createLogger({
   defaultMeta: { name: 'winston-logger-local' },
-  format: winston.format.combine(
-    winston.format.colorize(),
-    winston.format.simple()
-  ),
+  format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
   transports: [new winston.transports.Console()],
 })
 

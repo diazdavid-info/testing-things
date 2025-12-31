@@ -8,7 +8,6 @@
   "devDependencies": {
     "@microsoft/microsoft-graph-types": "2.40.0",
     "@types/node": "22.13.11",
-    "eslint-config-mytools": "^0.0.7",
     "mytools-tsconfig": "^0.1.0",
     "tsx": "^4.19.3"
   },

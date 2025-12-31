@@ -1,5 +1,5 @@
 import './App.css'
-import Typography from "./Typography.tsx";
+import Typography from './Typography.tsx'
 
 function App() {
   return (

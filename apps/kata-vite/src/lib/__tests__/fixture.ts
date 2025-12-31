@@ -9,7 +9,7 @@ export const fixture: JiraTask = {
             content: [
               {
                 type: 'heading',
-                content: [{ type: 'text', text: 'Tareas' }]
+                content: [{ type: 'text', text: 'Tareas' }],
               },
               {
                 type: 'bulletList',
@@ -22,9 +22,9 @@ export const fixture: JiraTask = {
                         content: [
                           {
                             type: 'text',
-                            text: 'Estudiar documentación de COAM → 4'
-                          }
-                        ]
+                            text: 'Estudiar documentación de COAM → 4',
+                          },
+                        ],
                       },
                       {
                         type: 'bulletList',
@@ -37,15 +37,15 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Modificar descripcion del provider'
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                                    text: 'Modificar descripcion del provider',
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     type: 'listItem',
@@ -55,9 +55,9 @@ export const fixture: JiraTask = {
                         content: [
                           {
                             type: 'text',
-                            text: 'Registrar templates en mailer → 2'
-                          }
-                        ]
+                            text: 'Registrar templates en mailer → 2',
+                          },
+                        ],
                       },
                       {
                         type: 'bulletList',
@@ -70,20 +70,20 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'BOOKING_CREATED_COAM'
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: 'BOOKING_CREATED_COAM',
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
                             content: [
                               {
                                 type: 'paragraph',
-                                content: [{ type: 'text', text: 'RECOVERY_PASS_COAM' }]
-                              }
-                            ]
+                                content: [{ type: 'text', text: 'RECOVERY_PASS_COAM' }],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -93,15 +93,15 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Queries para asociar nuevos templates a COAM'
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                                    text: 'Queries para asociar nuevos templates a COAM',
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     type: 'listItem',
@@ -111,9 +111,9 @@ export const fixture: JiraTask = {
                         content: [
                           {
                             type: 'text',
-                            text: 'Modificar enum de personalIdType → 1'
-                          }
-                        ]
+                            text: 'Modificar enum de personalIdType → 1',
+                          },
+                        ],
                       },
                       {
                         type: 'bulletList',
@@ -126,15 +126,15 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Añadir licenseNumber'
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                                    text: 'Añadir licenseNumber',
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     type: 'listItem',
@@ -144,9 +144,9 @@ export const fixture: JiraTask = {
                         content: [
                           {
                             type: 'text',
-                            text: 'Modificar search de person → 2'
-                          }
-                        ]
+                            text: 'Modificar search de person → 2',
+                          },
+                        ],
                       },
                       {
                         type: 'bulletList',
@@ -159,15 +159,15 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Añadir en person-store::search la búsqueda por personalId y personalIdType'
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                                    text: 'Añadir en person-store::search la búsqueda por personalId y personalIdType',
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     type: 'listItem',
@@ -177,9 +177,9 @@ export const fixture: JiraTask = {
                         content: [
                           {
                             type: 'text',
-                            text: 'Crear endpoint de login coam → 3'
-                          }
-                        ]
+                            text: 'Crear endpoint de login coam → 3',
+                          },
+                        ],
                       },
                       {
                         type: 'bulletList',
@@ -189,9 +189,9 @@ export const fixture: JiraTask = {
                             content: [
                               {
                                 type: 'paragraph',
-                                content: [{ type: 'text', text: 'Method POST' }]
-                              }
-                            ]
+                                content: [{ type: 'text', text: 'Method POST' }],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -201,11 +201,11 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'url /api/v1/login/coam'
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: 'url /api/v1/login/coam',
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -215,11 +215,11 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Recibe body con licenseNumber y password'
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: 'Recibe body con licenseNumber y password',
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -229,20 +229,20 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Llama al caso de uso AuthCoamLogin'
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: 'Llama al caso de uso AuthCoamLogin',
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
                             content: [
                               {
                                 type: 'paragraph',
-                                content: [{ type: 'text', text: 'Devuelve un person' }]
-                              }
-                            ]
+                                content: [{ type: 'text', text: 'Devuelve un person' }],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -252,20 +252,20 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Usa el middleware que crea la session ('
+                                    text: 'Usa el middleware que crea la session (',
                                   },
                                   {
                                     type: 'text',
-                                    text: 'createSessionHandler'
+                                    text: 'createSessionHandler',
                                   },
-                                  { type: 'text', text: ')' }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                                  { type: 'text', text: ')' },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     type: 'listItem',
@@ -275,9 +275,9 @@ export const fixture: JiraTask = {
                         content: [
                           {
                             type: 'text',
-                            text: 'Crear caso de uso AuthCoamLogin → 5'
-                          }
-                        ]
+                            text: 'Crear caso de uso AuthCoamLogin → 5',
+                          },
+                        ],
                       },
                       {
                         type: 'bulletList',
@@ -290,11 +290,11 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Colaboradores: person-creator, person-store | person-searcher, team-store y CoamProvider'
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: 'Colaboradores: person-creator, person-store | person-searcher, team-store y CoamProvider',
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -304,11 +304,11 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Recibe licenseNumber y password'
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: 'Recibe licenseNumber y password',
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -318,11 +318,11 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Llama al provider de coam para hacer login'
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: 'Llama al provider de coam para hacer login',
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -332,11 +332,11 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: "Si la respuesta es OK → buscar usuario por personalId = licenseNumber y personalIdType = ‘licenseNumber' → si existe lo devolvemos → si no existe guarda el person con email <licenseNumber>@zityhub.com , name unknown, personalId = <licenseNumber>, personalIdType = 'licenseNumber', company  = 189, team = 927, createdBy = 'coam’ y lo devuelve"
-                                  }
-                                ]
-                              }
-                            ]
+                                    text: "Si la respuesta es OK → buscar usuario por personalId = licenseNumber y personalIdType = ‘licenseNumber' → si existe lo devolvemos → si no existe guarda el person con email <licenseNumber>@zityhub.com , name unknown, personalId = <licenseNumber>, personalIdType = 'licenseNumber', company  = 189, team = 927, createdBy = 'coam’ y lo devuelve",
+                                  },
+                                ],
+                              },
+                            ],
                           },
                           {
                             type: 'listItem',
@@ -346,22 +346,22 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Si la respuesta es KO → levantamos excepción InvalidRequest'
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                                    text: 'Si la respuesta es KO → levantamos excepción InvalidRequest',
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     type: 'listItem',
                     content: [
                       {
                         type: 'paragraph',
-                        content: [{ type: 'text', text: 'Crear provider de COAM → 3' }]
+                        content: [{ type: 'text', text: 'Crear provider de COAM → 3' }],
                       },
                       {
                         type: 'bulletList',
@@ -374,26 +374,26 @@ export const fixture: JiraTask = {
                                 content: [
                                   {
                                     type: 'text',
-                                    text: 'Descripción pendiente del spike'
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
+                                    text: 'Descripción pendiente del spike',
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 type: 'paragraph',
-                content: [{ type: 'text', text: 'TOTAL: 16pts + 4h' }]
-              }
-            ]
-          }
-        }
-      ]
-    }
-  }
+                content: [{ type: 'text', text: 'TOTAL: 16pts + 4h' }],
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
 }

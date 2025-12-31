@@ -20,16 +20,16 @@ const initialState = {
   devItemList: [
     { key: 'Backend', value: 'Backend' },
     { key: 'Frontend', value: 'Frontend' },
-    { key: 'Tech', value: 'Tech' }
+    { key: 'Tech', value: 'Tech' },
   ],
   projectItemList: [
     { key: '10000', value: 'BookingApp (BOOK)' },
     { key: '10001', value: 'API (API)' },
-    { key: '10002', value: 'Admin (ADM)' }
+    { key: '10002', value: 'Admin (ADM)' },
   ],
   typeItemList: [
     { key: '10002', value: 'Task' },
-    { key: '10009', value: 'Spike' }
+    { key: '10009', value: 'Spike' },
   ],
 
   token: getLocalStorage('token') || '',
@@ -37,7 +37,7 @@ const initialState = {
   content: null,
   tasks: [],
   tasksOptions: { dev: undefined, epic: undefined, project: undefined, type: undefined },
-  command: ''
+  command: '',
 }
 
 export const useTasksStore = create<State>((set) => ({
@@ -49,7 +49,7 @@ export const useTasksStore = create<State>((set) => ({
 
       return {
         token,
-        command: tasksToCommand({ tasks, token, domain })
+        command: tasksToCommand({ tasks, token, domain }),
       }
     }),
   addDomain: (domain) =>
@@ -59,7 +59,7 @@ export const useTasksStore = create<State>((set) => ({
       return {
         domain,
         token,
-        command: tasksToCommand({ tasks, token, domain })
+        command: tasksToCommand({ tasks, token, domain }),
       }
     }),
   createTask: (content: string) =>
@@ -71,7 +71,7 @@ export const useTasksStore = create<State>((set) => ({
         return {
           tasks,
           content: jsonContent,
-          command: tasksToCommand({ tasks, token, domain })
+          command: tasksToCommand({ tasks, token, domain }),
         }
       } catch (e: any) {
         console.log(e.message)
@@ -85,7 +85,7 @@ export const useTasksStore = create<State>((set) => ({
       return {
         tasks: newTasks,
         tasksOptions: { ...tasksOptions, dev: value },
-        command: tasksToCommand({ tasks: newTasks, token, domain })
+        command: tasksToCommand({ tasks: newTasks, token, domain }),
       }
     }),
   setEpic: (value: string) =>
@@ -95,7 +95,7 @@ export const useTasksStore = create<State>((set) => ({
       return {
         tasks: newTasks,
         tasksOptions: { ...tasksOptions, epic: value },
-        command: tasksToCommand({ tasks: newTasks, token, domain })
+        command: tasksToCommand({ tasks: newTasks, token, domain }),
       }
     }),
   setProject: (value: string) =>
@@ -105,7 +105,7 @@ export const useTasksStore = create<State>((set) => ({
       return {
         tasks: newTasks,
         tasksOptions: { ...tasksOptions, project: value },
-        command: tasksToCommand({ tasks: newTasks, token, domain })
+        command: tasksToCommand({ tasks: newTasks, token, domain }),
       }
     }),
   setType: (value: string) =>
@@ -115,7 +115,7 @@ export const useTasksStore = create<State>((set) => ({
       return {
         tasks: newTasks,
         tasksOptions: { ...tasksOptions, type: value },
-        command: tasksToCommand({ tasks: newTasks, token, domain })
+        command: tasksToCommand({ tasks: newTasks, token, domain }),
       }
     }),
   setPointsTask: (id: string, points: number) => {
@@ -124,7 +124,7 @@ export const useTasksStore = create<State>((set) => ({
 
       return {
         tasks: allTasks,
-        command: tasksToCommand({ tasks: allTasks, token, domain })
+        command: tasksToCommand({ tasks: allTasks, token, domain }),
       }
     })
   },
@@ -134,7 +134,7 @@ export const useTasksStore = create<State>((set) => ({
 
       return {
         tasks: allTasks,
-        command: tasksToCommand({ tasks: allTasks, token, domain })
+        command: tasksToCommand({ tasks: allTasks, token, domain }),
       }
     })
   },
@@ -144,7 +144,7 @@ export const useTasksStore = create<State>((set) => ({
 
       return {
         tasks: allTasks,
-        command: tasksToCommand({ tasks: allTasks, token, domain })
+        command: tasksToCommand({ tasks: allTasks, token, domain }),
       }
     })
   },
@@ -154,7 +154,7 @@ export const useTasksStore = create<State>((set) => ({
 
       return {
         tasks: allTasks,
-        command: tasksToCommand({ tasks: allTasks, token, domain })
+        command: tasksToCommand({ tasks: allTasks, token, domain }),
       }
     })
   },
@@ -164,7 +164,7 @@ export const useTasksStore = create<State>((set) => ({
 
       return {
         tasks: allTasks,
-        command: tasksToCommand({ tasks: allTasks, token, domain })
+        command: tasksToCommand({ tasks: allTasks, token, domain }),
       }
     })
   },
@@ -174,8 +174,8 @@ export const useTasksStore = create<State>((set) => ({
 
       return {
         tasks: allTasks,
-        command: tasksToCommand({ tasks: allTasks, token, domain })
+        command: tasksToCommand({ tasks: allTasks, token, domain }),
       }
     })
-  }
+  },
 }))

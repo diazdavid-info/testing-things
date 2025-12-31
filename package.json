@@ -5,7 +5,15 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "update-deps": "pnpm --recursive update --latest"
+    "update-deps": "pnpm --recursive update --latest",
+    "lint": "eslint . --fix",
+    "format": "prettier --write **/*{.astro,.json,.md}"
   },
-  "packageManager": "pnpm@10.24.0"
+  "packageManager": "pnpm@10.24.0",
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "eslint-config-mytools": "^1.0.1",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1"
+  }
 }

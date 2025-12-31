@@ -12,9 +12,7 @@
   "keywords": [],
   "author": "David Diaz",
   "license": "ISC",
-  "devDependencies": {
-    "eslint-config-mytools": "^0.0.7"
-  },
+  "devDependencies": {},
   "dependencies": {
     "express": "^4.21.2",
     "express-handlebars": "^8.0.1",

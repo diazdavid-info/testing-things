@@ -17,9 +17,6 @@
     "google-auth-library": "^9.15.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
-    "eslint": "^9.38.0",
-    "globals": "^16.0.0",
-    "prettier": "^3.5.3"
+    "globals": "^16.0.0"
   }
 }

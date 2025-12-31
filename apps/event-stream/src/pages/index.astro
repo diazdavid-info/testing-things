@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout title="Welcome to Astro.">
@@ -17,56 +17,38 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script>
-  const responseElement = document.getElementById("response") as HTMLElement;
-  const form = document.querySelector("form") as HTMLFormElement;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
+  const responseElement = document.getElementById('response') as HTMLElement
+  const form = document.querySelector('form') as HTMLFormElement
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const formData = new FormData(form)
     fetch(form.action, {
       method: form.method,
       body: formData,
     }).then((response) => {
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder("utf-8");
+      const reader = response.body?.getReader()
+      const decoder = new TextDecoder('utf-8')
 
       // Leer los datos del stream de manera continua
       const readStream = async () => {
         while (true) {
-          const { value, done } = await reader.read();
-          console.log({ value, done });
-          if (done) break;
+          if (!reader) break
+          const { value, done } = (await reader.read()) as any
+          console.log({ value, done })
+          if (done) break
 
           // Decodificar y procesar el mensaje
-          const text = decoder.decode(value);
-          const pElement = document.createElement("p");
-          pElement.textContent = text;
-          responseElement.appendChild(pElement);
-          console.log("Mensaje recibido:", text);
+          const text = decoder.decode(value)
+          const pElement = document.createElement('p')
+          pElement.textContent = text
+          responseElement.appendChild(pElement)
+          console.log('Mensaje recibido:', text)
         }
-      };
+      }
 
       readStream().catch((error) => {
-        console.error("Error leyendo el stream:", error);
-      });
-    });
-  });
-
-  function sendMessage(form: HTMLFormElement) {
-    fetch(form.action, { method: form.method, body: new FormData(form) }).then(
-      (response) => {
-        const { body } = response;
-
-        if (!body) return;
-
-        const reader = body.getReader();
-        const decoder = new TextDecoder("utf-8");
-        while (true) {
-          const { value, done } = reader.read();
-          if (done) break;
-          const text = decoder.decode(value);
-          console.log("Mensaje enviado:", text);
-        }
-      },
-    );
-  }
+        console.error('Error leyendo el stream:', error)
+      })
+    })
+  })
 </script>

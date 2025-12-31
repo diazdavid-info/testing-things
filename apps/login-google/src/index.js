@@ -27,7 +27,7 @@ app.post('/', async (req, res) => {
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: credential,
-      audience: [process.env.GOOGLE_CLIENT_ID]
+      audience: [process.env.GOOGLE_CLIENT_ID],
     })
     const { email, hd, sub, name, picture, given_name, family_name } = ticket.getPayload()
 

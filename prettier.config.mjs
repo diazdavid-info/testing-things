@@ -2,11 +2,10 @@
  * @see https://prettier.io/docs/configuration
  * @type {import("prettier").Config}
  */
-const config = {
-  trailingComma: 'es5',
-  tabWidth: 2,
-  semi: false,
+export default {
+  plugins: ['prettier-plugin-astro'],
   singleQuote: true,
+  printWidth: 120,
+  semi: false,
+  trailingComma: 'all',
 }
-
-export default config

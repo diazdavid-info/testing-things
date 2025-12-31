@@ -24,29 +24,29 @@ const buildEvent = (event: Event): EventMicrosoft => {
     subject: summary,
     body: {
       contentType: 'html',
-      content: description
+      content: description,
     },
     start: {
       dateTime: from.toISOString(),
-      timeZone: 'UTC'
+      timeZone: 'UTC',
     },
     end: {
       dateTime: to.toISOString(),
-      timeZone: 'UTC'
+      timeZone: 'UTC',
     },
     location: {
-      displayName: location
+      displayName: location,
     },
     attendees: [
       ...attendees.map(({ name, email }) => ({ emailAddress: { address: email, name } })),
-      { emailAddress: { address: owner.email, name: owner.name } }
+      { emailAddress: { address: owner.email, name: owner.name } },
     ],
     organizer: {
       emailAddress: {
         address: owner.email,
-        name: owner.name
-      }
-    }
+        name: owner.name,
+      },
+    },
   }
 }
 
@@ -61,7 +61,7 @@ const content = buildEvent({
   to: new Date('2023-12-02T13:00:00Z'),
   location: '',
   attendees: [{ name: 'san', email: 'foo@example.com' }],
-  owner: { name: 'Super', email: 'baz@example.com' }
+  owner: { name: 'Super', email: 'baz@example.com' },
 })
 const { id }: { id?: string } = await graphClient.api(`/me/calendars/${calendarId}/events`).post(content)
 

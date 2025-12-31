@@ -17,7 +17,7 @@ export const jiraTasksToTasks = (data: JiraTask): Task[] => {
       title,
       points,
       content: JSON.stringify([{ type: 'bulletList', content: [listItem] }], null, 2),
-      disabled: false
+      disabled: false,
     }
   })
 }
@@ -39,9 +39,9 @@ export const tasksToCommand = ({ tasks, token, domain }: { tasks: Task[]; token:
         description: {
           type: 'doc',
           version: 1,
-          content: JSON.parse(content)
-        }
-      }
+          content: JSON.parse(content),
+        },
+      },
     }
     commandList.push(`
       curl -sX POST '${domain}/rest/api/3/issue' \\

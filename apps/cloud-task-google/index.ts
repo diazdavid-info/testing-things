@@ -15,18 +15,18 @@ app.add('POST', '/add-task', async (): Promise<Response> => {
     URL_TASK_RUNNER,
     GOOGLE_PROJECT_ID,
     GOOGLE_COMPUTE_REGION,
-    GOOGLE_QUEUE_NAME
+    GOOGLE_QUEUE_NAME,
   } = process.env
 
   const jwt = new JWT(
     String(GOOGLE_CLIENT_EMAIL),
     undefined,
     Buffer.from(String(GOOGLE_PRIVATE_KEY_BASE_64), 'base64').toString('utf-8'),
-    ['https://www.googleapis.com/auth/cloud-platform']
+    ['https://www.googleapis.com/auth/cloud-platform'],
   )
 
   const client = new CloudTasksClient({
-    authClient: jwt
+    authClient: jwt,
   })
 
   const data = { id: 1, name: 'David', lastname: 'Díaz' }
@@ -40,9 +40,9 @@ app.add('POST', '/add-task', async (): Promise<Response> => {
         body: Buffer.from(JSON.stringify(data)).toString('base64'),
         headers: { 'Content-Type': 'application/json' },
         httpMethod: 'POST',
-        oidcToken: { serviceAccountEmail: GOOGLE_CLIENT_EMAIL }
-      }
-    }
+        oidcToken: { serviceAccountEmail: GOOGLE_CLIENT_EMAIL },
+      },
+    },
   })
   return Response.json({ status: 'ok', task })
 })
@@ -56,7 +56,7 @@ app.add('POST', '/read-task', async ({ request }): Promise<Response> => {
     String(GOOGLE_CLIENT_EMAIL),
     undefined,
     Buffer.from(String(GOOGLE_PRIVATE_KEY_BASE_64), 'base64').toString('utf-8'),
-    ['https://www.googleapis.com/auth/cloud-platform']
+    ['https://www.googleapis.com/auth/cloud-platform'],
   )
 
   const authHeader = headers.get('Authorization')

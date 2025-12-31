@@ -17,11 +17,11 @@ const config = {
       clientId: process.env.CLIENT_ID ?? '',
       authority: 'https://login.microsoftonline.com/common',
       clientSecret: process.env.CLIENT_SECRET ?? '',
-      clientCapabilities: ['CP1']
-    }
+      clientCapabilities: ['CP1'],
+    },
   },
   redirectUri: 'http://localhost:4001/auth/redirect',
-  postLogoutRedirectUri: 'http://localhost:4001'
+  postLogoutRedirectUri: 'http://localhost:4001',
 }
 
 app.use(express.json())
@@ -37,7 +37,7 @@ app.get('/login', async (req: Request, res: Response) => {
   const authCodeUrlRequest = {
     redirectUri: config.redirectUri,
     responseMode: ResponseMode.QUERY,
-    scopes: SCOPES
+    scopes: SCOPES,
   }
   const authCodeUrlResponse = await msalInstance.getAuthCodeUrl(authCodeUrlRequest)
 
@@ -56,7 +56,7 @@ app.post('/auth/redirect', async (req: Request, res: Response) => {
   const authCodeRequest = {
     redirectUri: config.redirectUri,
     scopes: SCOPES,
-    code: req.body.code as string
+    code: req.body.code as string,
   }
 
   const tokenResponse = await msalInstance.acquireTokenByCode(authCodeRequest, req.body)
@@ -67,7 +67,7 @@ app.post('/auth/redirect', async (req: Request, res: Response) => {
     token: tokenResponse.accessToken,
     cacheToken: msalInstance.getTokenCache().serialize(),
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   })
 
   res.json({ token: tokenResponse, tokenCache: msalInstance.getTokenCache().serialize() })
@@ -79,13 +79,13 @@ app.get('/auth/redirect', async (req: Request, res: Response) => {
   const authCodeRequest = {
     redirectUri: config.redirectUri,
     scopes: SCOPES,
-    code: req.query.code as string
+    code: req.query.code as string,
   }
 
   const tokenResponse = await msalInstance.acquireTokenByCode(authCodeRequest)
 
   if (tokenResponse.account?.homeAccountId === undefined) {
-    res.status(401).json({status: 401, error: 'Fallo al optener la cuenta'})
+    res.status(401).json({ status: 401, error: 'Fallo al optener la cuenta' })
     return
   }
 
@@ -100,7 +100,7 @@ app.get('/auth/redirect', async (req: Request, res: Response) => {
         account: JSON.stringify(tokenResponse.account),
         token: tokenResponse.accessToken,
         cacheToken: msalInstance.getTokenCache().serialize(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       .where('id', '=', account.id)
   } else {
@@ -110,7 +110,7 @@ app.get('/auth/redirect', async (req: Request, res: Response) => {
       token: tokenResponse.accessToken,
       cacheToken: msalInstance.getTokenCache().serialize(),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
   }
 
@@ -131,7 +131,7 @@ app.get('/me/:accountId', async (req: Request, res: Response) => {
   const tokenResponse = await msalInstance.acquireTokenSilent({
     account: JSON.parse(account),
     scopes: SCOPES,
-    claims: undefined
+    claims: undefined,
   })
 
   await dbConnection('accounts')
@@ -140,14 +140,14 @@ app.get('/me/:accountId', async (req: Request, res: Response) => {
       account: JSON.stringify(tokenResponse.account),
       token: tokenResponse.accessToken,
       cacheToken: msalInstance.getTokenCache().serialize(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
     .where('id', '=', id)
 
   const client = Client.init({
     authProvider: (done) => {
       done(null, tokenResponse.accessToken)
-    }
+    },
   })
 
   const graphResponse = await client
@@ -171,13 +171,13 @@ app.get('/me/:accountId/calendars', async (req: Request, res: Response) => {
   const tokenResponse = await msalInstance.acquireTokenSilent({
     account,
     scopes: SCOPES,
-    claims: undefined
+    claims: undefined,
   })
 
   const client = Client.init({
     authProvider: (done) => {
       done(null, tokenResponse.accessToken)
-    }
+    },
   })
 
   const graphResponse = await client
@@ -200,13 +200,13 @@ app.post('/me/:accountId/subscriptions', async (req: Request, res: Response) => 
   const tokenResponse = await msalInstance.acquireTokenSilent({
     account,
     scopes: SCOPES,
-    claims: undefined
+    claims: undefined,
   })
 
   const client = Client.init({
     authProvider: (done) => {
       done(null, tokenResponse.accessToken)
-    }
+    },
   })
 
   const subscription = {
@@ -215,7 +215,7 @@ app.post('/me/:accountId/subscriptions', async (req: Request, res: Response) => 
     resource: 'me/events',
     expirationDateTime: '2023-09-14T18:23:45.9356913Z',
     clientState: 'secretClientValue',
-    latestSupportedTlsVersion: 'v1_2'
+    latestSupportedTlsVersion: 'v1_2',
   }
 
   const subscriptionResponse = await client.api('/subscriptions').post(subscription)

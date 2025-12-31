@@ -16,7 +16,6 @@
     "@types/bunyan-format": "^0.2.9",
     "@types/debug": "^4.1.12",
     "@types/node": "^24.10.1",
-    "prettier": "^3.5.3",
     "tsx": "^4.19.3",
     "typescript": "^5.9.3"
   },

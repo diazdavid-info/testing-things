@@ -13,7 +13,6 @@
   "dependencies": {
     "@types/node": "^22.13.11",
     "axios": "^1.8.4",
-    "prettier": "^3.5.3",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   }

@@ -4,6 +4,6 @@ export default defineConfig({
   test: {
     exclude: [...configDefaults.exclude],
     globals: true,
-    environment: 'node'
-  }
+    environment: 'node',
+  },
 })

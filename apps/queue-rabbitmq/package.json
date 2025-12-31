@@ -12,9 +12,7 @@
   "author": "David Diaz",
   "license": "ISC",
   "packageManager": "pnpm@10.6.5",
-  "devDependencies": {
-    "eslint-config-mytools": "^0.0.7"
-  },
+  "devDependencies": {},
   "dependencies": {
     "amqplib": "^0.10.8"
   }

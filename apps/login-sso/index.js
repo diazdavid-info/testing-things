@@ -2,20 +2,13 @@ import express from 'express'
 import { IdentityProvider, ServiceProvider } from 'saml2-js'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import {ConfidentialClientApplication} from "@azure/msal-node";
+import { ConfidentialClientApplication } from '@azure/msal-node'
 import session from 'express-session'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const {
-  SAML_URL,
-  PUBLIC_KEY,
-  ASSERT_ENDPOINT,
-  TENANT_ID,
-  CLIENT_ID,
-  CLIENT_SECRET,
-} = process.env
+const { SAML_URL, PUBLIC_KEY, ASSERT_ENDPOINT, TENANT_ID, CLIENT_ID, CLIENT_SECRET } = process.env
 
 const LOGIN_URL = 'https://login.microsoftonline.com/common/saml2'
 const LOGOUT_URL = 'https://login.microsoftonline.com/common/saml2'
@@ -23,11 +16,13 @@ const LOGOUT_URL = 'https://login.microsoftonline.com/common/saml2'
 const app = express()
 const port = 4001
 
-app.use(session({
+app.use(
+  session({
     secret: 'someSecretKey',
     resave: false,
     saveUninitialized: true,
-}))
+  }),
+)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -55,14 +50,10 @@ app.get('/init-login', async (req, res) => {
   }
   const sp = new ServiceProvider(spOptions)
 
-  sp.create_login_request_url(
-    idp,
-    { relay_state: app },
-    function (err, loginUrl) {
-      if (err) return res.json({ error: err }).status(500)
-      return res.redirect(loginUrl)
-    }
-  )
+  sp.create_login_request_url(idp, { relay_state: app }, function (err, loginUrl) {
+    if (err) return res.json({ error: err }).status(500)
+    return res.redirect(loginUrl)
+  })
 })
 
 app.post('/callback', async (req, res) => {
@@ -97,29 +88,28 @@ app.post('/callback', async (req, res) => {
       redirect_uri: `${SAML_URL}/delegate`,
       response_mode: 'query',
       scope: 'openid profile offline_access',
-      state: 'oidc'
+      state: 'oidc',
     })
     const authorizationUrl = `https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/authorize?${params.toString()}`
     return res.redirect(authorizationUrl)
   })
 })
 
-
-app.get('/delegate', async (req, res) =>{
+app.get('/delegate', async (req, res) => {
   const authCode = req.query.code
   const msalConfig = {
     auth: {
       clientId: CLIENT_ID,
-      clientSecret:CLIENT_SECRET,
-      authority: `https://login.microsoftonline.com/${TENANT_ID}`
-    }
+      clientSecret: CLIENT_SECRET,
+      authority: `https://login.microsoftonline.com/${TENANT_ID}`,
+    },
   }
   const cca = new ConfidentialClientApplication(msalConfig)
   try {
     const tokenResponse = await cca.acquireTokenByCode({
       code: authCode,
       scopes: ['openid', 'profile', 'offline_access'],
-      redirectUri: `${SAML_URL}/delegate`
+      redirectUri: `${SAML_URL}/delegate`,
     })
 
     req.session.delegatedToken = tokenResponse.accessToken
@@ -127,7 +117,7 @@ app.get('/delegate', async (req, res) =>{
     return res.json({
       message: 'Autenticación delegada completada',
       user: req.session.user,
-      delegatedToken: tokenResponse.accessToken
+      delegatedToken: tokenResponse.accessToken,
     })
   } catch (error) {
     console.error('Error al obtener token delegado OIDC:', error)

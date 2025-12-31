@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { getCollection } from "astro:content";
+import Layout from '../layouts/Layout.astro'
+import { getCollection } from 'astro:content'
 
-const posts = await getCollection("posts");
+const posts = await getCollection('posts')
 ---
 
 <Layout title="Welcome to Astro.">
@@ -16,7 +16,7 @@ const posts = await getCollection("posts");
               <a href={post.slug}>{post.data.title}</a>
             </h2>
           </article>
-        );
+        )
       })
     }
   </section>

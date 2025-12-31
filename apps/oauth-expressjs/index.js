@@ -14,8 +14,8 @@ const connection = knex({
     port: parseInt(process.env.DB_PORT ?? '3306'),
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB_NAME
-  }
+    database: process.env.DB_NAME,
+  },
 })
 
 app.get('/', (req, res) => {
@@ -32,9 +32,9 @@ app.get('/login/callback', async (req, res) => {
       client_id: process.env.GOOGLE_CLIENT_ID,
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
       grant_type: 'authorization_code',
-      redirect_uri: REDIRECT_URL
+      redirect_uri: REDIRECT_URL,
     }),
-    headers: { 'Content-Type': 'Application/json' }
+    headers: { 'Content-Type': 'Application/json' },
   })
   const json = await response.json()
   res.json(json)
@@ -49,7 +49,7 @@ app.get('/login', (req, res) => {
     access_type: 'offline',
     state,
     redirect_uri: REDIRECT_URL,
-    client_id: process.env.GOOGLE_CLIENT_ID
+    client_id: process.env.GOOGLE_CLIENT_ID,
   })
   res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${queryParams.toString()}`)
 })
@@ -59,13 +59,13 @@ app.get('/sdk/login', async (req, res) => {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:3000/sdk/login/callback'
+    'http://localhost:3000/sdk/login/callback',
   )
   const authorizationUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: ['https://www.googleapis.com/auth/userinfo.profile'],
     include_granted_scopes: true,
-    state
+    state,
   })
   res.redirect(authorizationUrl)
 })
@@ -74,7 +74,7 @@ app.get('/sdk/login/callback', async (req, res) => {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:3000/sdk/login/callback'
+    'http://localhost:3000/sdk/login/callback',
   )
   const getTokenResponse = await oauth2Client.getToken(req.query.code)
   const { tokens } = getTokenResponse
@@ -83,7 +83,7 @@ app.get('/sdk/login/callback', async (req, res) => {
   oauth2Client.setCredentials(tokens)
   const oauth2 = google.oauth2({
     auth: oauth2Client,
-    version: 'v2'
+    version: 'v2',
   })
   const { data } = await oauth2.userinfo.get()
   const { email } = data
@@ -94,7 +94,7 @@ app.get('/sdk/login/callback', async (req, res) => {
       .update({
         token: access_token,
         refreshToken: refresh_token,
-        expiredDate: new Date(expiry_date)
+        expiredDate: new Date(expiry_date),
       })
       .where('id', '=', user.id)
     return res.json({ tokens, email })
@@ -104,7 +104,7 @@ app.get('/sdk/login/callback', async (req, res) => {
     email,
     token: access_token,
     refreshToken: refresh_token,
-    expiredDate: new Date(expiry_date)
+    expiredDate: new Date(expiry_date),
   })
 
   res.json({ tokens, email })
@@ -120,7 +120,7 @@ app.get('/me/:email', async (req, res) => {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:3000/sdk/login/callback'
+    'http://localhost:3000/sdk/login/callback',
   )
 
   oauth2Client.on('tokens', (tokens) => {
@@ -136,12 +136,12 @@ app.get('/me/:email', async (req, res) => {
 
   oauth2Client.setCredentials({
     access_token: user.token,
-    refresh_token: user.refreshToken
+    refresh_token: user.refreshToken,
   })
 
   const oauth2 = google.oauth2({
     auth: oauth2Client,
-    version: 'v2'
+    version: 'v2',
   })
 
   const { data } = await oauth2.userinfo.get()

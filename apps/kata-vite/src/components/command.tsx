@@ -11,7 +11,7 @@ export const Command = () => {
   const handleClipboard = () => {
     navigator.clipboard.writeText(command).catch()
     toast({
-      title: 'Command copied'
+      title: 'Command copied',
     })
   }
 

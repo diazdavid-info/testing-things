@@ -4,7 +4,7 @@ import * as fs from 'fs'
 const signatureBySecret = jws.sign({
   header: { alg: 'HS256' },
   payload: 'h. jon benjamin',
-  secret: 'has a van'
+  secret: 'has a van',
 })
 
 console.log(signatureBySecret)
@@ -18,7 +18,7 @@ console.log(privateKey)
 const signatureByKey = jws.sign({
   header: { alg: 'RS256' },
   payload: { email: 'diaz@zityhub.com' },
-  privateKey: privateKey
+  privateKey: privateKey,
 })
 
 console.log(signatureByKey)

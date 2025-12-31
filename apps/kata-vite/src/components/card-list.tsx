@@ -18,7 +18,7 @@ export const CardList: FC<CardListProp> = () => {
     setProjectTask,
     setTypeTask,
     setEpicTask,
-    setDisabledTask
+    setDisabledTask,
   } = useTasksStore((state) => state)
 
   const handlePointsChange = (id: string) => {
