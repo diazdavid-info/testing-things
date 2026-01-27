@@ -1,17 +1,21 @@
-import requests
 from typing import TypedDict, List, Optional
 
+import requests
+
 url = "https://pokeapi.co/api/v2/pokemon?limit=2&offset=0"
+
 
 class Pokemon(TypedDict):
     name: str
     url: str
+
 
 class PokemonList(TypedDict):
     count: int
     next: Optional[str]
     previous: Optional[str]
     results: List[Pokemon]
+
 
 response = requests.get(
     url,
