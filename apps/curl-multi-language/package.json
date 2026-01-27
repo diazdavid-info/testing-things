@@ -1,0 +1,18 @@
+{
+  "name": "curl-multi-language",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "ts": "tsx src/typescript/request.ts"
+  },
+  "keywords": [],
+  "author": "David Diaz",
+  "license": "ISC",
+  "packageManager": "pnpm@10.24.0",
+  "devDependencies": {
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
