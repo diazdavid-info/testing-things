@@ -1,9 +1,9 @@
-import {useLocation, useNavigate} from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 function Page2() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const {some} = location.state
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { some } = location.state
 
   const handleClick = () => {
     navigate('/')
