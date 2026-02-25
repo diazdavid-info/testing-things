@@ -1,0 +1,137 @@
+/* ---- Scanner Page Layout ---- */
+
+.scanner-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.scanner-header {
+  text-align: center;
+}
+
+.scanner-header h1 {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.scanner-header p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.scanner-header a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.scanner-header a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Scanner Container ---- */
+
+.scanner-container {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  padding: 16px;
+}
+
+/* ---- html5-qrcode Overrides ---- */
+
+#html5qr-code-full-region {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Video */
+#html5qr-code-full-region video {
+  border-radius: var(--radius-sm) !important;
+  border: none !important;
+}
+
+/* Header message ("Scanning") */
+#html5qr-code-full-region__header_message {
+  font-family: var(--font-mono) !important;
+  font-size: 12px !important;
+  color: var(--accent) !important;
+  border: none !important;
+  padding: 8px 0 !important;
+  letter-spacing: 0.05em;
+}
+
+/* Dashboard section (buttons, select, etc.) */
+#html5qr-code-full-region__dashboard_section {
+  padding: 12px 0 0 !important;
+}
+
+#html5qr-code-full-region__dashboard_section_csr {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Buttons */
+#html5qr-code-full-region button {
+  font-family: var(--font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 10px 16px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  cursor: pointer !important;
+  transition: background 0.2s, border-color 0.2s !important;
+}
+
+#html5qr-code-full-region button:hover {
+  background: var(--bg-card) !important;
+  border-color: var(--accent) !important;
+}
+
+/* Camera permission button - accent style */
+#html5-qrcode-button-camera-permission {
+  background: var(--accent) !important;
+  color: var(--bg-primary) !important;
+  border-color: var(--accent) !important;
+}
+
+#html5-qrcode-button-camera-permission:hover {
+  filter: brightness(1.1);
+}
+
+/* Hide camera select dropdown */
+#html5qr-code-full-region select {
+  display: none !important;
+}
+
+/* Hide scan type switch (camera/file) */
+#html5-qrcode-anchor-scan-type-change {
+  display: none !important;
+}
+
+/* Hide info icon */
+#html5qr-code-full-region img[alt="Info icon"] {
+  display: none !important;
+}
+
+/* Hide "Select Camera" label text, keep buttons */
+#html5qr-code-full-region__dashboard_section_csr > span:not(:has(button)) {
+  display: none !important;
+}
+
+/* Span text */
+#html5qr-code-full-region span {
+  color: var(--text-secondary) !important;
+  font-size: 13px !important;
+}
+
