@@ -18,6 +18,9 @@ export function Example1() {
       aspectRatio: 1,
       disableFlip: false,
       rememberLastUsedCamera: true,
+      videoConstraints: {
+        facingMode: 'environment',
+      },
     }
 
     const qrCodeSuccessCallback: QrcodeSuccessCallback = (decodedText) => {
