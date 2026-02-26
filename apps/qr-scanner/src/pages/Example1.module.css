@@ -1,16 +1,16 @@
 /* ---- Scanner Page Layout ---- */
 
-.scanner-page {
+.scannerPage {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.scanner-header {
+.scannerHeader {
   text-align: center;
 }
 
-.scanner-header h1 {
+.scannerHeader h1 {
   font-family: var(--font-mono), monospace;
   font-size: 15px;
   font-weight: 600;
@@ -20,23 +20,23 @@
   margin-bottom: 4px;
 }
 
-.scanner-header p {
+.scannerHeader p {
   font-size: 13px;
   color: var(--text-muted);
 }
 
-.scanner-header a {
+.scannerHeader a {
   color: var(--accent);
   text-decoration: none;
 }
 
-.scanner-header a:hover {
+.scannerHeader a:hover {
   text-decoration: underline;
 }
 
 /* ---- Scanner Container ---- */
 
-.scanner-container {
+.scannerContainer {
   position: relative;
   border-radius: var(--radius);
   overflow: hidden;
@@ -47,19 +47,17 @@
 
 /* ---- html5-qrcode Overrides ---- */
 
-#html5qr-code-full-region {
+:global(#html5qr-code-full-region) {
   border: none !important;
   background: transparent !important;
 }
 
-/* Video */
-#html5qr-code-full-region video {
+:global(#html5qr-code-full-region) video {
   border-radius: var(--radius-sm) !important;
   border: none !important;
 }
 
-/* Header message ("Scanning") */
-#html5qr-code-full-region__header_message {
+:global(#html5qr-code-full-region__header_message) {
   font-family: var(--font-mono), monospace !important;
   font-size: 12px !important;
   color: var(--accent) !important;
@@ -68,19 +66,17 @@
   letter-spacing: 0.05em;
 }
 
-/* Dashboard section (buttons, select, etc.) */
-#html5qr-code-full-region__dashboard_section {
+:global(#html5qr-code-full-region__dashboard_section) {
   padding: 12px 0 0 !important;
 }
 
-#html5qr-code-full-region__dashboard_section_csr {
+:global(#html5qr-code-full-region__dashboard_section_csr) {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* Buttons */
-#html5qr-code-full-region button {
+:global(#html5qr-code-full-region) button {
   font-family: var(--font-body), sans-serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
@@ -93,64 +89,58 @@
   transition: background 0.2s, border-color 0.2s !important;
 }
 
-#html5qr-code-full-region button:hover {
+:global(#html5qr-code-full-region) button:hover {
   background: var(--bg-card) !important;
   border-color: var(--accent) !important;
 }
 
-/* Camera permission button - accent style */
-#html5-qrcode-button-camera-permission {
+:global(#html5-qrcode-button-camera-permission) {
   background: var(--accent) !important;
   color: var(--bg-primary) !important;
   border-color: var(--accent) !important;
 }
 
-#html5-qrcode-button-camera-permission:hover {
+:global(#html5-qrcode-button-camera-permission):hover {
   filter: brightness(1.1);
 }
 
-/* Hide camera select dropdown */
-#html5qr-code-full-region select {
+:global(#html5qr-code-full-region) select {
   display: none !important;
 }
 
-/* Hide scan type switch (camera/file) */
-#html5-qrcode-anchor-scan-type-change {
+:global(#html5-qrcode-anchor-scan-type-change) {
   display: none !important;
 }
 
-/* Hide info icon */
-#html5qr-code-full-region img[alt="Info icon"] {
+:global(#html5qr-code-full-region) img[alt="Info icon"] {
   display: none !important;
 }
 
-/* Hide "Select Camera" label text, keep buttons */
-#html5qr-code-full-region__dashboard_section_csr > span:not(:has(button)) {
+:global(#html5qr-code-full-region__dashboard_section_csr) > span:not(:has(button)) {
   display: none !important;
 }
 
-/* Span text */
-#html5qr-code-full-region span {
+:global(#html5qr-code-full-region) span {
   color: var(--text-secondary) !important;
   font-size: 13px !important;
 }
 
 /* ---- Result ---- */
 
-.html5qr-result {
+.result {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
-  animation: html5qrFadeIn 0.3s ease;
+  animation: fadeIn 0.3s ease;
 }
 
-@keyframes html5qrFadeIn {
+@keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.html5qr-result-label {
+.resultLabel {
   font-family: var(--font-mono), monospace;
   font-size: 11px;
   font-weight: 600;
@@ -161,7 +151,7 @@
   display: block;
 }
 
-.html5qr-result-text {
+.resultText {
   font-family: var(--font-mono), monospace;
   font-size: 14px;
   line-height: 1.6;
@@ -174,7 +164,7 @@
   margin-bottom: 16px;
 }
 
-.html5qr-btn {
+.btn {
   width: 100%;
   padding: 12px 20px;
   background: var(--accent);
@@ -188,7 +178,6 @@
   transition: filter 0.2s;
 }
 
-.html5qr-btn:hover {
+.btn:hover {
   filter: brightness(1.1);
 }
-

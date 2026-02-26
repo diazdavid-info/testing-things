@@ -1,13 +1,60 @@
+/* ---- Scanner Page Layout ---- */
+
+.scannerPage {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.scannerHeader {
+  text-align: center;
+}
+
+.scannerHeader h1 {
+  font-family: var(--font-mono), monospace;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.scannerHeader p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.scannerHeader a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.scannerHeader a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Scanner Container ---- */
+
+.scannerContainer {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  padding: 16px;
+}
+
 /* ---- Native Barcode Scanner ---- */
 
-.native-video {
+.video {
   width: 100%;
   border-radius: var(--radius-sm);
   display: block;
   background: var(--bg-primary);
 }
 
-.native-btn {
+.btn {
   width: 100%;
   padding: 12px 20px;
   background: var(--accent);
@@ -21,37 +68,38 @@
   transition: filter 0.2s;
 }
 
-.native-btn:hover {
+.btn:hover {
   filter: brightness(1.1);
 }
 
-.native-btn--stop {
+.btnStop {
+  composes: btn;
   background: var(--bg-tertiary);
   color: var(--text-primary);
   border-color: var(--border);
 }
 
-.native-btn--stop:hover {
+.btnStop:hover {
   border-color: var(--accent);
   filter: none;
 }
 
 /* ---- Result ---- */
 
-.native-result {
+.result {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
-  animation: nativeFadeIn 0.3s ease;
+  animation: fadeIn 0.3s ease;
 }
 
-@keyframes nativeFadeIn {
+@keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.native-result-label {
+.resultLabel {
   font-family: var(--font-mono), monospace;
   font-size: 11px;
   font-weight: 600;
@@ -62,7 +110,7 @@
   display: block;
 }
 
-.native-result-text {
+.resultText {
   font-family: var(--font-mono), monospace;
   font-size: 14px;
   line-height: 1.6;
@@ -77,7 +125,7 @@
 
 /* ---- Unsupported message ---- */
 
-.native-unsupported {
+.unsupported {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -85,13 +133,13 @@
   text-align: center;
 }
 
-.native-unsupported p {
+.unsupported p {
   color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.6;
 }
 
-.native-unsupported p:first-child {
+.unsupported p:first-child {
   color: var(--text-primary);
   font-weight: 600;
   margin-bottom: 4px;

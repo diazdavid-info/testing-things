@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import './Example1.css'
+import styles from './Example1.module.css'
 import { Html5QrcodeScanner, type QrcodeSuccessCallback } from 'html5-qrcode'
 import type { Html5QrcodeScannerConfig } from 'html5-qrcode/html5-qrcode-scanner'
 
@@ -47,8 +47,8 @@ export function Example1() {
   }, [])
 
   return (
-    <div className="scanner-page">
-      <div className="scanner-header">
+    <div className={styles.scannerPage}>
+      <div className={styles.scannerHeader}>
         <h1>Html5-QRCode Example</h1>
         <p>
           Using{' '}
@@ -58,15 +58,15 @@ export function Example1() {
         </p>
       </div>
 
-      <div className="scanner-container" style={{ display: result ? 'none' : undefined }}>
+      <div className={styles.scannerContainer} style={{ display: result ? 'none' : undefined }}>
         <div id={qrcodeRegionId} />
       </div>
 
       {result && (
-        <div className="html5qr-result">
-          <span className="html5qr-result-label">Detected</span>
-          <p className="html5qr-result-text">{result}</p>
-          <button type="button" className="html5qr-btn" onClick={startScanner}>
+        <div className={styles.result}>
+          <span className={styles.resultLabel}>Detected</span>
+          <p className={styles.resultText}>{result}</p>
+          <button type="button" className={styles.btn} onClick={startScanner}>
             Scan again
           </button>
         </div>

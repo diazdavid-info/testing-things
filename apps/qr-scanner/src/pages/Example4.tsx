@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import './Example4.css'
+import styles from './Example4.module.css'
 
 // BarcodeDetector API types (only available in Chromium browsers)
 interface BarcodeDetectorOptions {
@@ -87,8 +87,8 @@ export function Example4() {
 
   if (!supported) {
     return (
-      <div className="scanner-page">
-        <div className="scanner-header">
+      <div className={styles.scannerPage}>
+        <div className={styles.scannerHeader}>
           <h1>Native Barcode API</h1>
           <p>
             Using{' '}
@@ -101,7 +101,7 @@ export function Example4() {
             </a>
           </p>
         </div>
-        <div className="native-unsupported">
+        <div className={styles.unsupported}>
           <p>Your browser does not support the BarcodeDetector API.</p>
           <p>Try Chrome, Edge, or Opera.</p>
         </div>
@@ -110,8 +110,8 @@ export function Example4() {
   }
 
   return (
-    <div className="scanner-page">
-      <div className="scanner-header">
+    <div className={styles.scannerPage}>
+      <div className={styles.scannerHeader}>
         <h1>Native Barcode API</h1>
         <p>
           Using{' '}
@@ -125,21 +125,21 @@ export function Example4() {
         </p>
       </div>
 
-      <div className="scanner-container" style={{ display: result ? 'none' : undefined }}>
-        <video ref={videoRef} className="native-video" playsInline muted />
+      <div className={styles.scannerContainer} style={{ display: result ? 'none' : undefined }}>
+        <video ref={videoRef} className={styles.video} playsInline muted />
       </div>
 
       {scanning && (
-        <button type="button" className="native-btn native-btn--stop" onClick={stopScanning}>
+        <button type="button" className={styles.btnStop} onClick={stopScanning}>
           Stop Scanner
         </button>
       )}
 
       {result && (
-        <div className="native-result">
-          <span className="native-result-label">Detected</span>
-          <p className="native-result-text">{result}</p>
-          <button type="button" className="native-btn" onClick={startScanning}>
+        <div className={styles.result}>
+          <span className={styles.resultLabel}>Detected</span>
+          <p className={styles.resultText}>{result}</p>
+          <button type="button" className={styles.btn} onClick={startScanning}>
             Scan again
           </button>
         </div>

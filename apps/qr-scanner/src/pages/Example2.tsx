@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { IScannerControls } from '@zxing/browser'
 import { BrowserQRCodeReader } from '@zxing/browser'
-import './Example2.css'
+import styles from './Example2.module.css'
 
 export function Example2() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -44,8 +44,8 @@ export function Example2() {
   }, [])
 
   return (
-    <div className="scanner-page">
-      <div className="scanner-header">
+    <div className={styles.scannerPage}>
+      <div className={styles.scannerHeader}>
         <h1>ZXing Example</h1>
         <p>
           Using{' '}
@@ -55,20 +55,20 @@ export function Example2() {
         </p>
       </div>
 
-      <div className="scanner-container" style={{ display: result ? 'none' : undefined }}>
-        <video ref={videoRef} className="zxing-video" />
+      <div className={styles.scannerContainer} style={{ display: result ? 'none' : undefined }}>
+        <video ref={videoRef} className={styles.video} />
         {scanning && (
-          <button type="button" className="zxing-btn zxing-btn--stop" onClick={stopScanning}>
+          <button type="button" className={styles.btnStop} onClick={stopScanning}>
             Stop Scanner
           </button>
         )}
       </div>
 
       {result && (
-        <div className="zxing-result">
-          <span className="zxing-result-label">Detected</span>
-          <p className="zxing-result-text">{result}</p>
-          <button type="button" className="zxing-btn" onClick={startScanning}>
+        <div className={styles.result}>
+          <span className={styles.resultLabel}>Detected</span>
+          <p className={styles.resultText}>{result}</p>
+          <button type="button" className={styles.btn} onClick={startScanning}>
             Scan again
           </button>
         </div>
