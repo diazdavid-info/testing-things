@@ -1,0 +1,77 @@
+/* ---- ZXing Scanner ---- */
+
+.zxing-video {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  display: block;
+  background: var(--bg-primary);
+}
+
+/* ---- Result ---- */
+
+.zxing-result {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  animation: zxingFadeIn 0.3s ease;
+}
+
+@keyframes zxingFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.zxing-result-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.zxing-result-text {
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  word-break: break-all;
+  margin-bottom: 16px;
+}
+
+.zxing-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.zxing-btn:hover {
+  filter: brightness(1.1);
+}
+
+.zxing-btn--stop {
+  margin-top: 12px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.zxing-btn--stop:hover {
+  border-color: var(--accent);
+  filter: none;
+}

@@ -11,7 +11,7 @@
 }
 
 .scanner-header h1 {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono), monospace;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -60,7 +60,7 @@
 
 /* Header message ("Scanning") */
 #html5qr-code-full-region__header_message {
-  font-family: var(--font-mono) !important;
+  font-family: var(--font-mono), monospace !important;
   font-size: 12px !important;
   color: var(--accent) !important;
   border: none !important;
@@ -81,7 +81,7 @@
 
 /* Buttons */
 #html5qr-code-full-region button {
-  font-family: var(--font-body) !important;
+  font-family: var(--font-body), sans-serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
   padding: 10px 16px !important;
@@ -133,5 +133,62 @@
 #html5qr-code-full-region span {
   color: var(--text-secondary) !important;
   font-size: 13px !important;
+}
+
+/* ---- Result ---- */
+
+.html5qr-result {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  animation: html5qrFadeIn 0.3s ease;
+}
+
+@keyframes html5qrFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.html5qr-result-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.html5qr-result-text {
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  word-break: break-all;
+  margin-bottom: 16px;
+}
+
+.html5qr-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.html5qr-btn:hover {
+  filter: brightness(1.1);
 }
 
