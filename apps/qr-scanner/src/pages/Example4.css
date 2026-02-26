@@ -1,0 +1,98 @@
+/* ---- Native Barcode Scanner ---- */
+
+.native-video {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  display: block;
+  background: var(--bg-primary);
+}
+
+.native-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.native-btn:hover {
+  filter: brightness(1.1);
+}
+
+.native-btn--stop {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.native-btn--stop:hover {
+  border-color: var(--accent);
+  filter: none;
+}
+
+/* ---- Result ---- */
+
+.native-result {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  animation: nativeFadeIn 0.3s ease;
+}
+
+@keyframes nativeFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.native-result-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.native-result-text {
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  word-break: break-all;
+  margin-bottom: 16px;
+}
+
+/* ---- Unsupported message ---- */
+
+.native-unsupported {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.native-unsupported p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.native-unsupported p:first-child {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 4px;
+}

@@ -42,6 +42,15 @@ export function Layout() {
           </span>
           react-qr
         </NavLink>
+        <NavLink to="/native" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <span className="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <path d="M7 7h3v3H7zM14 7h3v3h-3zM7 14h3v3H7z" />
+            </svg>
+          </span>
+          Native
+        </NavLink>
       </nav>
     </div>
   )
