@@ -31,7 +31,19 @@ export function Example3() {
       </div>
 
       <div className={styles.scannerContainer} style={{ display: result ? 'none' : undefined }}>
-        <Scanner paused={paused} onScan={handleScan} onError={(error) => console.error(error)} sound={false} />
+        <Scanner
+          paused={paused}
+          onScan={handleScan}
+          onError={(error) => console.error(error)}
+          sound={false}
+          components={{ finder: false }}
+        />
+        <div className={styles.finder}>
+          <span className={styles.finderCorner} />
+          <span className={styles.finderCorner} />
+          <span className={styles.finderCorner} />
+          <span className={styles.finderCorner} />
+        </div>
       </div>
 
       {!result && (
