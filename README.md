@@ -5,7 +5,7 @@ Repositorio que uso para probar todo tipo de cosas que se me ocurran pero que no
 ## Apps
 
 | App                          | Descripción                                                                      |
-|------------------------------|----------------------------------------------------------------------------------|
+| ---------------------------- | -------------------------------------------------------------------------------- |
 | **all-login**                | Aplicación Astro con autenticación multi-proveedor usando Auth.js y TailwindCSS  |
 | **blog**                     | Blog estático construido con Astro y TailwindCSS                                 |
 | **calendar-microsoft-graph** | Integración con Microsoft Graph para gestionar calendarios de Outlook            |
