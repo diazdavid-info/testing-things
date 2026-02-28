@@ -1,7 +1,9 @@
 packages:
   - apps/*
+
 onlyBuiltDependencies:
   - '@swc/core'
+  - dtrace-provider
   - esbuild
   - msgpackr-extract
   - protobufjs
