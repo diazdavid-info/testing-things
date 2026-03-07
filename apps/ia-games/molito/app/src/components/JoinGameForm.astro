@@ -1,0 +1,97 @@
+---
+---
+
+<form id="join-game-form" class="flex flex-col gap-2.5">
+  <div class="flex gap-3">
+    <label for="game-code" class="sr-only">Codigo de partida</label>
+    <input
+      id="game-code"
+      type="text"
+      name="code"
+      placeholder="Codigo de partida"
+      maxlength="8"
+      autocomplete="off"
+      class="flex-1 h-13 px-4 bg-bg-surface border border-border rounded-xl font-body text-[15px] text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary transition-colors disabled:opacity-50"
+    />
+    <button
+      id="join-game-btn"
+      type="submit"
+      class="w-30 h-13 bg-text-primary hover:bg-text-secondary text-white font-heading font-semibold text-base rounded-xl transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+    >
+      <span class="btn-label">Unirse</span>
+      <span class="btn-loading hidden">Conectando...</span>
+    </button>
+  </div>
+  <p id="join-error" class="hidden text-sm text-error" role="alert"></p>
+</form>
+
+<script>
+  const form = document.getElementById("join-game-form") as HTMLFormElement;
+  const input = document.getElementById("game-code") as HTMLInputElement;
+  const btn = document.getElementById("join-game-btn")!;
+  const label = btn.querySelector(".btn-label")!;
+  const loading = btn.querySelector(".btn-loading")!;
+  const error = document.getElementById("join-error")!;
+
+  function hideError() {
+    error.classList.add("hidden");
+    error.textContent = "";
+  }
+
+  function showError(message: string) {
+    error.textContent = message;
+    error.classList.remove("hidden");
+    input.classList.add("border-error");
+  }
+
+  function setLoading(isLoading: boolean) {
+    if (isLoading) {
+      btn.setAttribute("disabled", "");
+      input.setAttribute("disabled", "");
+      label.classList.add("hidden");
+      loading.classList.remove("hidden");
+    } else {
+      btn.removeAttribute("disabled");
+      input.removeAttribute("disabled");
+      label.classList.remove("hidden");
+      loading.classList.add("hidden");
+    }
+  }
+
+  input.addEventListener("input", () => {
+    hideError();
+    input.classList.remove("border-error");
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const code = input.value.trim().toUpperCase();
+
+    if (!code) return;
+
+    hideError();
+    setLoading(true);
+
+    try {
+      const res = await fetch(`/api/games/${code}/join`, { method: "POST" });
+
+      if (res.ok) {
+        window.location.href = `/molino/${code}`;
+        return;
+      }
+
+      setLoading(false);
+
+      const messages: Record<number, string> = {
+        404: "Codigo no encontrado",
+        409: "Partida llena",
+        410: "Esta partida ya ha terminado",
+      };
+
+      showError(messages[res.status] ?? "Error al unirse. Intentalo de nuevo.");
+    } catch {
+      setLoading(false);
+      showError("Error de conexion. Intentalo de nuevo.");
+    }
+  });
+</script>

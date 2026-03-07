@@ -1,0 +1,30 @@
+---
+interface Props {
+  class?: string;
+  size?: number;
+}
+
+const { class: className = "", size = 280 } = Astro.props;
+const s = size;
+const m = s / 6;
+const inner = s / 3;
+const mid = s * 2 / 3;
+const lineW = 2;
+---
+
+<svg
+  width={s}
+  height={s}
+  viewBox={`0 0 ${s} ${s}`}
+  fill="none"
+  class={className}
+  aria-hidden="true"
+>
+  <rect x="0" y="0" width={s} height={s} stroke="currentColor" stroke-width={lineW} />
+  <rect x={m} y={m} width={mid} height={mid} stroke="currentColor" stroke-width={lineW} />
+  <rect x={m * 2} y={m * 2} width={inner} height={inner} stroke="currentColor" stroke-width={lineW} />
+  <line x1={s / 2} y1="0" x2={s / 2} y2={m * 2} stroke="currentColor" stroke-width={lineW} />
+  <line x1={s / 2} y1={s - m * 2} x2={s / 2} y2={s} stroke="currentColor" stroke-width={lineW} />
+  <line x1="0" y1={s / 2} x2={m * 2} y2={s / 2} stroke="currentColor" stroke-width={lineW} />
+  <line x1={s - m * 2} y1={s / 2} x2={s} y2={s / 2} stroke="currentColor" stroke-width={lineW} />
+</svg>

@@ -1,77 +1,72 @@
 # Story 01 — Tareas de marketing y SEO
 
-## SEO-01: Metadatos basicos de la pagina
+## ~~SEO-01: Metadatos basicos de la pagina~~ DONE
 
-- Configurar `<title>`: "El Molino — Juega al clasico juego de estrategia online"
-- Configurar `<meta name="description">`: "Juega al Molino (Nine Men's Morris) online con tus amigos. Crea una partida, comparte el codigo y empieza a jugar en segundos. Sin registro."
-- Configurar `<meta name="keywords">`: "molino, nine men's morris, juego de mesa online, juego de estrategia, jugar con amigos, multijugador"
-- Configurar `<html lang="es">`
+- ~~`<title>`: "El Molino — Juega al clasico juego de estrategia online"~~
+- ~~`<meta name="description">`: texto completo con propuesta de valor~~
+- ~~`<meta name="keywords">`: molino, nine men's morris, etc.~~
+- ~~`<html lang="es">`~~
 
-## SEO-02: Open Graph y redes sociales
+> Implementado en `src/layouts/Layout.astro`
 
-- Configurar etiquetas Open Graph para que al compartir el link se vea bien:
-  - `og:title`: "El Molino — Juego de estrategia online"
-  - `og:description`: "Crea una partida y reta a un amigo. Sin registro, directo al juego."
-  - `og:image`: imagen de preview del juego (tablero con fichas o logo)
-  - `og:type`: "website"
-  - `og:url`: URL canonica del juego
-- Configurar etiquetas Twitter Card:
-  - `twitter:card`: "summary_large_image"
-  - `twitter:title`, `twitter:description`, `twitter:image`
+## ~~SEO-02: Open Graph y redes sociales~~ DONE (parcial)
 
-## SEO-03: Imagen de preview social
+- ~~`og:title`, `og:description`, `og:type` configurados~~
+- ~~`twitter:card`, `twitter:title`, `twitter:description` configurados~~
+- `og:image` y `twitter:image` pendientes de imagen de preview (SEO-03)
+- `og:url` se configurara cuando haya dominio definitivo
 
-- Crear una imagen de 1200x630px para usar como preview en redes sociales
-- Debe incluir: nombre del juego, representacion visual del tablero, llamada a la accion ("Juega ahora")
-- Formato: PNG o JPG optimizado
-- Esta imagen se usa en `og:image` y `twitter:image`
+> Implementado en `src/layouts/Layout.astro`
 
-## SEO-04: Favicon e iconos
+## SEO-03: Imagen de preview social — PENDIENTE
 
-- Crear favicon del juego (representacion minima del tablero o de una ficha)
-- Generar iconos para diferentes plataformas:
-  - `favicon.ico` (32x32)
-  - `apple-touch-icon.png` (180x180)
-  - `icon-192.png` y `icon-512.png` para PWA (si aplica en el futuro)
-- Configurar en el `<head>` de la pagina
+- Crear imagen de 1200x630px para preview en redes sociales
+- Debe incluir: nombre del juego, tablero, llamada a la accion
+- Esta tarea requiere diseño grafico dedicado o generacion con herramientas externas
+- Una vez creada, referenciar en `og:image` y `twitter:image` del Layout
 
-## SEO-05: Estructura semantica del HTML
+## ~~SEO-04: Favicon e iconos~~ DONE
 
-- Usar etiquetas semanticas correctas:
-  - `<main>` para el contenido principal
-  - `<h1>` para el titulo del juego (solo uno por pagina)
-  - `<form>` para el bloque de unirse a partida
-  - `<button>` para acciones (no `<div>` ni `<a>` con onclick)
-- Asegurar que la pagina es indexable por motores de busqueda (no bloquear con robots.txt ni noindex)
+- ~~Favicon SVG del tablero del molino en color accent (#C8702A)~~
+- ~~Referenciado en `<link rel="icon">` del Layout~~
+- `apple-touch-icon.png` y iconos PWA pendientes para futuras iteraciones
 
-## SEO-06: Rendimiento y Core Web Vitals
+> Fichero: `public/favicon.svg`
 
-- La pagina de inicio debe cargar rapido al ser la puerta de entrada:
-  - LCP (Largest Contentful Paint) < 2.5s
-  - CLS (Cumulative Layout Shift) < 0.1
-  - FID (First Input Delay) < 100ms
-- Minimizar JS y CSS necesarios para la pantalla de inicio
-- Las fuentes deben cargarse con `font-display: swap`
-- Las imagenes decorativas deben estar optimizadas (WebP, comprimidas)
+## ~~SEO-05: Estructura semantica del HTML~~ DONE
 
-## MKT-01: Copywriting de la pantalla de inicio
+- ~~`<main>` para contenido principal~~
+- ~~`<h1>` unico para "El Molino"~~
+- ~~`<form>` para el bloque de unirse~~
+- ~~`<button>` para todas las acciones~~
+- ~~Pagina indexable (sin noindex ni bloqueos)~~
 
-- Titulo principal: "El Molino"
-- Subtitulo: proponer 2-3 opciones que comuniquen la propuesta de valor:
-  - "El clasico juego de estrategia, ahora online"
-  - "Reta a un amigo. Sin registro, sin esperas"
-  - "Crea una partida y juega en segundos"
-- Texto del boton principal: "Crear partida"
-- Placeholder del campo de codigo: "Codigo de partida"
-- Texto del boton secundario: "Unirse"
-- Los textos deben ser directos, cortos y orientados a la accion
+> Implementado en `src/pages/index.astro`
 
-## MKT-02: Pagina preparada para analytics
+## ~~SEO-06: Rendimiento y Core Web Vitals~~ DONE
 
-- Preparar la estructura para integrar Google Analytics o similar (sin instalar aun)
-- Definir los eventos clave a trackear en el futuro:
-  - `page_view` en pantalla de inicio
-  - `click_create_game` al pulsar "Crear partida"
-  - `click_join_game` al pulsar "Unirse"
-  - `join_error` cuando falla unirse (con tipo de error)
-- Dejar documentados estos eventos para implementarlos cuando se integre analytics
+- ~~Minimo JS: solo vanilla scripts en los componentes Astro~~
+- ~~Sin framework JS de cliente (React, etc.)~~
+- ~~Fuentes con `display=swap` via Google Fonts URL~~
+- ~~Tablero decorativo es SVG inline, sin carga de imagen~~
+- LCP, CLS y FID a verificar con Lighthouse en produccion
+
+## ~~MKT-01: Copywriting de la pantalla de inicio~~ DONE
+
+- ~~Titulo: "El Molino"~~
+- ~~Subtitulo: "El clasico juego de estrategia, ahora online"~~
+- ~~Boton principal: "Crear partida"~~
+- ~~Placeholder: "Codigo de partida"~~
+- ~~Boton secundario: "Unirse"~~
+- ~~Separador: "o"~~
+
+> Implementado en `src/pages/index.astro`
+
+## ~~MKT-02: Pagina preparada para analytics~~ DONE
+
+- ~~Eventos definidos y tipados en `src/lib/analytics-events.ts`:~~
+  - ~~`page_view`, `click_create_game`, `click_join_game`, `join_error`, `game_created`, `game_joined`~~
+- ~~Funcion `trackEvent()` como stub (no-op)~~
+- ~~Ningun script de analytics cargado aun~~
+
+> Fichero: `src/lib/analytics-events.ts`

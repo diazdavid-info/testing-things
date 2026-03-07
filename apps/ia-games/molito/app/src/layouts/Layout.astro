@@ -1,0 +1,46 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "El Molino — Juega al clasico juego de estrategia online",
+  description = "Juega al Molino (Nine Men's Morris) online con tus amigos. Crea una partida, comparte el codigo y empieza a jugar en segundos. Sin registro.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="molino, nine men's morris, juego de mesa online, juego de estrategia, jugar con amigos, multijugador" />
+
+    <meta property="og:title" content="El Molino — Juego de estrategia online" />
+    <meta property="og:description" content="Crea una partida y reta a un amigo. Sin registro, directo al juego." />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="El Molino — Juego de estrategia online" />
+    <meta name="twitter:description" content="Crea una partida y reta a un amigo. Sin registro, directo al juego." />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-bg-primary min-h-screen font-body text-text-primary antialiased">
+    <main class="flex min-h-screen items-center justify-center">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  @import "../styles/global.css";
+</style>

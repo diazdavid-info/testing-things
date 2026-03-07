@@ -1,0 +1,42 @@
+---
+---
+
+<button
+  id="create-game-btn"
+  type="button"
+  class="w-full h-13 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-base rounded-xl transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+>
+  <span class="btn-label">Crear partida</span>
+  <span class="btn-loading hidden">Creando...</span>
+</button>
+
+<script>
+  const btn = document.getElementById("create-game-btn")!;
+  const label = btn.querySelector(".btn-label")!;
+  const loading = btn.querySelector(".btn-loading")!;
+
+  btn.addEventListener("click", async () => {
+    if (btn.hasAttribute("disabled")) return;
+
+    btn.setAttribute("disabled", "");
+    label.classList.add("hidden");
+    loading.classList.remove("hidden");
+
+    try {
+      const res = await fetch("/api/games", { method: "POST" });
+      if (!res.ok) throw new Error("Error creating game");
+      const data = await res.json();
+      window.location.href = `/molino/${data.code}`;
+    } catch {
+      btn.removeAttribute("disabled");
+      label.classList.remove("hidden");
+      loading.classList.add("hidden");
+
+      const error = document.getElementById("create-error");
+      if (error) {
+        error.textContent = "Error al crear la partida. Intentalo de nuevo.";
+        error.classList.remove("hidden");
+      }
+    }
+  });
+</script>
