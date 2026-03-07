@@ -1,45 +1,26 @@
 import type { APIRoute } from "astro";
-import { getGameByCode, createRematchGame } from "../../../../lib/game";
-import type { PlayerKey } from "../../../../lib/game";
+import { createRematchGame } from "../../../../lib/game";
 import { notify } from "../../../../lib/game-events";
-
-const json = (body: object, status: number) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
+import { json, parseJsonBody, requireGame, requirePlayer, isResponse } from "../../../../lib/api-helpers";
 
 export const POST: APIRoute = async ({ params, request }) => {
-  const code = params.code!;
-  const game = getGameByCode(code);
-
-  if (!game) {
-    return json({ error: "Partida no encontrada" }, 404);
-  }
+  const game = requireGame(params.code!);
+  if (isResponse(game)) return game;
 
   if (game.status !== "finished") {
     return json({ error: "La partida no ha terminado" }, 409);
   }
 
-  let body: { playerId?: string };
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: "Body invalido" }, 400);
-  }
+  const body = await parseJsonBody<{ playerId?: string }>(request);
+  if (isResponse(body)) return body;
 
   const { playerId } = body;
   if (!playerId) {
     return json({ error: "Falta parametro: playerId" }, 400);
   }
 
-  let playerKey: PlayerKey | null = null;
-  if (game.player1.id === playerId) playerKey = "player1";
-  else if (game.player2?.id === playerId) playerKey = "player2";
-
-  if (!playerKey) {
-    return json({ error: "No eres jugador de esta partida" }, 403);
-  }
+  const playerKey = requirePlayer(game, playerId);
+  if (isResponse(playerKey)) return playerKey;
 
   // Already has a rematch game
   if (game.rematchGameCode) {
@@ -52,11 +33,11 @@ export const POST: APIRoute = async ({ params, request }) => {
   if (game.rematchRequested.player1 && game.rematchRequested.player2) {
     const rematchGame = createRematchGame(game);
     game.rematchGameCode = rematchGame.code;
-    notify(code);
+    notify(params.code!);
     return json({ rematchCode: rematchGame.code, waiting: false }, 200);
   }
 
   // Only one player requested — notify the other
-  notify(code);
+  notify(params.code!);
   return json({ waiting: true }, 200);
 };

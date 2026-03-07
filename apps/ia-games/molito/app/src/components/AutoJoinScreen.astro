@@ -1,0 +1,120 @@
+---
+interface Props {
+  code: string;
+}
+
+const { code } = Astro.props;
+---
+
+<div id="auto-join-screen" class="w-full max-w-md mx-auto px-6" data-code={code}>
+  <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
+    <div class="w-12 h-12 rounded-full border-3 border-accent-primary border-t-transparent animate-spin"></div>
+    <h1 class="font-heading text-xl font-semibold text-text-primary">
+      Uniendose a la partida...
+    </h1>
+    <p class="text-sm text-text-secondary text-center">
+      Conectando con tu rival
+    </p>
+    <div class="bg-bg-surface-subtle rounded-lg px-4 py-2">
+      <span class="font-heading text-lg font-bold text-accent-primary tracking-[4px]">{code}</span>
+    </div>
+  </div>
+</div>
+<div id="join-error-screen" class="w-full max-w-md mx-auto px-6 hidden">
+  <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
+    <span class="text-4xl" id="error-icon">🚫</span>
+    <h1 class="font-heading text-2xl font-semibold text-text-primary" id="error-title">
+      Error
+    </h1>
+    <p class="text-sm text-text-secondary text-center leading-relaxed" id="error-desc"></p>
+    <p class="text-xs text-text-muted text-center">
+      Puedes crear tu propia partida desde el inicio
+    </p>
+    <a
+      href="/"
+      class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
+    >
+      Volver al inicio
+    </a>
+  </div>
+</div>
+<div id="join-success-screen" class="w-full max-w-md mx-auto px-6 hidden">
+  <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
+    <div class="w-14 h-14 rounded-full bg-[#E8F5E1] flex items-center justify-center">
+      <svg class="w-7 h-7 text-[#4CAF50]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1 class="font-heading text-xl font-semibold text-text-primary">
+      Conectado!
+    </h1>
+    <p class="text-sm text-text-secondary text-center">
+      La partida va a comenzar...
+    </p>
+    <div class="w-full h-1 bg-bg-surface-subtle rounded-full overflow-hidden">
+      <div class="h-full bg-accent-primary rounded-full animate-progress"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes progress {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+  .animate-progress {
+    animation: progress 1.2s ease-in-out forwards;
+  }
+</style>
+
+<script>
+  const autoJoinScreen = document.getElementById("auto-join-screen");
+  if (autoJoinScreen) {
+    const code = autoJoinScreen.dataset.code!;
+    const errorScreen = document.getElementById("join-error-screen")!;
+    const successScreen = document.getElementById("join-success-screen")!;
+
+    async function attemptAutoJoin() {
+      try {
+        const res = await fetch(`/api/games/${code}/join`, { method: "POST" });
+
+        if (res.ok) {
+          autoJoinScreen!.classList.add("hidden");
+          successScreen.classList.remove("hidden");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          return;
+        }
+
+        autoJoinScreen!.classList.add("hidden");
+        errorScreen.classList.remove("hidden");
+
+        const errorTitle = document.getElementById("error-title")!;
+        const errorDesc = document.getElementById("error-desc")!;
+        const errorIcon = document.getElementById("error-icon")!;
+
+        if (res.status === 409) {
+          errorIcon.textContent = "🚫";
+          errorTitle.textContent = "Partida llena";
+          errorDesc.textContent = "Esta partida ya tiene dos jugadores";
+        } else if (res.status === 410) {
+          errorIcon.textContent = "⏱️";
+          errorTitle.textContent = "Partida terminada";
+          errorDesc.textContent = "Esta partida ya ha finalizado";
+        } else {
+          errorIcon.textContent = "❌";
+          errorTitle.textContent = "Error al unirse";
+          errorDesc.textContent = "No se pudo unir a la partida. Intentalo de nuevo.";
+        }
+      } catch {
+        autoJoinScreen!.classList.add("hidden");
+        errorScreen.classList.remove("hidden");
+        const errorTitle = document.getElementById("error-title")!;
+        const errorDesc = document.getElementById("error-desc")!;
+        errorTitle.textContent = "Error de conexion";
+        errorDesc.textContent = "No se pudo conectar al servidor. Intentalo de nuevo.";
+      }
+    }
+
+    attemptAutoJoin();
+  }
+</script>

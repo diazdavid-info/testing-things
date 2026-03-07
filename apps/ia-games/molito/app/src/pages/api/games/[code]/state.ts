@@ -1,19 +1,10 @@
 import type { APIRoute } from "astro";
-import { getGameByCode } from "../../../../lib/game";
-
-const json = (body: object, status: number) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
+import { json, requireGame, isResponse } from "../../../../lib/api-helpers";
 
 export const GET: APIRoute = async ({ params, cookies }) => {
   const code = params.code!;
-  const game = getGameByCode(code);
-
-  if (!game) {
-    return json({ error: "Partida no encontrada" }, 404);
-  }
+  const game = requireGame(code);
+  if (isResponse(game)) return game;
 
   const playerId = cookies.get(`playerId_${code}`)?.value;
   const isPlayer1 = playerId === game.player1.id;

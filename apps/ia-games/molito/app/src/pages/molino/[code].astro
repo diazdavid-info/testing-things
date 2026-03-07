@@ -1,8 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import WaitingRoom from "../../components/WaitingRoom.astro";
-import Board from "../../components/Board.astro";
-import GameInfo from "../../components/GameInfo.astro";
+import GameNotFound from "../../components/GameNotFound.astro";
+import GameFull from "../../components/GameFull.astro";
+import GameFinished from "../../components/GameFinished.astro";
+import AutoJoinScreen from "../../components/AutoJoinScreen.astro";
+import GamePlayingLayout from "../../components/GamePlayingLayout.astro";
 import GameResult from "../../components/GameResult.astro";
 import { getGameByCode } from "../../lib/game";
 import type { PlayerKey } from "../../lib/game";
@@ -26,186 +29,53 @@ const pageDescription = game
     ? "Partida en curso — El Molino"
     : `Unete a la partida ${code} del Molino. Abre este link para jugar.`
   : "La partida que buscas no existe o ha expirado.";
+
+const playerProps = game && game.player2 ? {
+  player1: { piecesToPlace: game.player1.piecesToPlace, piecesOnBoard: game.player1.piecesOnBoard },
+  player2: { piecesToPlace: game.player2.piecesToPlace, piecesOnBoard: game.player2.piecesOnBoard },
+} : null;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
   {!game ? (
-    <div class="w-full max-w-md mx-auto px-6">
-      <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
-        <svg class="w-12 h-12 text-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
-        </svg>
-        <h1 class="font-heading text-2xl font-semibold text-text-primary">
-          Partida no encontrada
-        </h1>
-        <p class="text-sm text-text-secondary text-center leading-relaxed">
-          El codigo no existe o la partida ha expirado
-        </p>
-        <a
-          href="/"
-          class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
-        >
-          Volver al inicio
-        </a>
-      </div>
-    </div>
+    <GameNotFound />
   ) : game.status === "waiting" && isPlayer1 ? (
     <WaitingRoom code={code!} />
   ) : game.status === "waiting" && !isKnownPlayer ? (
-    <div id="auto-join-screen" class="w-full max-w-md mx-auto px-6" data-code={code}>
-      <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
-        <div class="w-12 h-12 rounded-full border-3 border-accent-primary border-t-transparent animate-spin"></div>
-        <h1 class="font-heading text-xl font-semibold text-text-primary">
-          Uniendose a la partida...
-        </h1>
-        <p class="text-sm text-text-secondary text-center">
-          Conectando con tu rival
-        </p>
-        <div class="bg-bg-surface-subtle rounded-lg px-4 py-2">
-          <span class="font-heading text-lg font-bold text-accent-primary tracking-[4px]">{code}</span>
-        </div>
-      </div>
-    </div>
-    <div id="join-error-screen" class="w-full max-w-md mx-auto px-6 hidden">
-      <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
-        <span class="text-4xl" id="error-icon">🚫</span>
-        <h1 class="font-heading text-2xl font-semibold text-text-primary" id="error-title">
-          Error
-        </h1>
-        <p class="text-sm text-text-secondary text-center leading-relaxed" id="error-desc"></p>
-        <p class="text-xs text-text-muted text-center">
-          Puedes crear tu propia partida desde el inicio
-        </p>
-        <a
-          href="/"
-          class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
-        >
-          Volver al inicio
-        </a>
-      </div>
-    </div>
-    <div id="join-success-screen" class="w-full max-w-md mx-auto px-6 hidden">
-      <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
-        <div class="w-14 h-14 rounded-full bg-[#E8F5E1] flex items-center justify-center">
-          <svg class="w-7 h-7 text-[#4CAF50]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h1 class="font-heading text-xl font-semibold text-text-primary">
-          Conectado!
-        </h1>
-        <p class="text-sm text-text-secondary text-center">
-          La partida va a comenzar...
-        </p>
-        <div class="w-full h-1 bg-bg-surface-subtle rounded-full overflow-hidden">
-          <div class="h-full bg-accent-primary rounded-full animate-progress"></div>
-        </div>
-      </div>
-    </div>
-  ) : game.status === "playing" && isKnownPlayer ? (
-    <div class="w-full max-w-5xl mx-auto px-4 sm:px-6">
-      <div id="disconnect-banner" class="hidden mb-4 flex items-center gap-3 bg-[#FFF3E0] text-[#C8702A] rounded-xl px-4 py-3 font-medium text-sm">
-        <span>⚠️</span>
-        <span>Tu rival se ha desconectado</span>
-        <button
-          id="claim-victory-btn"
-          class="hidden ml-auto bg-[#C8702A] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#A85A1E] transition-colors"
-          data-code={code}
-          data-player-id={playerId}
-        >
-          Reclamar victoria
-        </button>
-      </div>
-      <div class="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start">
-        <div class="flex-1 w-full lg:max-w-[540px]">
-          <Board
-            board={game.board}
-            turn={game.turn}
-            phase={game.phase}
-            turnState={game.turnState}
-            playerKey={playerKey}
-            code={code!}
-            playerId={playerId!}
-            currentPlayer={playerKey === "player1" ? game.player1 : game.player2!}
-          />
-        </div>
-        <div class="w-full lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">
-          <GameInfo
-            turn={game.turn}
-            phase={game.phase}
-            turnState={game.turnState}
-            playerKey={playerKey}
-            player1={{ piecesToPlace: game.player1.piecesToPlace, piecesOnBoard: game.player1.piecesOnBoard }}
-            player2={{ piecesToPlace: game.player2!.piecesToPlace, piecesOnBoard: game.player2!.piecesOnBoard }}
-          />
-        </div>
-      </div>
-    </div>
+    <AutoJoinScreen code={code!} />
+  ) : game.status === "playing" && isKnownPlayer && playerProps ? (
+    <GamePlayingLayout
+      board={game.board}
+      turn={game.turn}
+      phase={game.phase}
+      turnState={game.turnState}
+      playerKey={playerKey}
+      code={code!}
+      playerId={playerId!}
+      currentPlayer={playerKey === "player1" ? game.player1 : game.player2!}
+      player1={playerProps.player1}
+      player2={playerProps.player2}
+    />
   ) : game.status === "playing" && !isKnownPlayer ? (
-    <div class="w-full max-w-md mx-auto px-6">
-      <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
-        <span class="text-4xl">🚫</span>
-        <h1 class="font-heading text-2xl font-semibold text-text-primary">
-          Partida llena
-        </h1>
-        <p class="text-sm text-text-secondary text-center leading-relaxed">
-          Esta partida ya tiene dos jugadores
-        </p>
-        <p class="text-xs text-text-muted text-center">
-          Puedes crear tu propia partida desde el inicio
-        </p>
-        <a
-          href="/"
-          class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
-        >
-          Volver al inicio
-        </a>
-      </div>
-    </div>
-  ) : game.status === "finished" && isKnownPlayer ? (
-    <div class="w-full max-w-5xl mx-auto px-4 sm:px-6 relative">
-      <div class="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start opacity-50 pointer-events-none">
-        <div class="flex-1 w-full lg:max-w-[540px]">
-          <Board
-            board={game.board}
-            turn={game.turn}
-            phase={game.phase}
-            turnState={game.turnState}
-            playerKey={playerKey}
-            code={code!}
-            playerId={playerId!}
-            currentPlayer={playerKey === "player1" ? game.player1 : game.player2!}
-          />
-        </div>
-        <div class="w-full lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">
-          <GameInfo
-            turn={game.turn}
-            phase={game.phase}
-            turnState={game.turnState}
-            playerKey={playerKey}
-            player1={{ piecesToPlace: game.player1.piecesToPlace, piecesOnBoard: game.player1.piecesOnBoard }}
-            player2={{ piecesToPlace: game.player2!.piecesToPlace, piecesOnBoard: game.player2!.piecesOnBoard }}
-          />
-        </div>
-      </div>
+    <GameFull />
+  ) : game.status === "finished" && isKnownPlayer && playerProps ? (
+    <GamePlayingLayout
+      board={game.board}
+      turn={game.turn}
+      phase={game.phase}
+      turnState={game.turnState}
+      playerKey={playerKey}
+      code={code!}
+      playerId={playerId!}
+      currentPlayer={playerKey === "player1" ? game.player1 : game.player2!}
+      player1={playerProps.player1}
+      player2={playerProps.player2}
+      disabled
+    >
       <GameResult winner={game.winner!} playerKey={playerKey} winReason={game.winReason} code={code!} playerId={playerId!} rematchGameCode={game.rematchGameCode} />
-    </div>
+    </GamePlayingLayout>
   ) : game.status === "finished" ? (
-    <div class="w-full max-w-md mx-auto px-6">
-      <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
-        <span class="text-4xl">⏱️</span>
-        <h1 class="font-heading text-2xl font-semibold text-text-primary">
-          Partida terminada
-        </h1>
-        <p class="text-sm text-text-secondary text-center leading-relaxed">
-          Esta partida ya ha finalizado
-        </p>
-        <a
-          href="/"
-          class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
-        >
-          Volver al inicio
-        </a>
-      </div>
-    </div>
+    <GameFinished />
   ) : null}
 </Layout>
 
@@ -222,18 +92,9 @@ const pageDescription = game
   </Fragment>
 )}
 
-<style>
-  @keyframes progress {
-    from { width: 0%; }
-    to { width: 100%; }
-  }
-  .animate-progress {
-    animation: progress 1.2s ease-in-out forwards;
-  }
-</style>
-
 <script>
-  // SSE real-time sync
+  import { initSSE } from "../../lib/sse-client";
+
   const boardContainer = document.getElementById("board-container");
   const waitingRoom = document.getElementById("waiting-room");
   const gameCode = boardContainer?.dataset.code || waitingRoom?.dataset.code;
@@ -243,137 +104,29 @@ const pageDescription = game
   const disconnBanner = document.getElementById("disconnect-banner");
 
   if (gameCode && (boardContainer || waitingRoom)) {
-    let lastState = "";
-    let retryDelay = 1000;
-    let rivalDisconnectedSince: number | null = null;
-
-    function updateDisconnectBanner(connected: Record<string, boolean>) {
-      if (!disconnBanner || !ssePlayerKey) return;
-      const rivalKey = ssePlayerKey === "player1" ? "player2" : "player1";
-      const rivalConnected = connected[rivalKey];
-
-      if (!rivalConnected) {
-        if (!rivalDisconnectedSince) rivalDisconnectedSince = Date.now();
-        disconnBanner.classList.remove("hidden");
-        const elapsed = Date.now() - rivalDisconnectedSince;
-        const claimBtn = document.getElementById("claim-victory-btn");
-        if (claimBtn && elapsed >= 5 * 60 * 1000) {
-          claimBtn.classList.remove("hidden");
-        }
-      } else {
-        rivalDisconnectedSince = null;
-        disconnBanner.classList.add("hidden");
-      }
-    }
-
-    function connectSSE() {
-      const es = new EventSource(`/api/games/${gameCode}/stream?playerId=${ssePlayerId}`);
-
-      es.onopen = () => {
-        retryDelay = 1000;
-        if (connIndicator) {
-          connIndicator.dataset.status = "connected";
-          const txt = connIndicator.querySelector(".conn-text") as HTMLElement;
-          if (txt) txt.textContent = "";
-        }
-      };
-
-      es.onmessage = (event) => {
-        if (!event.data) return;
-        const stateStr = event.data;
-        try {
-          const state = JSON.parse(stateStr);
-          if (state.connected) updateDisconnectBanner(state.connected);
-        } catch { /* ignore */ }
-        if (lastState && stateStr !== lastState) {
-          window.location.reload();
-        }
-        lastState = stateStr;
-      };
-
-      es.onerror = () => {
-        es.close();
-        if (connIndicator) {
-          connIndicator.dataset.status = "disconnected";
-          const txt = connIndicator.querySelector(".conn-text") as HTMLElement;
-          if (txt) txt.textContent = "Reconectando...";
-        }
-        setTimeout(connectSSE, retryDelay);
-        retryDelay = Math.min(retryDelay * 2, 30_000);
-      };
-    }
-
-    connectSSE();
-  }
-
-  // Claim victory button
-  const claimBtn = document.getElementById("claim-victory-btn");
-  if (claimBtn) {
-    claimBtn.addEventListener("click", async () => {
-      const claimCode = claimBtn.dataset.code!;
-      const claimPlayerId = claimBtn.dataset.playerId!;
-      try {
-        const res = await fetch(`/api/games/${claimCode}/claim-victory`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ playerId: claimPlayerId }),
-        });
-        if (res.ok) {
-          window.location.reload();
-        }
-      } catch { /* ignore */ }
-    });
-  }
-
-  const autoJoinScreen = document.getElementById("auto-join-screen");
-  if (autoJoinScreen) {
-    const code = autoJoinScreen.dataset.code!;
-    const errorScreen = document.getElementById("join-error-screen")!;
-    const successScreen = document.getElementById("join-success-screen")!;
-
-    async function attemptAutoJoin() {
-      try {
-        const res = await fetch(`/api/games/${code}/join`, { method: "POST" });
-
-        if (res.ok) {
-          autoJoinScreen!.classList.add("hidden");
-          successScreen.classList.remove("hidden");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          return;
-        }
-
-        autoJoinScreen!.classList.add("hidden");
-        errorScreen.classList.remove("hidden");
-
-        const errorTitle = document.getElementById("error-title")!;
-        const errorDesc = document.getElementById("error-desc")!;
-        const errorIcon = document.getElementById("error-icon")!;
-
-        if (res.status === 409) {
-          errorIcon.textContent = "🚫";
-          errorTitle.textContent = "Partida llena";
-          errorDesc.textContent = "Esta partida ya tiene dos jugadores";
-        } else if (res.status === 410) {
-          errorIcon.textContent = "⏱️";
-          errorTitle.textContent = "Partida terminada";
-          errorDesc.textContent = "Esta partida ya ha finalizado";
+    initSSE({
+      gameCode,
+      playerId: ssePlayerId,
+      playerKey: ssePlayerKey,
+      onStateChange: () => window.location.reload(),
+      onConnectionStatusChange: (status) => {
+        if (!connIndicator) return;
+        connIndicator.dataset.status = status;
+        const txt = connIndicator.querySelector(".conn-text") as HTMLElement;
+        if (txt) txt.textContent = status === "disconnected" ? "Reconectando..." : "";
+      },
+      onDisconnectBannerUpdate: (rivalConnected, elapsed) => {
+        if (!disconnBanner) return;
+        if (!rivalConnected) {
+          disconnBanner.classList.remove("hidden");
+          const claimBtn = document.getElementById("claim-victory-btn");
+          if (claimBtn && elapsed >= 5 * 60 * 1000) {
+            claimBtn.classList.remove("hidden");
+          }
         } else {
-          errorIcon.textContent = "❌";
-          errorTitle.textContent = "Error al unirse";
-          errorDesc.textContent = "No se pudo unir a la partida. Intentalo de nuevo.";
+          disconnBanner.classList.add("hidden");
         }
-      } catch {
-        autoJoinScreen!.classList.add("hidden");
-        errorScreen.classList.remove("hidden");
-        const errorTitle = document.getElementById("error-title")!;
-        const errorDesc = document.getElementById("error-desc")!;
-        errorTitle.textContent = "Error de conexion";
-        errorDesc.textContent = "No se pudo conectar al servidor. Intentalo de nuevo.";
-      }
-    }
-
-    attemptAutoJoin();
+      },
+    });
   }
 </script>

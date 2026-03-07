@@ -1,12 +1,7 @@
 import type { APIRoute } from "astro";
 import { getGameByCode, joinGame } from "../../../../lib/game";
 import { notify } from "../../../../lib/game-events";
-
-const json = (body: object, status: number) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
+import { json } from "../../../../lib/api-helpers";
 
 export const POST: APIRoute = async ({ params }) => {
   const code = params.code!;

@@ -1,0 +1,51 @@
+---
+import Board from "./Board.astro";
+import GameInfo from "./GameInfo.astro";
+import DisconnectBanner from "./DisconnectBanner.astro";
+import type { BoardCell, PlayerKey, GamePhase, TurnState, Player } from "../lib/game";
+
+interface Props {
+  board: BoardCell[];
+  turn: PlayerKey;
+  phase: GamePhase;
+  turnState: TurnState;
+  playerKey: PlayerKey;
+  code: string;
+  playerId: string;
+  currentPlayer: Player;
+  player1: { piecesToPlace: number; piecesOnBoard: number };
+  player2: { piecesToPlace: number; piecesOnBoard: number };
+  disabled?: boolean;
+}
+
+const { board, turn, phase, turnState, playerKey, code, playerId, currentPlayer, player1, player2, disabled = false } = Astro.props;
+---
+
+<div class="w-full max-w-5xl mx-auto px-4 sm:px-6" class:list={[disabled && "relative"]}>
+  {!disabled && <DisconnectBanner code={code} playerId={playerId} />}
+  <div class:list={["flex flex-col lg:flex-row gap-6 lg:gap-10 items-start", disabled && "opacity-50 pointer-events-none"]}>
+    <div class="flex-1 w-full lg:max-w-[540px]">
+      <Board
+        board={board}
+        turn={turn}
+        phase={phase}
+        turnState={turnState}
+        playerKey={playerKey}
+        code={code}
+        playerId={playerId}
+        currentPlayer={currentPlayer}
+      />
+    </div>
+    <div class="w-full lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">
+      <GameInfo
+        turn={turn}
+        phase={phase}
+        turnState={turnState}
+        playerKey={playerKey}
+        player1={player1}
+        player2={player2}
+      />
+    </div>
+  </div>
+  <slot />
+</div>

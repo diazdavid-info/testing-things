@@ -1,21 +1,11 @@
 import type { APIRoute } from "astro";
-import { getGameByCode } from "../../../../lib/game";
 import { removePiece } from "../../../../lib/game-actions";
 import { notify } from "../../../../lib/game-events";
-
-const json = (body: object, status: number) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
+import { json, parseJsonBody, requireGame, requirePlayer, isResponse } from "../../../../lib/api-helpers";
 
 export const POST: APIRoute = async ({ params, request }) => {
-  const code = params.code!;
-  const game = getGameByCode(code);
-
-  if (!game) {
-    return json({ error: "Partida no encontrada" }, 404);
-  }
+  const game = requireGame(params.code!);
+  if (isResponse(game)) return game;
 
   if (game.status !== "playing") {
     return json({ error: "La partida no esta en curso" }, 409);
@@ -25,34 +15,23 @@ export const POST: APIRoute = async ({ params, request }) => {
     return json({ error: "No estas en estado de eliminacion" }, 409);
   }
 
-  let body: { position?: number; playerId?: string };
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: "Body invalido" }, 400);
-  }
+  const body = await parseJsonBody<{ position?: number; playerId?: string }>(request);
+  if (isResponse(body)) return body;
 
   const { position, playerId } = body;
-
   if (position === undefined || !playerId) {
     return json({ error: "Faltan parametros: position y playerId" }, 400);
   }
 
-  let playerKey: "player1" | "player2" | null = null;
-  if (game.player1.id === playerId) playerKey = "player1";
-  else if (game.player2?.id === playerId) playerKey = "player2";
-
-  if (!playerKey) {
-    return json({ error: "No eres jugador de esta partida" }, 403);
-  }
+  const playerKey = requirePlayer(game, playerId);
+  if (isResponse(playerKey)) return playerKey;
 
   const result = removePiece(game, position, playerKey);
-
   if (!result.ok) {
     return json({ error: result.error }, 400);
   }
 
-  notify(code);
+  notify(params.code!);
 
   return json(
     {

@@ -1,0 +1,41 @@
+---
+interface Props {
+  code: string;
+  playerId: string;
+}
+
+const { code, playerId } = Astro.props;
+---
+
+<div id="disconnect-banner" class="hidden mb-4 flex items-center gap-3 bg-[#FFF3E0] text-[#C8702A] rounded-xl px-4 py-3 font-medium text-sm">
+  <span>⚠️</span>
+  <span>Tu rival se ha desconectado</span>
+  <button
+    id="claim-victory-btn"
+    class="hidden ml-auto bg-[#C8702A] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#A85A1E] transition-colors"
+    data-code={code}
+    data-player-id={playerId}
+  >
+    Reclamar victoria
+  </button>
+</div>
+
+<script>
+  const claimBtn = document.getElementById("claim-victory-btn");
+  if (claimBtn) {
+    claimBtn.addEventListener("click", async () => {
+      const claimCode = claimBtn.dataset.code!;
+      const claimPlayerId = claimBtn.dataset.playerId!;
+      try {
+        const res = await fetch(`/api/games/${claimCode}/claim-victory`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ playerId: claimPlayerId }),
+        });
+        if (res.ok) {
+          window.location.reload();
+        }
+      } catch { /* ignore */ }
+    });
+  }
+</script>
