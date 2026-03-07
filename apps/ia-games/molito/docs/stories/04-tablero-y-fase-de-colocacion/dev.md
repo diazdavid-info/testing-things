@@ -1,6 +1,9 @@
 # Story 04 — Tareas de desarrollo
 
-## DEV-01: Topologia del tablero y constantes
+## ~~DEV-01: Topologia del tablero y constantes~~ ✅
+
+> Implementado en `src/lib/board.ts`. 24 posiciones, adyacencias simetricas, 16 molinos, `checkMill()`. Tests en `test/board.test.ts` (12 tests).
+
 
 - Definir en `src/lib/board.ts` la topologia del tablero del Molino:
   - `POSITIONS`: array de 24 posiciones con coordenadas (x, y) para renderizar el tablero (grid logico, no pixeles)
@@ -18,7 +21,10 @@
 - Test: cada posicion aparece en al menos 2 molinos
 - Test: las adyacencias son simetricas (si A es vecino de B, B es vecino de A)
 
-## DEV-02: Logica de colocacion de ficha
+## ~~DEV-02: Logica de colocacion de ficha~~ ✅
+
+> Implementado en `src/lib/game-actions.ts`. `placePiece()` con todas las validaciones, cambio de turno, deteccion de molino, transicion a fase `move`. Tests en `test/game-actions.test.ts` (13 tests).
+
 
 - Crear funcion `placePiece(game: Game, position: number, playerKey: PlayerKey): PlaceResult` en `src/lib/game-actions.ts`
 - Validaciones:
@@ -47,7 +53,10 @@
 - Test: posicion fuera de rango (negativa, >23) es rechazada
 - Test: cuando ambos agotan fichas, la fase cambia a `move`
 
-## DEV-03: Deteccion de molinos
+## ~~DEV-03: Deteccion de molinos~~ ✅
+
+> Implementado en `src/lib/board.ts` como `checkMill()`. Usa mapa precalculado `POSITION_MILLS` para solo comprobar molinos relevantes. Tests en `test/board.test.ts`.
+
 
 - Crear funcion `checkMill(board: BoardCell[], position: number, playerKey: PlayerKey): boolean` en `src/lib/board.ts`
 - Dado un tablero y una posicion recien colocada, comprobar si esa posicion forma parte de un molino completo
@@ -61,7 +70,10 @@
 - Test: no detectar molino con fichas mezcladas
 - Test: no detectar molino incompleto (solo 2 fichas)
 
-## DEV-04: API de colocacion de ficha
+## ~~DEV-04: API de colocacion de ficha~~ ✅
+
+> Implementado en `src/pages/api/games/[code]/place.ts`. Valida playerId, llama a `placePiece()`, devuelve estado actualizado. Tests en `test/api-place.test.ts` (7 tests).
+
 
 - Crear endpoint `POST /api/games/{code}/place`
 - Body: `{ position: number, playerId: string }`
@@ -80,7 +92,10 @@
 - Test: devuelve 404 para codigo inexistente
 - Test: devuelve 409 si la partida no esta en `playing`
 
-## DEV-05: Componente del tablero (Board)
+## ~~DEV-05: Componente del tablero (Board)~~ ✅
+
+> Implementado en `src/components/Board.astro`. SVG con 3 cuadrados, lineas de conexion, 24 posiciones interactivas. Click envia fetch a API. Soporte teclado. Aria-labels.
+
 
 - Crear `src/components/Board.astro` (o `.tsx` si necesita interactividad compleja)
 - Renderizar el tablero clasico del Molino con SVG:
@@ -101,7 +116,10 @@
 - Test: las posiciones ocupadas no son clicables
 - Test: al hacer click se envia fetch a la API
 
-## DEV-06: Panel de informacion de partida (GameInfo)
+## ~~DEV-06: Panel de informacion de partida (GameInfo)~~ ✅
+
+> Implementado en `src/components/GameInfo.astro`. Indicador de turno, fase, contadores por jugador. Responsive con colores del design system.
+
 
 - Crear `src/components/GameInfo.astro`
 - Mostrar:
@@ -118,7 +136,10 @@
 - Test: muestra la fase "Colocacion" correctamente
 - Test: muestra los contadores de fichas correctos
 
-## DEV-07: Pagina de juego — integrar tablero y panel
+## ~~DEV-07: Pagina de juego — integrar tablero y panel~~ ✅
+
+> Integrado en `src/pages/molino/[code].astro`. Layout flex con Board + GameInfo. Responsive: horizontal en desktop, vertical en mobile.
+
 
 - Modificar `src/pages/molino/[code].astro` para reemplazar el placeholder de "Partida en curso" con:
   - Componente Board
@@ -131,7 +152,10 @@
 - Test: la pagina de juego renderiza el tablero cuando la partida esta en `playing`
 - Test: los datos iniciales del juego se pasan correctamente al componente
 
-## DEV-08: API de estado completo de la partida
+## ~~DEV-08: API de estado completo de la partida~~ ✅
+
+> Implementado en `src/pages/api/games/[code]/state.ts`. Devuelve board, turn, phase, turnState, status, players. Valida cookie de jugador. Tests en `test/api-place.test.ts` (3 tests).
+
 
 - Crear endpoint `GET /api/games/{code}/state`
 - Devuelve el estado completo: `{ board, turn, phase, turnState, player1, player2, status }`

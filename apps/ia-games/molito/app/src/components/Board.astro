@@ -1,0 +1,156 @@
+---
+import { POSITIONS } from "../lib/board";
+import type { BoardCell, PlayerKey, GamePhase } from "../lib/game";
+
+interface Props {
+  board: BoardCell[];
+  turn: PlayerKey;
+  phase: GamePhase;
+  turnState: string;
+  playerKey: PlayerKey;
+  code: string;
+  playerId: string;
+}
+
+const { board, turn, phase, turnState, playerKey, code, playerId } = Astro.props;
+
+const SIZE = 480;
+const MARGIN = 40;
+const INNER = SIZE - MARGIN * 2;
+const STEP = INNER / 6;
+
+function toPixel(gridVal: number): number {
+  return MARGIN + gridVal * STEP;
+}
+
+const lines = [
+  // Outer square
+  [0, 1], [1, 2], [2, 14], [14, 23], [23, 22], [22, 21], [21, 9], [9, 0],
+  // Middle square
+  [3, 4], [4, 5], [5, 13], [13, 20], [20, 19], [19, 18], [18, 10], [10, 3],
+  // Inner square
+  [6, 7], [7, 8], [8, 12], [12, 17], [17, 16], [16, 15], [15, 11], [11, 6],
+  // Cross lines
+  [1, 4], [4, 7], [9, 10], [10, 11], [12, 13], [13, 14], [16, 19], [19, 22],
+];
+
+const canPlace = phase === "place" && turnState === "place" && turn === playerKey;
+---
+
+<div class="w-full max-w-[480px] mx-auto" id="board-container" data-code={code} data-player-id={playerId} data-player-key={playerKey}>
+  <svg
+    viewBox={`0 0 ${SIZE} ${SIZE}`}
+    class="w-full h-auto"
+    role="img"
+    aria-label="Tablero del Molino"
+  >
+    {lines.map(([from, to]) => {
+      const p1 = POSITIONS[from];
+      const p2 = POSITIONS[to];
+      return (
+        <line
+          x1={toPixel(p1.x)}
+          y1={toPixel(p1.y)}
+          x2={toPixel(p2.x)}
+          y2={toPixel(p2.y)}
+          stroke="#3D3530"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      );
+    })}
+
+    {POSITIONS.map((pos, idx) => {
+      const cx = toPixel(pos.x);
+      const cy = toPixel(pos.y);
+      const cell = board[idx];
+      const isEmpty = cell === null;
+      const isClickable = canPlace && isEmpty;
+
+      let fill = "#E8E4DE";
+      let strokeColor = "#B0AAA2";
+      let radius = 10;
+
+      if (cell === "player1") {
+        fill = "#C8702A";
+        strokeColor = "#A85A1E";
+        radius = 12;
+      } else if (cell === "player2") {
+        fill = "#1A1A1A";
+        strokeColor = "#000000";
+        radius = 12;
+      }
+
+      const label = isEmpty
+        ? `Posicion ${idx}, vacia`
+        : `Posicion ${idx}, ficha ${cell === "player1" ? "Jugador 1" : "Jugador 2"}`;
+
+      return (
+        <circle
+          cx={cx}
+          cy={cy}
+          r={radius}
+          fill={fill}
+          stroke={strokeColor}
+          stroke-width={isEmpty ? "1" : "2"}
+          class:list={[
+            "board-position transition-all duration-150",
+            isClickable && "cursor-pointer hover:r-[14] hover:opacity-80",
+            !isClickable && !isEmpty && "cursor-default",
+          ]}
+          data-position={idx}
+          data-empty={isEmpty}
+          data-clickable={isClickable}
+          role="button"
+          aria-label={label}
+          tabindex={isClickable ? "0" : "-1"}
+        />
+      );
+    })}
+  </svg>
+</div>
+
+<script>
+  const container = document.getElementById("board-container")!;
+  const code = container.dataset.code!;
+  const playerId = container.dataset.playerId!;
+  let isProcessing = false;
+
+  container.addEventListener("click", async (e) => {
+    const target = e.target as SVGCircleElement;
+    if (target.dataset.clickable !== "true" || isProcessing) return;
+
+    const position = Number(target.dataset.position);
+    isProcessing = true;
+
+    try {
+      const res = await fetch(`/api/games/${code}/place`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ position, playerId }),
+      });
+
+      if (res.ok) {
+        // Reload to get fresh server-rendered state
+        window.location.reload();
+      } else {
+        const data = await res.json();
+        console.error("Place error:", data.error);
+        isProcessing = false;
+      }
+    } catch {
+      isProcessing = false;
+    }
+  });
+
+  // Keyboard support
+  container.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      const target = e.target as SVGCircleElement;
+      if (target.dataset.clickable === "true") {
+        e.preventDefault();
+        target.click();
+      }
+    }
+  });
+</script>

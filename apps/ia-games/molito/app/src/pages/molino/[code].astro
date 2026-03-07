@@ -1,7 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import WaitingRoom from "../../components/WaitingRoom.astro";
+import Board from "../../components/Board.astro";
+import GameInfo from "../../components/GameInfo.astro";
 import { getGameByCode } from "../../lib/game";
+import type { PlayerKey } from "../../lib/game";
 
 const { code } = Astro.params;
 const game = code ? getGameByCode(code) : null;
@@ -12,6 +15,7 @@ const playerId = Astro.cookies.get(cookieName)?.value ?? null;
 const isPlayer1 = playerId != null && game?.player1.id === playerId;
 const isPlayer2 = playerId != null && game?.player2?.id === playerId;
 const isKnownPlayer = isPlayer1 || isPlayer2;
+const playerKey: PlayerKey = isPlayer2 ? "player2" : "player1";
 
 const pageTitle = game
   ? `Partida ${code} — El Molino`
@@ -96,13 +100,30 @@ const pageDescription = game
       </div>
     </div>
   ) : game.status === "playing" && isKnownPlayer ? (
-    <div class="text-center">
-      <h1 class="font-heading text-2xl font-semibold text-text-primary">
-        Partida en curso
-      </h1>
-      <p class="text-sm text-text-secondary mt-2">
-        El tablero se implementara en stories posteriores
-      </p>
+    <div class="w-full max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start">
+        <div class="flex-1 w-full lg:max-w-[540px]">
+          <Board
+            board={game.board}
+            turn={game.turn}
+            phase={game.phase}
+            turnState={game.turnState}
+            playerKey={playerKey}
+            code={code!}
+            playerId={playerId!}
+          />
+        </div>
+        <div class="w-full lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">
+          <GameInfo
+            turn={game.turn}
+            phase={game.phase}
+            turnState={game.turnState}
+            playerKey={playerKey}
+            player1={{ piecesToPlace: game.player1.piecesToPlace, piecesOnBoard: game.player1.piecesOnBoard }}
+            player2={{ piecesToPlace: game.player2!.piecesToPlace, piecesOnBoard: game.player2!.piecesOnBoard }}
+          />
+        </div>
+      </div>
     </div>
   ) : game.status === "playing" && !isKnownPlayer ? (
     <div class="w-full max-w-md mx-auto px-6">

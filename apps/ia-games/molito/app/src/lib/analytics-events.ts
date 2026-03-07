@@ -19,7 +19,12 @@ export type AnalyticsEvent =
   | { name: "auto_join_attempt"; code: string }
   | { name: "auto_join_success"; code: string }
   | { name: "auto_join_error"; code: string; error_type: "full" | "finished" | "network" | "unknown" }
-  | { name: "join_via_form"; code: string };
+  | { name: "join_via_form"; code: string }
+  | { name: "game_board_view"; code: string }
+  | { name: "piece_placed"; code: string; position: number; player: string; pieces_remaining: number }
+  | { name: "phase_changed"; code: string; from: string; to: string }
+  | { name: "mill_formed"; code: string; player: string }
+  | { name: "invalid_move_attempt"; code: string; reason: string };
 
 /**
  * Track an analytics event. Currently a no-op stub.

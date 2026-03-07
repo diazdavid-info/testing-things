@@ -1,0 +1,75 @@
+---
+interface Props {
+  turn: "player1" | "player2";
+  phase: "place" | "move" | "fly";
+  turnState: string;
+  playerKey: "player1" | "player2";
+  player1: { piecesToPlace: number; piecesOnBoard: number };
+  player2: { piecesToPlace: number; piecesOnBoard: number };
+}
+
+const { turn, phase, playerKey, player1, player2 } = Astro.props;
+const isMyTurn = turn === playerKey;
+const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
+---
+
+<div class="flex flex-col gap-5 w-full" id="game-info">
+  <div
+    class:list={[
+      "flex items-center gap-3 rounded-xl px-4 py-3 font-heading font-semibold text-base",
+      isMyTurn
+        ? "bg-[#FFF3E0] text-accent-primary"
+        : "bg-bg-surface-subtle text-text-secondary",
+    ]}
+    id="turn-indicator"
+    data-my-turn={isMyTurn}
+    role="status"
+    aria-live="polite"
+  >
+    <span
+      class:list={[
+        "w-3 h-3 rounded-full",
+        isMyTurn ? "bg-accent-primary animate-pulse" : "bg-text-muted",
+      ]}
+    ></span>
+    {isMyTurn ? "Tu turno" : "Turno del rival"}
+  </div>
+
+  <div class="inline-flex">
+    <span class="bg-bg-surface-subtle text-text-muted text-xs font-medium px-2.5 py-1 rounded-md">
+      Fase: {phaseLabels[phase]}
+    </span>
+  </div>
+
+  <div class="h-px bg-border"></div>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-1.5">
+      <div class="flex items-center gap-2">
+        <span class="w-4 h-4 rounded-full bg-accent-primary"></span>
+        <span class="font-heading text-sm font-semibold text-text-primary">
+          Jugador 1 {playerKey === "player1" ? "(Tu)" : ""}
+        </span>
+      </div>
+      <div class="flex gap-4 text-xs text-text-secondary" id="p1-stats">
+        <span>Por colocar: <strong id="p1-to-place">{player1.piecesToPlace}</strong></span>
+        <span>En tablero: <strong id="p1-on-board">{player1.piecesOnBoard}</strong></span>
+      </div>
+    </div>
+
+    <div class="h-px bg-border"></div>
+
+    <div class="flex flex-col gap-1.5">
+      <div class="flex items-center gap-2">
+        <span class="w-4 h-4 rounded-full bg-text-primary"></span>
+        <span class="font-heading text-sm font-semibold text-text-primary">
+          Jugador 2 {playerKey === "player2" ? "(Tu)" : ""}
+        </span>
+      </div>
+      <div class="flex gap-4 text-xs text-text-secondary" id="p2-stats">
+        <span>Por colocar: <strong id="p2-to-place">{player2.piecesToPlace}</strong></span>
+        <span>En tablero: <strong id="p2-on-board">{player2.piecesOnBoard}</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
