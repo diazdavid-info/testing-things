@@ -221,6 +221,50 @@ const pageDescription = game
 </style>
 
 <script>
+  // SSE real-time sync
+  const boardContainer = document.getElementById("board-container");
+  const waitingRoom = document.getElementById("waiting-room");
+  const gameCode = boardContainer?.dataset.code || waitingRoom?.dataset.code;
+  const connIndicator = document.getElementById("conn-indicator");
+
+  if (gameCode && (boardContainer || waitingRoom)) {
+    let lastState = "";
+    let retryDelay = 1000;
+
+    function connectSSE() {
+      const es = new EventSource(`/api/games/${gameCode}/stream`);
+
+      es.onopen = () => {
+        retryDelay = 1000;
+        if (connIndicator) {
+          connIndicator.dataset.status = "connected";
+          connIndicator.textContent = "";
+        }
+      };
+
+      es.onmessage = (event) => {
+        if (!event.data) return;
+        const stateStr = event.data;
+        if (lastState && stateStr !== lastState) {
+          window.location.reload();
+        }
+        lastState = stateStr;
+      };
+
+      es.onerror = () => {
+        es.close();
+        if (connIndicator) {
+          connIndicator.dataset.status = "disconnected";
+          connIndicator.textContent = "Reconectando...";
+        }
+        setTimeout(connectSSE, retryDelay);
+        retryDelay = Math.min(retryDelay * 2, 30_000);
+      };
+    }
+
+    connectSSE();
+  }
+
   const autoJoinScreen = document.getElementById("auto-join-screen");
   if (autoJoinScreen) {
     const code = autoJoinScreen.dataset.code!;

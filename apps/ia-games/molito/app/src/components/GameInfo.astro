@@ -18,6 +18,10 @@ const myFlying = playerKey === "player1" ? p1Flying : p2Flying;
 ---
 
 <div class="flex flex-col gap-5 w-full" id="game-info">
+  <div class="flex items-center gap-1.5" id="conn-indicator" data-status="connecting">
+    <span class="w-2 h-2 rounded-full bg-green-500 conn-dot"></span>
+    <span class="text-[10px] text-text-muted conn-text"></span>
+  </div>
   <div
     class:list={[
       "flex items-center gap-3 rounded-xl px-4 py-3 font-heading font-semibold text-base",
@@ -95,3 +99,9 @@ const myFlying = playerKey === "player1" ? p1Flying : p2Flying;
     </div>
   </div>
 </div>
+
+<style>
+  #conn-indicator[data-status="connected"] .conn-dot { background-color: #4CAF50; }
+  #conn-indicator[data-status="disconnected"] .conn-dot { background-color: #F44336; }
+  #conn-indicator[data-status="connecting"] .conn-dot { background-color: #FFC107; }
+</style>

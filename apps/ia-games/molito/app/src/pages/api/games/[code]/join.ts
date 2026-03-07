@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getGameByCode, joinGame } from "../../../../lib/game";
+import { notify } from "../../../../lib/game-events";
 
 const json = (body: object, status: number) =>
   new Response(JSON.stringify(body), {
@@ -27,6 +28,8 @@ export const POST: APIRoute = async ({ params }) => {
   if (!result) {
     return json({ error: "Error al unirse" }, 500);
   }
+
+  notify(code);
 
   return new Response(
     JSON.stringify({

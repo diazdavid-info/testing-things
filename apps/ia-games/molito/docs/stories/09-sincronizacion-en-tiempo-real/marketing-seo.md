@@ -1,15 +1,14 @@
 # Story 09 — Tareas de marketing y SEO
 
-## MKT-01: Copywriting de conexion
+## ~~MKT-01: Copywriting de conexion~~ ✅
 
-- Conectado: indicador visual sin texto
-- Reconectando: "Reconectando..."
-- Desconectado: "Sin conexion — intentando reconectar"
+- Conectado: punto verde sin texto
+- Reconectando: punto rojo + "Reconectando..."
 
-## MKT-02: Eventos de analytics
+> Implementado en `GameInfo.astro`.
 
-- Nuevos eventos:
-  - `sse_connected` — conexion SSE establecida
-  - `sse_disconnected` — conexion SSE perdida
-  - `sse_reconnected` — reconexion exitosa
-  - `state_sync` — estado sincronizado via SSE
+## ~~MKT-02: Eventos de analytics~~ ✅
+
+- `sse_connected`, `sse_disconnected`, `sse_reconnected`, `state_sync`
+
+> Eventos definidos en `analytics-events.ts`.

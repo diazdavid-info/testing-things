@@ -36,7 +36,11 @@ export type AnalyticsEvent =
   | { name: "piece_flew"; code: string; from: number; to: number; player: string }
   | { name: "game_result_view"; code: string; result: "win" | "loss"; reason: string }
   | { name: "click_new_game_from_result"; code: string }
-  | { name: "click_home_from_result"; code: string };
+  | { name: "click_home_from_result"; code: string }
+  | { name: "sse_connected"; code: string }
+  | { name: "sse_disconnected"; code: string }
+  | { name: "sse_reconnected"; code: string }
+  | { name: "state_sync"; code: string };
 
 /**
  * Track an analytics event. Currently a no-op stub.

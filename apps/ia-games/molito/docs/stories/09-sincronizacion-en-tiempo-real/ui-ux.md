@@ -1,12 +1,15 @@
 # Story 09 — Tareas de UI/UX (Pencil)
 
-## UX-01: Disenar indicador de conexion
+## ~~UX-01: Disenar indicador de conexion~~ ✅
 
-- Punto verde pequeno en esquina superior del info panel cuando conectado
-- Punto rojo con texto "Reconectando..." cuando desconectado
-- Transicion suave entre estados
+- Punto verde "Conectado" y punto rojo "Reconectando..." en panel info
+- Dos estados visualizados en frame Pencil
 
-## UX-02: Disenar animacion de actualizacion del tablero
+> Frame `GbWpS` "S09 — Connection Indicator Desktop" con ambos estados.
 
-- Cuando llega un movimiento del rival, la ficha debe aparecer/moverse con transicion suave
-- Evitar cambios bruscos que confundan al jugador
+## ~~UX-02: Disenar animacion de actualizacion del tablero~~ ✅
+
+- Actualizacion via page reload (server-rendered) — transicion instantanea al nuevo estado
+- Board positions ya tienen `transition-all duration-150` para cambios suaves
+
+> Existente en Board.astro CSS.

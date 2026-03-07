@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getGameByCode } from "../../../../lib/game";
 import { removePiece } from "../../../../lib/game-actions";
+import { notify } from "../../../../lib/game-events";
 
 const json = (body: object, status: number) =>
   new Response(JSON.stringify(body), {
@@ -50,6 +51,8 @@ export const POST: APIRoute = async ({ params, request }) => {
   if (!result.ok) {
     return json({ error: result.error }, 400);
   }
+
+  notify(code);
 
   return json(
     {
