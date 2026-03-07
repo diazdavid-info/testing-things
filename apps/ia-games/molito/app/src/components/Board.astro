@@ -1,5 +1,5 @@
 ---
-import { POSITIONS, getRemovablePositions } from "../lib/board";
+import { POSITIONS, ADJACENCY, getRemovablePositions, getValidMoves } from "../lib/board";
 import type { BoardCell, PlayerKey, GamePhase } from "../lib/game";
 
 interface Props {
@@ -36,6 +36,7 @@ const lines = [
 
 const canPlace = phase === "place" && turnState === "place" && turn === playerKey;
 const canRemove = turnState === "remove" && turn === playerKey;
+const canMove = (phase === "move" || phase === "fly") && turnState === "move" && turn === playerKey;
 const removablePositions = canRemove ? new Set(getRemovablePositions(board, playerKey)) : new Set<number>();
 ---
 
@@ -68,8 +69,11 @@ const removablePositions = canRemove ? new Set(getRemovablePositions(board, play
       const cell = board[idx];
       const isEmpty = cell === null;
       const isRemovable = removablePositions.has(idx);
-      const isClickable = (canPlace && isEmpty) || isRemovable;
+      const isOwnPiece = cell === playerKey;
+      const isMovable = canMove && isOwnPiece && getValidMoves(board, idx).length > 0;
+      const isClickable = (canPlace && isEmpty) || isRemovable || isMovable;
       const isProtectedRival = canRemove && !isEmpty && cell !== playerKey && !isRemovable;
+      const adjacentEmpty = canMove && isOwnPiece ? getValidMoves(board, idx).join(",") : "";
 
       let fill = "#E8E4DE";
       let strokeColor = "#B0AAA2";
@@ -98,6 +102,7 @@ const removablePositions = canRemove ? new Set(getRemovablePositions(board, play
         ? `Posicion ${idx}, vacia`
         : `Posicion ${idx}, ficha ${playerLabel}`;
       if (isRemovable) label += ", eliminable";
+      if (isMovable) label += ", seleccionable";
 
       return (
         <>
@@ -126,7 +131,9 @@ const removablePositions = canRemove ? new Set(getRemovablePositions(board, play
             data-position={idx}
             data-empty={isEmpty}
             data-clickable={isClickable}
-            data-action={isRemovable ? "remove" : "place"}
+            data-action={isRemovable ? "remove" : isMovable ? "select" : "place"}
+            data-owner={cell ?? "empty"}
+            data-adjacent={adjacentEmpty || undefined}
             role="button"
             aria-label={label}
             tabindex={isClickable ? "0" : "-1"}
@@ -141,23 +148,46 @@ const removablePositions = canRemove ? new Set(getRemovablePositions(board, play
   const container = document.getElementById("board-container")!;
   const code = container.dataset.code!;
   const playerId = container.dataset.playerId!;
+  const playerKey = container.dataset.playerKey!;
   let isProcessing = false;
+  let selectedFrom: number | null = null;
 
-  container.addEventListener("click", async (e) => {
-    const target = e.target as SVGCircleElement;
-    if (target.dataset.clickable !== "true" || isProcessing) return;
+  function clearSelection() {
+    container.querySelectorAll(".selected-piece").forEach((el) => el.classList.remove("selected-piece"));
+    container.querySelectorAll(".valid-dest").forEach((el) => {
+      el.classList.remove("valid-dest");
+      (el as SVGCircleElement).setAttribute("data-clickable", "false");
+      el.setAttribute("tabindex", "-1");
+    });
+    selectedFrom = null;
+  }
 
-    const position = Number(target.dataset.position);
-    const action = target.dataset.action === "remove" ? "remove" : "place";
+  function selectPiece(circle: SVGCircleElement, position: number) {
+    clearSelection();
+    selectedFrom = position;
+    circle.classList.add("selected-piece");
+
+    const adjacent = circle.dataset.adjacent;
+    if (!adjacent) return;
+    const destPositions = adjacent.split(",").map(Number);
+    for (const dest of destPositions) {
+      const destCircle = container.querySelector(`[data-position="${dest}"]`) as SVGCircleElement | null;
+      if (destCircle) {
+        destCircle.classList.add("valid-dest");
+        destCircle.setAttribute("data-clickable", "true");
+        destCircle.setAttribute("tabindex", "0");
+      }
+    }
+  }
+
+  async function sendAction(action: string, body: object) {
     isProcessing = true;
-
     try {
       const res = await fetch(`/api/games/${code}/${action}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ position, playerId }),
+        body: JSON.stringify(body),
       });
-
       if (res.ok) {
         window.location.reload();
       } else {
@@ -168,16 +198,68 @@ const removablePositions = canRemove ? new Set(getRemovablePositions(board, play
     } catch {
       isProcessing = false;
     }
+  }
+
+  container.addEventListener("click", async (e) => {
+    const target = e.target as SVGCircleElement;
+    if (!target.dataset.position || isProcessing) return;
+
+    const position = Number(target.dataset.position);
+    const action = target.dataset.action;
+
+    // Move mode: two-step flow
+    if (action === "select") {
+      if (selectedFrom === position) {
+        clearSelection();
+      } else {
+        selectPiece(target, position);
+      }
+      return;
+    }
+
+    // Clicking a valid destination while a piece is selected
+    if (selectedFrom !== null && target.classList.contains("valid-dest")) {
+      await sendAction("move", { from: selectedFrom, to: position, playerId });
+      return;
+    }
+
+    // If in move mode and clicking another own piece, change selection
+    if (selectedFrom !== null && target.dataset.owner === playerKey && target.dataset.adjacent) {
+      selectPiece(target, position);
+      return;
+    }
+
+    // Place or remove actions
+    if (target.dataset.clickable !== "true") return;
+
+    if (action === "remove") {
+      await sendAction("remove", { position, playerId });
+    } else if (action === "place") {
+      await sendAction("place", { position, playerId });
+    }
   });
 
   // Keyboard support
   container.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       const target = e.target as SVGCircleElement;
-      if (target.dataset.clickable === "true") {
+      if (target.dataset.clickable === "true" || target.dataset.action === "select" || target.classList.contains("valid-dest")) {
         e.preventDefault();
         (target as HTMLElement).click();
       }
     }
   });
 </script>
+
+<style>
+  .selected-piece {
+    filter: drop-shadow(0 0 6px rgba(200, 112, 42, 0.8));
+    transform-origin: center;
+  }
+  .valid-dest {
+    fill: rgba(76, 175, 80, 0.4) !important;
+    stroke: #4CAF50 !important;
+    stroke-width: 2 !important;
+    cursor: pointer !important;
+  }
+</style>

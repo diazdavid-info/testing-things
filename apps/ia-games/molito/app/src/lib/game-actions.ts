@@ -1,5 +1,5 @@
 import type { Game, PlayerKey } from "./game";
-import { checkMill, getRemovablePositions } from "./board";
+import { ADJACENCY, checkMill, getRemovablePositions, isPlayerBlocked } from "./board";
 
 export type PlaceResult =
   | { ok: true; mill: boolean }
@@ -7,6 +7,10 @@ export type PlaceResult =
 
 export type RemoveResult =
   | { ok: true }
+  | { ok: false; error: string };
+
+export type MoveResult =
+  | { ok: true; mill: boolean }
   | { ok: false; error: string };
 
 export function placePiece(
@@ -131,4 +135,71 @@ export function removePiece(
   }
 
   return { ok: true };
+}
+
+function isValidPosition(pos: number): boolean {
+  return Number.isInteger(pos) && pos >= 0 && pos <= 23;
+}
+
+export function movePiece(
+  game: Game,
+  from: number,
+  to: number,
+  playerKey: PlayerKey,
+): MoveResult {
+  if (game.status !== "playing") {
+    return { ok: false, error: "La partida no esta en curso" };
+  }
+
+  if (game.phase !== "move" && game.phase !== "fly") {
+    return { ok: false, error: "No estas en fase de movimiento" };
+  }
+
+  if (game.turnState !== "move") {
+    return { ok: false, error: "No estas en estado de movimiento" };
+  }
+
+  if (game.turn !== playerKey) {
+    return { ok: false, error: "Espera tu turno" };
+  }
+
+  if (!isValidPosition(from) || !isValidPosition(to)) {
+    return { ok: false, error: "Posicion invalida" };
+  }
+
+  if (game.board[from] !== playerKey) {
+    return { ok: false, error: "Solo puedes mover tus fichas" };
+  }
+
+  if (game.board[to] !== null) {
+    return { ok: false, error: "Esa posicion ya esta ocupada" };
+  }
+
+  // In move phase, must be adjacent. In fly phase, any empty position is valid.
+  if (game.phase === "move" && !ADJACENCY[from].includes(to)) {
+    return { ok: false, error: "Solo puedes mover a posiciones adyacentes" };
+  }
+
+  // Move the piece
+  game.board[from] = null;
+  game.board[to] = playerKey;
+
+  // Check if a mill was formed at the destination
+  const mill = checkMill(game.board, to, playerKey);
+
+  if (mill) {
+    game.turnState = "remove";
+  } else {
+    const rival: PlayerKey = playerKey === "player1" ? "player2" : "player1";
+    game.turn = rival;
+    game.turnState = "move";
+
+    // Check if the rival is blocked (no valid moves)
+    if (isPlayerBlocked(game.board, rival)) {
+      game.status = "finished";
+      game.winner = playerKey;
+    }
+  }
+
+  return { ok: true, mill };
 }

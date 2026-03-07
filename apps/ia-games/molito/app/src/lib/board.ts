@@ -176,6 +176,21 @@ export function getRemovablePositions(
   return notInMill.length > 0 ? notInMill : rivalPositions;
 }
 
+/** Get valid moves (empty adjacent positions) for a piece at `position`. */
+export function getValidMoves(board: BoardCell[], position: number): number[] {
+  return ADJACENCY[position].filter((adj) => board[adj] === null);
+}
+
+/** Check if a player has no valid moves (all pieces blocked). */
+export function isPlayerBlocked(board: BoardCell[], playerKey: PlayerKey): boolean {
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === playerKey && getValidMoves(board, i).length > 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
 /**
  * Get the mills that were completed by placing at `position` for `playerKey`.
  * Returns an array of [a, b, c] tuples for each completed mill.
