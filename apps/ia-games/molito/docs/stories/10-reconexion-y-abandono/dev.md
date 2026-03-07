@@ -1,31 +1,32 @@
 # Story 10 — Tareas de desarrollo
 
-> Nota: La reconexion basica ya funciona — las cookies `playerId_{code}` persisten y la pagina del juego reconoce al jugador. El SSE reconecta automaticamente. El trabajo principal es detectar desconexion del rival, mostrar avisos, y permitir reclamar victoria.
+## ~~DEV-01: Tracking de conexion de jugadores~~ ✅
 
-## DEV-01: Tracking de conexion de jugadores
+- Campo `lastSeen: { player1: number | null, player2: number | null }` en Game
+- Actualizado en SSE stream al conectar y cada 10s via heartbeat
+- Grace period de 15s para determinar desconexion
 
-- Agregar `lastSeen: { player1: number | null, player2: number | null }` al Game (timestamps)
-- Actualizar `lastSeen` cuando un jugador se conecta al SSE stream
-- Cuando un jugador se desconecta del SSE, no actualizar mas su timestamp
-- Crear funcion `isPlayerDisconnected(game, playerKey, gracePeriodMs = 15000): boolean`
+> Implementado en `game.ts` y `stream.ts`.
 
-## DEV-02: Notificacion de desconexion al rival
+## ~~DEV-02: Notificacion de desconexion al rival~~ ✅
 
-- En el stream SSE, incluir campo `connected: { player1: boolean, player2: boolean }` en cada evento
-- El cliente muestra banner "Tu rival se ha desconectado" cuando `connected[rivalKey]` es false
-- El banner desaparece automaticamente cuando el rival reconecta
-- Periodo de gracia de 15 segundos antes de mostrar aviso
+- SSE incluye `connected: { player1, player2 }` en cada evento
+- Cliente muestra banner "Tu rival se ha desconectado" cuando rival no conectado
+- Banner desaparece al reconectar
 
-## DEV-03: Reclamar victoria por abandono
+> Implementado en `stream.ts` y `[code].astro`.
 
-- Endpoint `POST /api/games/{code}/claim-victory` con body `{ playerId }`
-- Validaciones: partida en curso, jugador valido, rival desconectado por mas de 5 minutos
-- Setea `status: "finished"`, `winner: playerKey`, `winReason: "abandon"`
-- Agregar "abandon" al tipo `WinReason`
-- Tests: claim exitoso, claim rechazado si rival esta conectado
+## ~~DEV-03: Reclamar victoria por abandono~~ ✅
 
-## DEV-04: UI de reclamar victoria
+- Endpoint `POST /api/games/{code}/claim-victory`
+- Valida: partida en curso, rival desconectado 5+ minutos
+- `winReason: "abandon"` agregado al tipo `WinReason`
 
-- Despues de que el banner de desconexion este visible por 5 minutos, mostrar boton "Reclamar victoria"
-- Al pulsar, enviar POST a `/api/games/{code}/claim-victory`
-- Si exitoso, recargar para mostrar pantalla de resultado
+> Implementado en `claim-victory.ts`. 6 tests en `claim-victory.test.ts`.
+
+## ~~DEV-04: UI de reclamar victoria~~ ✅
+
+- Banner con boton "Reclamar victoria" visible despues de 5 min
+- Click envia POST a claim-victory y recarga
+
+> Implementado en `[code].astro` con banner y script.

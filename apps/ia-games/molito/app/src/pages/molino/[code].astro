@@ -102,6 +102,18 @@ const pageDescription = game
     </div>
   ) : game.status === "playing" && isKnownPlayer ? (
     <div class="w-full max-w-5xl mx-auto px-4 sm:px-6">
+      <div id="disconnect-banner" class="hidden mb-4 flex items-center gap-3 bg-[#FFF3E0] text-[#C8702A] rounded-xl px-4 py-3 font-medium text-sm">
+        <span>⚠️</span>
+        <span>Tu rival se ha desconectado</span>
+        <button
+          id="claim-victory-btn"
+          class="hidden ml-auto bg-[#C8702A] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#A85A1E] transition-colors"
+          data-code={code}
+          data-player-id={playerId}
+        >
+          Reclamar victoria
+        </button>
+      </div>
       <div class="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start">
         <div class="flex-1 w-full lg:max-w-[540px]">
           <Board
@@ -225,26 +237,54 @@ const pageDescription = game
   const boardContainer = document.getElementById("board-container");
   const waitingRoom = document.getElementById("waiting-room");
   const gameCode = boardContainer?.dataset.code || waitingRoom?.dataset.code;
+  const ssePlayerId = boardContainer?.dataset.playerId || "";
+  const ssePlayerKey = boardContainer?.dataset.playerKey || "";
   const connIndicator = document.getElementById("conn-indicator");
+  const disconnBanner = document.getElementById("disconnect-banner");
 
   if (gameCode && (boardContainer || waitingRoom)) {
     let lastState = "";
     let retryDelay = 1000;
+    let rivalDisconnectedSince: number | null = null;
+
+    function updateDisconnectBanner(connected: Record<string, boolean>) {
+      if (!disconnBanner || !ssePlayerKey) return;
+      const rivalKey = ssePlayerKey === "player1" ? "player2" : "player1";
+      const rivalConnected = connected[rivalKey];
+
+      if (!rivalConnected) {
+        if (!rivalDisconnectedSince) rivalDisconnectedSince = Date.now();
+        disconnBanner.classList.remove("hidden");
+        const elapsed = Date.now() - rivalDisconnectedSince;
+        const claimBtn = document.getElementById("claim-victory-btn");
+        if (claimBtn && elapsed >= 5 * 60 * 1000) {
+          claimBtn.classList.remove("hidden");
+        }
+      } else {
+        rivalDisconnectedSince = null;
+        disconnBanner.classList.add("hidden");
+      }
+    }
 
     function connectSSE() {
-      const es = new EventSource(`/api/games/${gameCode}/stream`);
+      const es = new EventSource(`/api/games/${gameCode}/stream?playerId=${ssePlayerId}`);
 
       es.onopen = () => {
         retryDelay = 1000;
         if (connIndicator) {
           connIndicator.dataset.status = "connected";
-          connIndicator.textContent = "";
+          const txt = connIndicator.querySelector(".conn-text") as HTMLElement;
+          if (txt) txt.textContent = "";
         }
       };
 
       es.onmessage = (event) => {
         if (!event.data) return;
         const stateStr = event.data;
+        try {
+          const state = JSON.parse(stateStr);
+          if (state.connected) updateDisconnectBanner(state.connected);
+        } catch { /* ignore */ }
         if (lastState && stateStr !== lastState) {
           window.location.reload();
         }
@@ -255,7 +295,8 @@ const pageDescription = game
         es.close();
         if (connIndicator) {
           connIndicator.dataset.status = "disconnected";
-          connIndicator.textContent = "Reconectando...";
+          const txt = connIndicator.querySelector(".conn-text") as HTMLElement;
+          if (txt) txt.textContent = "Reconectando...";
         }
         setTimeout(connectSSE, retryDelay);
         retryDelay = Math.min(retryDelay * 2, 30_000);
@@ -263,6 +304,25 @@ const pageDescription = game
     }
 
     connectSSE();
+  }
+
+  // Claim victory button
+  const claimBtn = document.getElementById("claim-victory-btn");
+  if (claimBtn) {
+    claimBtn.addEventListener("click", async () => {
+      const claimCode = claimBtn.dataset.code!;
+      const claimPlayerId = claimBtn.dataset.playerId!;
+      try {
+        const res = await fetch(`/api/games/${claimCode}/claim-victory`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ playerId: claimPlayerId }),
+        });
+        if (res.ok) {
+          window.location.reload();
+        }
+      } catch { /* ignore */ }
+    });
   }
 
   const autoJoinScreen = document.getElementById("auto-join-screen");

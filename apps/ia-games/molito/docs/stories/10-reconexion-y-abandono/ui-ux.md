@@ -1,13 +1,13 @@
 # Story 10 — Tareas de UI/UX (Pencil)
 
-## UX-01: Disenar banner de desconexion del rival
+## ~~UX-01: Disenar banner de desconexion del rival~~ ✅
 
-- Banner amarillo/naranja en la parte superior del tablero: "Tu rival se ha desconectado"
-- Icono de alerta, texto descriptivo
-- Debe ser no intrusivo pero visible
+- Banner naranja con icono ⚠️ y texto "Tu rival se ha desconectado"
 
-## UX-02: Disenar estado de reclamar victoria
+> Frame `jy5Ob` "S10 — Rival Disconnected Desktop" con ambos estados.
 
-- Despues de 5 minutos: el banner cambia a incluir boton "Reclamar victoria"
-- Mensaje: "Tu rival lleva 5 minutos desconectado"
-- Boton prominente
+## ~~UX-02: Disenar estado de reclamar victoria~~ ✅
+
+- Banner expandido con boton "Reclamar victoria" tras 5 min
+
+> Incluido en frame S10.

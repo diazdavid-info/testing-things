@@ -9,7 +9,7 @@ export type GameStatus = "waiting" | "playing" | "finished";
 export type GamePhase = "place" | "move" | "fly";
 export type TurnState = "place" | "move" | "remove";
 export type PlayerKey = "player1" | "player2";
-export type WinReason = "elimination" | "block" | null;
+export type WinReason = "elimination" | "block" | "abandon" | null;
 
 export interface Game {
   id: string;
@@ -23,6 +23,7 @@ export interface Game {
   turnState: TurnState;
   winner: PlayerKey | null;
   winReason: WinReason;
+  lastSeen: { player1: number | null; player2: number | null };
   createdAt: string;
 }
 
@@ -70,6 +71,7 @@ export function createGame(): Game {
     turnState: "place",
     winner: null,
     winReason: null,
+    lastSeen: { player1: null, player2: null },
     createdAt: new Date().toISOString(),
   };
   store.set(code, game);
