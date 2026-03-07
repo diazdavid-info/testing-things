@@ -8,8 +8,9 @@ interface Props {
   player2: { piecesToPlace: number; piecesOnBoard: number };
 }
 
-const { turn, phase, playerKey, player1, player2 } = Astro.props;
+const { turn, phase, turnState, playerKey, player1, player2 } = Astro.props;
 const isMyTurn = turn === playerKey;
+const isRemoveMode = turnState === "remove";
 const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
 ---
 
@@ -17,9 +18,11 @@ const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
   <div
     class:list={[
       "flex items-center gap-3 rounded-xl px-4 py-3 font-heading font-semibold text-base",
-      isMyTurn
-        ? "bg-[#FFF3E0] text-accent-primary"
-        : "bg-bg-surface-subtle text-text-secondary",
+      isRemoveMode && isMyTurn
+        ? "bg-red-50 text-red-700"
+        : isMyTurn
+          ? "bg-[#FFF3E0] text-accent-primary"
+          : "bg-bg-surface-subtle text-text-secondary",
     ]}
     id="turn-indicator"
     data-my-turn={isMyTurn}
@@ -29,10 +32,18 @@ const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
     <span
       class:list={[
         "w-3 h-3 rounded-full",
-        isMyTurn ? "bg-accent-primary animate-pulse" : "bg-text-muted",
+        isRemoveMode && isMyTurn ? "bg-red-600 animate-pulse"
+        : isMyTurn ? "bg-accent-primary animate-pulse"
+        : "bg-text-muted",
       ]}
     ></span>
-    {isMyTurn ? "Tu turno" : "Turno del rival"}
+    {isRemoveMode && isMyTurn
+      ? "¡Molino! Elimina una ficha rival"
+      : isRemoveMode && !isMyTurn
+        ? "El rival esta eliminando una ficha..."
+        : isMyTurn
+          ? "Tu turno"
+          : "Turno del rival"}
   </div>
 
   <div class="inline-flex">

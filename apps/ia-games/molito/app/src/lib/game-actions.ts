@@ -1,8 +1,12 @@
 import type { Game, PlayerKey } from "./game";
-import { checkMill } from "./board";
+import { checkMill, getRemovablePositions } from "./board";
 
 export type PlaceResult =
   | { ok: true; mill: boolean }
+  | { ok: false; error: string };
+
+export type RemoveResult =
+  | { ok: true }
   | { ok: false; error: string };
 
 export function placePiece(
@@ -60,4 +64,71 @@ export function placePiece(
   }
 
   return { ok: true, mill };
+}
+
+export function removePiece(
+  game: Game,
+  position: number,
+  playerKey: PlayerKey,
+): RemoveResult {
+  if (game.status !== "playing") {
+    return { ok: false, error: "La partida no esta en curso" };
+  }
+
+  if (game.turnState !== "remove") {
+    return { ok: false, error: "No estas en estado de eliminacion" };
+  }
+
+  if (game.turn !== playerKey) {
+    return { ok: false, error: "Espera tu turno" };
+  }
+
+  if (position < 0 || position > 23 || !Number.isInteger(position)) {
+    return { ok: false, error: "Posicion invalida" };
+  }
+
+  if (game.board[position] === null) {
+    return { ok: false, error: "Selecciona una ficha del rival" };
+  }
+
+  if (game.board[position] === playerKey) {
+    return { ok: false, error: "Solo puedes eliminar fichas del rival" };
+  }
+
+  const removable = getRemovablePositions(game.board, playerKey);
+  if (!removable.includes(position)) {
+    return { ok: false, error: "No puedes eliminar una ficha que esta en un molino" };
+  }
+
+  // Remove the piece
+  const rival: PlayerKey = playerKey === "player1" ? "player2" : "player1";
+  game.board[position] = null;
+  const rivalPlayer = game[rival]!;
+  rivalPlayer.piecesOnBoard--;
+
+  // Check if rival has fewer than 3 pieces and no pieces left to place
+  if (rivalPlayer.piecesOnBoard < 3 && rivalPlayer.piecesToPlace === 0) {
+    game.status = "finished";
+    game.winner = playerKey;
+    return { ok: true };
+  }
+
+  // Switch turn
+  game.turn = rival;
+
+  // Restore turnState based on current phase
+  if (game.phase === "place") {
+    game.turnState = "place";
+    // Check if both players have placed all pieces
+    const p1 = game.player1;
+    const p2 = game.player2;
+    if (p1.piecesToPlace === 0 && p2 && p2.piecesToPlace === 0) {
+      game.phase = "move";
+      game.turnState = "move";
+    }
+  } else {
+    game.turnState = "move";
+  }
+
+  return { ok: true };
 }

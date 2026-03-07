@@ -144,3 +144,54 @@ export function checkMill(
   }
   return false;
 }
+
+/** Check if a specific position is part of any active mill for its owner. */
+function isInMill(board: BoardCell[], position: number): boolean {
+  const owner = board[position];
+  if (!owner) return false;
+  return checkMill(board, position, owner);
+}
+
+/**
+ * Get positions of rival pieces that can be removed by `playerKey`.
+ * Returns rival pieces NOT in a mill, unless ALL rival pieces are in mills.
+ */
+export function getRemovablePositions(
+  board: BoardCell[],
+  playerKey: PlayerKey,
+): number[] {
+  const rival: PlayerKey = playerKey === "player1" ? "player2" : "player1";
+  const rivalPositions: number[] = [];
+  const notInMill: number[] = [];
+
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === rival) {
+      rivalPositions.push(i);
+      if (!isInMill(board, i)) {
+        notInMill.push(i);
+      }
+    }
+  }
+
+  return notInMill.length > 0 ? notInMill : rivalPositions;
+}
+
+/**
+ * Get the mills that were completed by placing at `position` for `playerKey`.
+ * Returns an array of [a, b, c] tuples for each completed mill.
+ */
+export function getFormedMills(
+  board: BoardCell[],
+  position: number,
+  playerKey: PlayerKey,
+): number[][] {
+  const result: number[][] = [];
+  for (const millIdx of POSITION_MILLS[position]) {
+    const mill = MILLS[millIdx];
+    const [a, b, c] = mill;
+    if (board[a] === playerKey && board[b] === playerKey && board[c] === playerKey) {
+      result.push([...mill]);
+    }
+  }
+  return result;
+}

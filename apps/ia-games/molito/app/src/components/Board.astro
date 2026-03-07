@@ -1,5 +1,5 @@
 ---
-import { POSITIONS } from "../lib/board";
+import { POSITIONS, getRemovablePositions } from "../lib/board";
 import type { BoardCell, PlayerKey, GamePhase } from "../lib/game";
 
 interface Props {
@@ -35,6 +35,8 @@ const lines = [
 ];
 
 const canPlace = phase === "place" && turnState === "place" && turn === playerKey;
+const canRemove = turnState === "remove" && turn === playerKey;
+const removablePositions = canRemove ? new Set(getRemovablePositions(board, playerKey)) : new Set<number>();
 ---
 
 <div class="w-full max-w-[480px] mx-auto" id="board-container" data-code={code} data-player-id={playerId} data-player-key={playerKey}>
@@ -65,11 +67,14 @@ const canPlace = phase === "place" && turnState === "place" && turn === playerKe
       const cy = toPixel(pos.y);
       const cell = board[idx];
       const isEmpty = cell === null;
-      const isClickable = canPlace && isEmpty;
+      const isRemovable = removablePositions.has(idx);
+      const isClickable = (canPlace && isEmpty) || isRemovable;
+      const isProtectedRival = canRemove && !isEmpty && cell !== playerKey && !isRemovable;
 
       let fill = "#E8E4DE";
       let strokeColor = "#B0AAA2";
       let radius = 10;
+      let opacity = 1;
 
       if (cell === "player1") {
         fill = "#C8702A";
@@ -81,30 +86,52 @@ const canPlace = phase === "place" && turnState === "place" && turn === playerKe
         radius = 12;
       }
 
-      const label = isEmpty
+      if (isRemovable) {
+        strokeColor = "#D4A843";
+        radius = 14;
+      } else if (isProtectedRival) {
+        opacity = 0.35;
+      }
+
+      const playerLabel = cell === "player1" ? "Jugador 1" : "Jugador 2";
+      let label = isEmpty
         ? `Posicion ${idx}, vacia`
-        : `Posicion ${idx}, ficha ${cell === "player1" ? "Jugador 1" : "Jugador 2"}`;
+        : `Posicion ${idx}, ficha ${playerLabel}`;
+      if (isRemovable) label += ", eliminable";
 
       return (
-        <circle
-          cx={cx}
-          cy={cy}
-          r={radius}
-          fill={fill}
-          stroke={strokeColor}
-          stroke-width={isEmpty ? "1" : "2"}
-          class:list={[
-            "board-position transition-all duration-150",
-            isClickable && "cursor-pointer hover:r-[14] hover:opacity-80",
-            !isClickable && !isEmpty && "cursor-default",
-          ]}
-          data-position={idx}
-          data-empty={isEmpty}
-          data-clickable={isClickable}
-          role="button"
-          aria-label={label}
-          tabindex={isClickable ? "0" : "-1"}
-        />
+        <>
+          {isRemovable && (
+            <circle
+              cx={cx}
+              cy={cy}
+              r="18"
+              fill="#D4A84330"
+              class="animate-pulse"
+            />
+          )}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={radius}
+            fill={fill}
+            stroke={strokeColor}
+            stroke-width={isRemovable ? "3" : isEmpty ? "1" : "2"}
+            opacity={opacity}
+            class:list={[
+              "board-position transition-all duration-150",
+              isClickable && "cursor-pointer hover:opacity-80",
+              !isClickable && "cursor-default",
+            ]}
+            data-position={idx}
+            data-empty={isEmpty}
+            data-clickable={isClickable}
+            data-action={isRemovable ? "remove" : "place"}
+            role="button"
+            aria-label={label}
+            tabindex={isClickable ? "0" : "-1"}
+          />
+        </>
       );
     })}
   </svg>
@@ -121,21 +148,21 @@ const canPlace = phase === "place" && turnState === "place" && turn === playerKe
     if (target.dataset.clickable !== "true" || isProcessing) return;
 
     const position = Number(target.dataset.position);
+    const action = target.dataset.action === "remove" ? "remove" : "place";
     isProcessing = true;
 
     try {
-      const res = await fetch(`/api/games/${code}/place`, {
+      const res = await fetch(`/api/games/${code}/${action}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ position, playerId }),
       });
 
       if (res.ok) {
-        // Reload to get fresh server-rendered state
         window.location.reload();
       } else {
         const data = await res.json();
-        console.error("Place error:", data.error);
+        console.error(`${action} error:`, data.error);
         isProcessing = false;
       }
     } catch {
@@ -149,7 +176,7 @@ const canPlace = phase === "place" && turnState === "place" && turn === playerKe
       const target = e.target as SVGCircleElement;
       if (target.dataset.clickable === "true") {
         e.preventDefault();
-        target.click();
+        (target as HTMLElement).click();
       }
     }
   });

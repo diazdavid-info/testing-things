@@ -24,7 +24,10 @@ export type AnalyticsEvent =
   | { name: "piece_placed"; code: string; position: number; player: string; pieces_remaining: number }
   | { name: "phase_changed"; code: string; from: string; to: string }
   | { name: "mill_formed"; code: string; player: string }
-  | { name: "invalid_move_attempt"; code: string; reason: string };
+  | { name: "invalid_move_attempt"; code: string; reason: string }
+  | { name: "piece_removed"; code: string; position: number; player_who_removed: string; pieces_remaining_rival: number }
+  | { name: "invalid_remove_attempt"; code: string; reason: string }
+  | { name: "game_ended_by_elimination"; code: string; winner: string };
 
 /**
  * Track an analytics event. Currently a no-op stub.
