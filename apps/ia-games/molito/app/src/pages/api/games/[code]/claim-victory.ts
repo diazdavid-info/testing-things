@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import type { PlayerKey } from "../../../../lib/game";
 import { notify } from "../../../../lib/game-events";
-import { json, parseJsonBody, requireGame, requirePlayer, isResponse } from "../../../../lib/api-helpers";
+import { json, parseJsonBody, requireGame, requirePlayer, isResponse, validatePlayerId } from "../../../../lib/api-helpers";
 
 const ABANDON_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -17,8 +17,8 @@ export const POST: APIRoute = async ({ params, request }) => {
   if (isResponse(body)) return body;
 
   const { playerId } = body;
-  if (!playerId) {
-    return json({ error: "Falta parametro: playerId" }, 400);
+  if (!validatePlayerId(playerId)) {
+    return json({ error: "Parametros invalidos" }, 400);
   }
 
   const playerKey = requirePlayer(game, playerId);

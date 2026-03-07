@@ -45,8 +45,13 @@ export const GET: APIRoute = async ({ params, request }) => {
   const url = new URL(request.url);
   const playerId = url.searchParams.get("playerId");
   let playerKey: PlayerKey | null = null;
-  if (game.player1.id === playerId) playerKey = "player1";
-  else if (game.player2?.id === playerId) playerKey = "player2";
+  if (playerId && game.player1.id === playerId) playerKey = "player1";
+  else if (playerId && game.player2?.id === playerId) playerKey = "player2";
+
+  // Reject unauthenticated connections
+  if (!playerKey) {
+    return new Response("Forbidden", { status: 403 });
+  }
 
   const stream = new ReadableStream({
     start(controller) {
@@ -108,6 +113,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       "Connection": "keep-alive",
+      "X-Content-Type-Options": "nosniff",
     },
   });
 };

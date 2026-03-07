@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { createGame } from "../../../lib/game";
+import { setCookieHeader } from "../../../lib/api-helpers";
 
 export const POST: APIRoute = async () => {
   const game = createGame();
@@ -14,7 +15,8 @@ export const POST: APIRoute = async () => {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": `playerId_${game.code}=${game.player1.id}; Path=/; SameSite=Lax`,
+        "X-Content-Type-Options": "nosniff",
+        "Set-Cookie": setCookieHeader(game.code, game.player1.id),
       },
     },
   );

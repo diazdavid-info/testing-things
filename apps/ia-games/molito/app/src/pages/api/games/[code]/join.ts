@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { getGameByCode, joinGame } from "../../../../lib/game";
 import { notify } from "../../../../lib/game-events";
-import { json } from "../../../../lib/api-helpers";
+import { json, setCookieHeader } from "../../../../lib/api-helpers";
 
 export const POST: APIRoute = async ({ params }) => {
   const code = params.code!;
@@ -37,7 +37,8 @@ export const POST: APIRoute = async ({ params }) => {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Set-Cookie": `playerId_${code}=${result.playerId}; Path=/; SameSite=Lax`,
+        "X-Content-Type-Options": "nosniff",
+        "Set-Cookie": setCookieHeader(code, result.playerId),
       },
     },
   );

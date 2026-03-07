@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { removePiece } from "../../../../lib/game-actions";
 import { notify } from "../../../../lib/game-events";
-import { json, parseJsonBody, requireGame, requirePlayer, isResponse } from "../../../../lib/api-helpers";
+import { json, parseJsonBody, requireGame, requirePlayer, isResponse, validatePosition, validatePlayerId } from "../../../../lib/api-helpers";
 
 export const POST: APIRoute = async ({ params, request }) => {
   const game = requireGame(params.code!);
@@ -19,8 +19,8 @@ export const POST: APIRoute = async ({ params, request }) => {
   if (isResponse(body)) return body;
 
   const { position, playerId } = body;
-  if (position === undefined || !playerId) {
-    return json({ error: "Faltan parametros: position y playerId" }, 400);
+  if (!validatePosition(position) || !validatePlayerId(playerId)) {
+    return json({ error: "Parametros invalidos" }, 400);
   }
 
   const playerKey = requirePlayer(game, playerId);

@@ -39,7 +39,7 @@ describe("POST /api/games (real)", () => {
     const cookie = res.headers.get("set-cookie") ?? res.headers.get("Set-Cookie");
     expect(cookie).not.toBeNull();
     expect(cookie).toContain(`playerId_${data.code}=${data.playerId}`);
-    expect(cookie).toContain("SameSite=Lax");
+    expect(cookie).toContain("SameSite=Strict");
   });
 });
 
