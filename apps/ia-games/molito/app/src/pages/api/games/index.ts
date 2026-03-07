@@ -1,21 +1,18 @@
 import type { APIRoute } from "astro";
-
-function generateCode(length = 4): string {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let code = "";
-  for (let i = 0; i < length; i++) {
-    code += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return code;
-}
+import { createGame } from "../../../lib/game";
 
 export const POST: APIRoute = async () => {
-  const code = generateCode();
-  const id = crypto.randomUUID();
-  const playerId = crypto.randomUUID();
+  const game = createGame();
 
-  return new Response(JSON.stringify({ id, code, playerId }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  return new Response(
+    JSON.stringify({
+      id: game.id,
+      code: game.code,
+      playerId: game.player1.id,
+    }),
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    },
+  );
 };

@@ -10,7 +10,12 @@ export type AnalyticsEvent =
   | { name: "click_join_game"; code: string }
   | { name: "join_error"; code: string; error_type: "not_found" | "full" | "finished" | "network" }
   | { name: "game_created"; code: string }
-  | { name: "game_joined"; code: string };
+  | { name: "game_joined"; code: string }
+  | { name: "waiting_room_view"; code: string }
+  | { name: "copy_link"; code: string }
+  | { name: "copy_code"; code: string }
+  | { name: "opponent_joined"; code: string }
+  | { name: "waiting_room_exit"; code: string };
 
 /**
  * Track an analytics event. Currently a no-op stub.

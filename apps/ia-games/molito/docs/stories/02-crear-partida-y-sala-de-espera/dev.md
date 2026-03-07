@@ -1,6 +1,6 @@
 # Story 02 — Tareas de desarrollo
 
-## DEV-01: Modelo de datos y persistencia de partida
+## ~~DEV-01: Modelo de datos y persistencia de partida~~ ✅
 
 - Definir el modelo `Game` en `src/lib/game.ts`:
   - `id: string` (UUID)
@@ -28,7 +28,9 @@
 - Test: los codigos generados son unicos (crear 100 partidas, verificar no duplicados)
 - Test: el player1 tiene `piecesToPlace: 9` y `piecesOnBoard: 0`
 
-## DEV-02: API real de creacion de partida
+> Implementado en `src/lib/game.ts`. Modelo `Game`, `Player`, store en memoria, funciones `createGame`, `getGameByCode`, `getGameById`, `joinGame`, `clearStore`. Tests en `test/game-model.test.ts` (8 tests).
+
+## ~~DEV-02: API real de creacion de partida~~ ✅
 
 - Reemplazar el stub de `POST /api/games` con la implementacion real
 - Llamar a `createGame()` del store
@@ -41,7 +43,9 @@
 - Test: la partida creada tiene status `waiting`
 - Test: el code tiene 4 caracteres alfanumericos
 
-## DEV-03: Pagina de sala de espera
+> Implementado en `src/pages/api/games/index.ts`. Llama a `createGame()`, devuelve `{ id, code, playerId }`. Tests en `test/api-games.test.ts`.
+
+## ~~DEV-03: Pagina de sala de espera~~ ✅
 
 - Crear la ruta `src/pages/molino/[code].astro`
 - Al acceder, buscar la partida por codigo en el store
@@ -54,7 +58,9 @@
 - Test: acceder a `/molino/ABCD` con partida existente en `waiting` renderiza sala de espera
 - Test: acceder a `/molino/XXXX` sin partida devuelve mensaje de error
 
-## DEV-04: Componente sala de espera
+> Implementado en `src/pages/molino/[code].astro`. Muestra WaitingRoom si `waiting`, placeholder si `playing`, error si no existe. Tests en `test/create-game.test.ts`.
+
+## ~~DEV-04: Componente sala de espera~~ ✅
 
 - Crear `src/components/WaitingRoom.astro`
 - Mostrar el codigo de partida en grande y destacado (font monospace o heading grande)
@@ -71,7 +77,9 @@
 - Test: el codigo de partida se muestra en pantalla
 - Test: el indicador "Esperando jugador..." esta visible
 
-## DEV-05: Polling o WebSocket para detectar union del rival
+> Implementado en `src/components/WaitingRoom.astro`. Codigo destacado, botones copiar link/codigo con feedback "Copiado!" (2s), indicador animado, polling. Tests en `test/waiting-room.test.ts` (5 tests).
+
+## ~~DEV-05: Polling o WebSocket para detectar union del rival~~ ✅
 
 - Implementar polling cada 3 segundos a `GET /api/games/{code}/status`
 - El endpoint devuelve `{ status: "waiting" | "playing" | "finished" }`
@@ -84,7 +92,9 @@
 - Test: cuando el status cambia a `playing`, se redirige
 - Test: el polling se detiene al abandonar la pagina (cleanup)
 
-## DEV-06: API de estado de partida
+> Implementado en `WaitingRoom.astro`. Polling cada 3s a `/api/games/{code}/status`, redirige al detectar `playing`, pausa con `visibilitychange`.
+
+## ~~DEV-06: API de estado de partida~~ ✅
 
 - Crear endpoint `GET /api/games/{code}/status`
 - Devuelve `{ status, playerCount }` donde `playerCount` es 1 o 2
@@ -93,3 +103,5 @@
 **Tests:**
 - Test: `GET /api/games/{code}/status` devuelve status correcto para partida en `waiting`
 - Test: devuelve 404 para codigo inexistente
+
+> Implementado en `src/pages/api/games/[code]/status.ts`. Devuelve `{ status, playerCount }` o 404. Tests en `test/api-games.test.ts` (3 tests).

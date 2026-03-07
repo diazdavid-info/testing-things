@@ -1,0 +1,140 @@
+---
+interface Props {
+  code: string;
+}
+
+const { code } = Astro.props;
+const gameUrl = `${Astro.url.origin}/molino/${code}`;
+---
+
+<div class="w-full max-w-lg mx-auto px-6">
+  <div class="bg-bg-surface border border-border rounded-2xl p-12 sm:p-12 p-8 flex flex-col items-center gap-8">
+    <div class="flex flex-col items-center gap-2">
+      <h1 class="font-heading text-2xl sm:text-[28px] font-semibold text-text-primary tracking-tight">
+        Tu partida esta lista
+      </h1>
+      <p class="text-sm text-text-secondary text-center">
+        Comparte el codigo o el link con tu rival
+      </p>
+    </div>
+
+    <div class="w-full flex flex-col items-center gap-2 bg-bg-surface-subtle rounded-xl py-6 px-8">
+      <span class="text-[11px] font-semibold text-text-muted tracking-[1.5px] uppercase">
+        Codigo de partida
+      </span>
+      <span class="font-heading text-5xl sm:text-5xl text-4xl font-bold text-text-primary tracking-[8px]">
+        {code}
+      </span>
+    </div>
+
+    <div class="w-full flex gap-3">
+      <button
+        id="copy-link-btn"
+        type="button"
+        data-url={gameUrl}
+        class="flex-1 h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center gap-2 transition-colors cursor-pointer"
+      >
+        <svg class="w-4 h-4 copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <svg class="w-4 h-4 check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="btn-label">Copiar link</span>
+      </button>
+      <button
+        id="copy-code-btn"
+        type="button"
+        data-code={code}
+        class="flex-1 h-12 bg-text-primary hover:bg-text-secondary text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center gap-2 transition-colors cursor-pointer"
+      >
+        <svg class="w-4 h-4 copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        <svg class="w-4 h-4 check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="btn-label">Copiar codigo</span>
+      </button>
+    </div>
+
+    <div id="waiting-indicator" class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-accent-primary opacity-60 animate-pulse"></span>
+      <span class="text-sm text-text-secondary" id="waiting-text">Esperando jugador...</span>
+    </div>
+
+    <div class="w-full h-px bg-border"></div>
+
+    <a href="/" class="text-sm font-medium text-text-muted hover:text-text-secondary transition-colors">
+      Volver al inicio
+    </a>
+  </div>
+</div>
+
+<script>
+  function setupCopyButton(btnId: string, textToCopy: string) {
+    const btn = document.getElementById(btnId)!;
+    const label = btn.querySelector(".btn-label")!;
+    const copyIcon = btn.querySelector(".copy-icon")!;
+    const checkIcon = btn.querySelector(".check-icon")!;
+    const originalText = label.textContent;
+
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        label.textContent = "Copiado!";
+        copyIcon.classList.add("hidden");
+        checkIcon.classList.remove("hidden");
+
+        setTimeout(() => {
+          label.textContent = originalText;
+          copyIcon.classList.remove("hidden");
+          checkIcon.classList.add("hidden");
+        }, 2000);
+      } catch {
+        // Fallback: silently fail
+      }
+    });
+  }
+
+  const copyLinkBtn = document.getElementById("copy-link-btn")!;
+  const copyCodeBtn = document.getElementById("copy-code-btn")!;
+
+  setupCopyButton("copy-link-btn", copyLinkBtn.dataset.url!);
+  setupCopyButton("copy-code-btn", copyCodeBtn.dataset.code!);
+
+  // Polling for opponent
+  const code = copyCodeBtn.dataset.code!;
+  let polling: ReturnType<typeof setInterval> | null = null;
+
+  async function checkStatus() {
+    try {
+      const res = await fetch(`/api/games/${code}/status`);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data.status === "playing") {
+        if (polling) clearInterval(polling);
+
+        const indicator = document.getElementById("waiting-indicator")!;
+        const dot = indicator.querySelector("span:first-child")!;
+        const text = document.getElementById("waiting-text")!;
+
+        dot.classList.remove("bg-accent-primary", "opacity-60", "animate-pulse");
+        dot.classList.add("bg-success");
+        text.textContent = "Jugador conectado!";
+        text.classList.remove("text-text-secondary");
+        text.classList.add("text-success", "font-medium");
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
+    } catch {
+      // Silently retry on next interval
+    }
+  }
+
+  polling = setInterval(checkStatus, 3000);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && polling) {
+      clearInterval(polling);
+      polling = null;
+    } else if (!document.hidden && !polling) {
+      polling = setInterval(checkStatus, 3000);
+    }
+  });
+</script>

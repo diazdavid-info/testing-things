@@ -1,45 +1,40 @@
 import type { APIRoute } from "astro";
+import { getGameByCode, joinGame } from "../../../../lib/game";
+
+const json = (body: object, status: number) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
 
 export const POST: APIRoute = async ({ params }) => {
-  const { code } = params;
+  const code = params.code!;
+  const game = getGameByCode(code);
 
-  // Stub: simulate different responses based on code for testing
-  if (code === "FULL") {
-    return new Response(JSON.stringify({ error: "Partida llena" }), {
-      status: 409,
-      headers: { "Content-Type": "application/json" },
-    });
+  if (!game) {
+    return json({ error: "Codigo no encontrado" }, 404);
   }
 
-  if (code === "DONE") {
-    return new Response(
-      JSON.stringify({ error: "Esta partida ya ha terminado" }),
-      {
-        status: 410,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+  if (game.status === "finished") {
+    return json({ error: "Esta partida ya ha terminado" }, 410);
   }
 
-  if (code === "XXXX") {
-    return new Response(JSON.stringify({ error: "Codigo no encontrado" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
+  if (game.status === "playing") {
+    return json({ error: "Partida llena" }, 409);
   }
 
-  // Default: successful join
-  const playerId = crypto.randomUUID();
-  return new Response(
-    JSON.stringify({
-      id: crypto.randomUUID(),
-      code,
-      playerId,
-      status: "playing",
-    }),
+  const result = joinGame(code);
+  if (!result) {
+    return json({ error: "Error al unirse" }, 500);
+  }
+
+  return json(
     {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+      id: result.game.id,
+      code: result.game.code,
+      playerId: result.playerId,
+      status: result.game.status,
     },
+    200,
   );
 };
