@@ -1,6 +1,6 @@
 ---
-import { POSITIONS, ADJACENCY, getRemovablePositions, getValidMoves } from "../lib/board";
-import type { BoardCell, PlayerKey, GamePhase } from "../lib/game";
+import { POSITIONS, ADJACENCY, getRemovablePositions, getValidMoves, canPlayerFly } from "../lib/board";
+import type { BoardCell, PlayerKey, GamePhase, Player } from "../lib/game";
 
 interface Props {
   board: BoardCell[];
@@ -10,9 +10,11 @@ interface Props {
   playerKey: PlayerKey;
   code: string;
   playerId: string;
+  currentPlayer: Player;
 }
 
-const { board, turn, phase, turnState, playerKey, code, playerId } = Astro.props;
+const { board, turn, phase, turnState, playerKey, code, playerId, currentPlayer } = Astro.props;
+const isFlying = canPlayerFly(currentPlayer.piecesOnBoard, currentPlayer.piecesToPlace) && (phase === "move" || phase === "fly");
 
 const SIZE = 480;
 const MARGIN = 40;
@@ -70,10 +72,12 @@ const removablePositions = canRemove ? new Set(getRemovablePositions(board, play
       const isEmpty = cell === null;
       const isRemovable = removablePositions.has(idx);
       const isOwnPiece = cell === playerKey;
-      const isMovable = canMove && isOwnPiece && getValidMoves(board, idx).length > 0;
+      const flyDestinations = isFlying ? board.map((c, i) => c === null ? i : -1).filter(i => i >= 0) : [];
+      const moveDestinations = isFlying ? flyDestinations : getValidMoves(board, idx);
+      const isMovable = canMove && isOwnPiece && moveDestinations.length > 0;
       const isClickable = (canPlace && isEmpty) || isRemovable || isMovable;
       const isProtectedRival = canRemove && !isEmpty && cell !== playerKey && !isRemovable;
-      const adjacentEmpty = canMove && isOwnPiece ? getValidMoves(board, idx).join(",") : "";
+      const adjacentEmpty = canMove && isOwnPiece ? moveDestinations.join(",") : "";
 
       let fill = "#E8E4DE";
       let strokeColor = "#B0AAA2";

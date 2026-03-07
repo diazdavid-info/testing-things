@@ -20,15 +20,19 @@ function setupMoveState() {
   game.phase = "move";
   game.turnState = "move";
   game.player1.piecesToPlace = 0;
-  game.player1.piecesOnBoard = 3;
+  game.player1.piecesOnBoard = 5;
   game.player2!.piecesToPlace = 0;
-  game.player2!.piecesOnBoard = 3;
+  game.player2!.piecesOnBoard = 5;
   game.board[0] = "player1";
   game.board[3] = "player1";
   game.board[7] = "player1";
+  game.board[5] = "player1";
+  game.board[18] = "player1";
   game.board[9] = "player2";
   game.board[11] = "player2";
   game.board[16] = "player2";
+  game.board[20] = "player2";
+  game.board[22] = "player2";
   game.turn = "player1";
   return { code: game.code, player1Id: game.player1.id, player2Id: join.playerId };
 }

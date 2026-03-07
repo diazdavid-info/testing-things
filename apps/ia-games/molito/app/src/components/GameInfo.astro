@@ -12,6 +12,9 @@ const { turn, phase, turnState, playerKey, player1, player2 } = Astro.props;
 const isMyTurn = turn === playerKey;
 const isRemoveMode = turnState === "remove";
 const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
+const p1Flying = player1.piecesOnBoard === 3 && player1.piecesToPlace === 0 && (phase === "move" || phase === "fly");
+const p2Flying = player2.piecesOnBoard === 3 && player2.piecesToPlace === 0 && (phase === "move" || phase === "fly");
+const myFlying = playerKey === "player1" ? p1Flying : p2Flying;
 ---
 
 <div class="flex flex-col gap-5 w-full" id="game-info">
@@ -41,9 +44,11 @@ const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
       ? "¡Molino! Elimina una ficha rival"
       : isRemoveMode && !isMyTurn
         ? "El rival esta eliminando una ficha..."
-        : isMyTurn
-          ? "Tu turno"
-          : "Turno del rival"}
+        : isMyTurn && myFlying
+          ? "Tu turno — Vuelo"
+          : isMyTurn
+            ? "Tu turno"
+            : "Turno del rival"}
   </div>
 
   <div class="inline-flex">
@@ -61,6 +66,9 @@ const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
         <span class="font-heading text-sm font-semibold text-text-primary">
           Jugador 1 {playerKey === "player1" ? "(Tu)" : ""}
         </span>
+        {p1Flying && (
+          <span class="text-[10px] font-semibold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">Vuelo</span>
+        )}
       </div>
       <div class="flex gap-4 text-xs text-text-secondary" id="p1-stats">
         <span>Por colocar: <strong id="p1-to-place">{player1.piecesToPlace}</strong></span>
@@ -76,6 +84,9 @@ const phaseLabels = { place: "Colocacion", move: "Movimiento", fly: "Vuelo" };
         <span class="font-heading text-sm font-semibold text-text-primary">
           Jugador 2 {playerKey === "player2" ? "(Tu)" : ""}
         </span>
+        {p2Flying && (
+          <span class="text-[10px] font-semibold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">Vuelo</span>
+        )}
       </div>
       <div class="flex gap-4 text-xs text-text-secondary" id="p2-stats">
         <span>Por colocar: <strong id="p2-to-place">{player2.piecesToPlace}</strong></span>

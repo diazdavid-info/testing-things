@@ -1,5 +1,5 @@
 import type { Game, PlayerKey } from "./game";
-import { ADJACENCY, checkMill, getRemovablePositions, isPlayerBlocked } from "./board";
+import { ADJACENCY, checkMill, getRemovablePositions, isPlayerBlocked, canPlayerFly } from "./board";
 
 export type PlaceResult =
   | { ok: true; mill: boolean }
@@ -134,6 +134,18 @@ export function removePiece(
     game.turnState = "move";
   }
 
+  // Transition to fly phase if any player has exactly 3 pieces
+  if (game.phase === "move") {
+    const p1 = game.player1;
+    const p2 = game.player2;
+    if (
+      (p1.piecesToPlace === 0 && p1.piecesOnBoard === 3) ||
+      (p2 && p2.piecesToPlace === 0 && p2.piecesOnBoard === 3)
+    ) {
+      game.phase = "fly";
+    }
+  }
+
   return { ok: true };
 }
 
@@ -175,8 +187,10 @@ export function movePiece(
     return { ok: false, error: "Esa posicion ya esta ocupada" };
   }
 
-  // In move phase, must be adjacent. In fly phase, any empty position is valid.
-  if (game.phase === "move" && !ADJACENCY[from].includes(to)) {
+  // Check if this player can fly (3 pieces, 0 to place). If not, must be adjacent.
+  const player = game[playerKey]!;
+  const isFlying = canPlayerFly(player.piecesOnBoard, player.piecesToPlace);
+  if (!isFlying && !ADJACENCY[from].includes(to)) {
     return { ok: false, error: "Solo puedes mover a posiciones adyacentes" };
   }
 

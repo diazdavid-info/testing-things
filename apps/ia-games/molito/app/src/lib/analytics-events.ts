@@ -31,7 +31,9 @@ export type AnalyticsEvent =
   | { name: "piece_moved"; code: string; from: number; to: number; player: string }
   | { name: "piece_selected"; code: string; position: number }
   | { name: "piece_deselected"; code: string }
-  | { name: "game_ended_by_block"; code: string; winner: string };
+  | { name: "game_ended_by_block"; code: string; winner: string }
+  | { name: "fly_phase_entered"; code: string; player: string; pieces_remaining: number }
+  | { name: "piece_flew"; code: string; from: number; to: number; player: string };
 
 /**
  * Track an analytics event. Currently a no-op stub.

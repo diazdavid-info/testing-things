@@ -111,6 +111,7 @@ const pageDescription = game
             playerKey={playerKey}
             code={code!}
             playerId={playerId!}
+            currentPlayer={playerKey === "player1" ? game.player1 : game.player2!}
           />
         </div>
         <div class="w-full lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">

@@ -181,14 +181,26 @@ export function getValidMoves(board: BoardCell[], position: number): number[] {
   return ADJACENCY[position].filter((adj) => board[adj] === null);
 }
 
-/** Check if a player has no valid moves (all pieces blocked). */
+/** Check if a player has no valid moves (all pieces blocked). Flying players (3 pieces) are never blocked. */
 export function isPlayerBlocked(board: BoardCell[], playerKey: PlayerKey): boolean {
+  let pieceCount = 0;
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === playerKey) pieceCount++;
+  }
+  // A player with exactly 3 pieces can fly — never blocked
+  if (pieceCount === 3) return false;
+
   for (let i = 0; i < board.length; i++) {
     if (board[i] === playerKey && getValidMoves(board, i).length > 0) {
       return false;
     }
   }
   return true;
+}
+
+/** Check if a player can fly (exactly 3 pieces on board, 0 to place). */
+export function canPlayerFly(piecesOnBoard: number, piecesToPlace: number): boolean {
+  return piecesOnBoard === 3 && piecesToPlace === 0;
 }
 
 /**
