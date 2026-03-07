@@ -96,5 +96,16 @@ describe("Game model", () => {
       joinGame(game.code);
       expect(joinGame(game.code)).toBeNull();
     });
+
+    it("only one join succeeds when called multiple times", () => {
+      const game = createGame();
+      const results = [
+        joinGame(game.code),
+        joinGame(game.code),
+        joinGame(game.code),
+      ];
+      const successes = results.filter((r) => r !== null);
+      expect(successes).toHaveLength(1);
+    });
   });
 });

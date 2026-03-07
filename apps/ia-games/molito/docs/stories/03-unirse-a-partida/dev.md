@@ -2,7 +2,7 @@
 
 > Nota: La API de join (`POST /api/games/{code}/join`), el formulario `JoinGameForm.astro`, y las validaciones (404, 409, 410) ya estan implementados en Story 02. Esta story se centra en el flujo de union por link directo y la identidad de jugadores.
 
-## DEV-01: Identidad de jugador via cookie
+## ~~DEV-01: Identidad de jugador via cookie~~ ✅
 
 - Al crear una partida (`POST /api/games`), guardar el `playerId` en una cookie `playerId_{code}` (httpOnly, sameSite: lax)
 - Al unirse via formulario (join exitoso), guardar la cookie `playerId_{code}` con el playerId devuelto
@@ -14,7 +14,9 @@
 - Test: tras join exitoso via formulario, se guarda la cookie del playerId
 - Test: al acceder a `/molino/{code}`, se identifica correctamente al jugador
 
-## DEV-02: Auto-join al abrir link directo
+> Implementado en `api/games/index.ts` y `api/games/[code]/join.ts` con header `Set-Cookie`. Lectura via `Astro.cookies` en `[code].astro`. Tests en `test/api-games.test.ts`.
+
+## ~~DEV-02: Auto-join al abrir link directo~~ ✅
 
 - Si un jugador nuevo (sin cookie de esa partida) accede a `/molino/{code}` y la partida esta en `waiting`:
   - Llamar automaticamente a `POST /api/games/{code}/join` desde el cliente
@@ -29,7 +31,9 @@
 - Test: player2 accediendo de nuevo a la URL no intenta re-join
 - Test: un tercero en partida `playing` ve mensaje "Partida llena"
 
-## DEV-03: Flujo completo de redireccion tras join por formulario
+> Implementado en `[code].astro` con pantallas condicionales segun cookie e estado. Auto-join via script cliente. Tests en `test/auto-join.test.ts` (6 tests).
+
+## ~~DEV-03: Flujo completo de redireccion tras join por formulario~~ ✅
 
 - Actualmente el formulario redirige a `/molino/{code}` tras join exitoso
 - Verificar que al llegar a esa URL, el jugador 2 (con cookie ya guardada) ve el estado correcto:
@@ -41,7 +45,9 @@
 - Test: flujo e2e — crear partida, join via formulario, verificar redireccion y estado final
 - Test: la cookie se establece antes de `window.location.href`
 
-## DEV-04: Notificacion al jugador 1 y transicion
+> Cookie se establece via `Set-Cookie` header del servidor antes del redirect cliente. El formulario no necesita cambios adicionales.
+
+## ~~DEV-04: Notificacion al jugador 1 y transicion~~ ✅
 
 - El polling de la sala de espera ya detecta el cambio a `playing` y recarga la pagina
 - Verificar que tras recargar, player1 (con cookie) ve el tablero y no la sala de espera
@@ -51,7 +57,9 @@
 - Test: player1 con cookie, partida en `playing`, ve el tablero (no la sala de espera)
 - Test: el indicador cambia a "Jugador conectado!" antes del reload
 
-## DEV-05: Proteccion contra uniones duplicadas
+> Ya funcional desde Story 02. Tras reload, `[code].astro` lee cookie de player1, partida en `playing`, muestra tablero placeholder.
+
+## ~~DEV-05: Proteccion contra uniones duplicadas~~ ✅
 
 - Si player1 intenta unirse a su propia partida (via formulario con su propio codigo), la API devuelve 409
 - Si alguien intenta unirse despues de que player2 ya esta, la API devuelve 409
@@ -62,3 +70,5 @@
 - Test: player1 no puede unirse a su propia partida via formulario
 - Test: dos llamadas simultaneas a join, solo una tiene exito
 - Test: tras join exitoso, siguientes intentos devuelven 409
+
+> Lock implementado en `lib/game.ts` con `joinLocks` Set. Test en `test/game-model.test.ts` ("only one join succeeds when called multiple times").

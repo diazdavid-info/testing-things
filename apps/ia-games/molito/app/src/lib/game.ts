@@ -84,14 +84,23 @@ export function getGameById(id: string): Game | null {
   return null;
 }
 
-export function joinGame(code: string): { game: Game; playerId: string } | null {
-  const game = store.get(code);
-  if (!game || game.status !== "waiting") return null;
+const joinLocks = new Set<string>();
 
-  const player2 = createPlayer();
-  game.player2 = player2;
-  game.status = "playing";
-  return { game, playerId: player2.id };
+export function joinGame(code: string): { game: Game; playerId: string } | null {
+  if (joinLocks.has(code)) return null;
+  joinLocks.add(code);
+
+  try {
+    const game = store.get(code);
+    if (!game || game.status !== "waiting") return null;
+
+    const player2 = createPlayer();
+    game.player2 = player2;
+    game.status = "playing";
+    return { game, playerId: player2.id };
+  } finally {
+    joinLocks.delete(code);
+  }
 }
 
 /** For testing only */

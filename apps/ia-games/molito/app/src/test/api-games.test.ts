@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, it, expect, beforeEach } from "vitest";
 import { POST as createGameAPI } from "../pages/api/games/index";
 import { POST as joinGameAPI } from "../pages/api/games/[code]/join";
@@ -30,6 +31,16 @@ describe("POST /api/games (real)", () => {
     expect(typeof data.playerId).toBe("string");
     expect(data.code).toHaveLength(4);
   });
+
+  it("sets a playerId cookie in the response", async () => {
+    const res = await createGameAPI(ctx());
+    const clone = res.clone();
+    const data = await clone.json();
+    const cookie = res.headers.get("set-cookie") ?? res.headers.get("Set-Cookie");
+    expect(cookie).not.toBeNull();
+    expect(cookie).toContain(`playerId_${data.code}=${data.playerId}`);
+    expect(cookie).toContain("SameSite=Lax");
+  });
 });
 
 describe("POST /api/games/{code}/join (real)", () => {
@@ -45,6 +56,18 @@ describe("POST /api/games/{code}/join (real)", () => {
     const data = await joinRes.json();
     expect(data.status).toBe("playing");
     expect(typeof data.playerId).toBe("string");
+  });
+
+  it("sets a playerId cookie on successful join", async () => {
+    const createRes = await createGameAPI(ctx());
+    const { code } = await createRes.json();
+
+    const joinRes = await joinGameAPI(ctx({ code }));
+    const clone = joinRes.clone();
+    const data = await clone.json();
+    const cookie = joinRes.headers.get("set-cookie") ?? joinRes.headers.get("Set-Cookie");
+    expect(cookie).not.toBeNull();
+    expect(cookie).toContain(`playerId_${code}=${data.playerId}`);
   });
 
   it("returns 404 for non-existent code", async () => {

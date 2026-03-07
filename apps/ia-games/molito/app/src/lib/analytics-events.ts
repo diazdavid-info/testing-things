@@ -15,7 +15,11 @@ export type AnalyticsEvent =
   | { name: "copy_link"; code: string }
   | { name: "copy_code"; code: string }
   | { name: "opponent_joined"; code: string }
-  | { name: "waiting_room_exit"; code: string };
+  | { name: "waiting_room_exit"; code: string }
+  | { name: "auto_join_attempt"; code: string }
+  | { name: "auto_join_success"; code: string }
+  | { name: "auto_join_error"; code: string; error_type: "full" | "finished" | "network" | "unknown" }
+  | { name: "join_via_form"; code: string };
 
 /**
  * Track an analytics event. Currently a no-op stub.

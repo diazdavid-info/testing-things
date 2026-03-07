@@ -12,7 +12,10 @@ export const POST: APIRoute = async () => {
     }),
     {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Set-Cookie": `playerId_${game.code}=${game.player1.id}; Path=/; SameSite=Lax`,
+      },
     },
   );
 };

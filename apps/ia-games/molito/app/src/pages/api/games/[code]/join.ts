@@ -28,13 +28,19 @@ export const POST: APIRoute = async ({ params }) => {
     return json({ error: "Error al unirse" }, 500);
   }
 
-  return json(
-    {
+  return new Response(
+    JSON.stringify({
       id: result.game.id,
       code: result.game.code,
       playerId: result.playerId,
       status: result.game.status,
+    }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Set-Cookie": `playerId_${code}=${result.playerId}; Path=/; SameSite=Lax`,
+      },
     },
-    200,
   );
 };
