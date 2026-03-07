@@ -186,7 +186,7 @@ const pageDescription = game
           />
         </div>
       </div>
-      <GameResult winner={game.winner!} playerKey={playerKey} winReason={game.winReason} />
+      <GameResult winner={game.winner!} playerKey={playerKey} winReason={game.winReason} code={code!} playerId={playerId!} rematchGameCode={game.rematchGameCode} />
     </div>
   ) : game.status === "finished" ? (
     <div class="w-full max-w-md mx-auto px-6">

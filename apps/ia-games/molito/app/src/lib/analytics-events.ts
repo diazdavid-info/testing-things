@@ -45,7 +45,10 @@ export type AnalyticsEvent =
   | { name: "rival_reconnected"; code: string }
   | { name: "claim_victory_shown"; code: string }
   | { name: "claim_victory_clicked"; code: string }
-  | { name: "game_ended_by_abandon"; code: string; winner: string };
+  | { name: "game_ended_by_abandon"; code: string; winner: string }
+  | { name: "rematch_requested"; code: string; player: string }
+  | { name: "rematch_accepted"; code: string; rematchCode: string }
+  | { name: "rematch_timeout"; code: string };
 
 /**
  * Track an analytics event. Currently a no-op stub.

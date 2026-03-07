@@ -5,9 +5,12 @@ interface Props {
   winner: PlayerKey;
   playerKey: PlayerKey;
   winReason: WinReason;
+  code: string;
+  playerId: string;
+  rematchGameCode: string | null;
 }
 
-const { winner, playerKey, winReason } = Astro.props;
+const { winner, playerKey, winReason, code, playerId, rematchGameCode } = Astro.props;
 const isWinner = winner === playerKey;
 
 const title = isWinner ? "Has ganado!" : "Has perdido";
@@ -46,13 +49,23 @@ const reasonText = winReason
       <p class="text-sm text-text-secondary text-center">{reasonText}</p>
     )}
     <div class="flex flex-col gap-3 w-full mt-2">
-      <a
-        href="/"
-        class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
-        id="btn-new-game"
-      >
-        Nueva partida
-      </a>
+      {rematchGameCode ? (
+        <a
+          href={`/molino/${rematchGameCode}`}
+          class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
+        >
+          Ir a revancha
+        </a>
+      ) : (
+        <button
+          id="btn-rematch"
+          data-code={code}
+          data-player-id={playerId}
+          class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
+        >
+          Revancha
+        </button>
+      )}
       <a
         href="/"
         class="w-full h-12 text-text-secondary hover:text-text-primary font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
@@ -62,3 +75,37 @@ const reasonText = winReason
     </div>
   </div>
 </div>
+
+<script>
+  const rematchBtn = document.getElementById("btn-rematch") as HTMLButtonElement | null;
+  if (rematchBtn) {
+    rematchBtn.addEventListener("click", async () => {
+      const code = rematchBtn.dataset.code!;
+      const playerId = rematchBtn.dataset.playerId!;
+      rematchBtn.disabled = true;
+      rematchBtn.textContent = "Esperando rival...";
+      rematchBtn.classList.remove("bg-accent-primary", "hover:bg-accent-primary-hover");
+      rematchBtn.classList.add("bg-gray-300", "cursor-wait");
+
+      try {
+        const res = await fetch(`/api/games/${code}/rematch`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ playerId }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.rematchCode) {
+            window.location.href = `/molino/${data.rematchCode}`;
+          }
+          // If waiting, SSE will reload when rival accepts
+        }
+      } catch {
+        rematchBtn.disabled = false;
+        rematchBtn.textContent = "Revancha";
+        rematchBtn.classList.add("bg-accent-primary", "hover:bg-accent-primary-hover");
+        rematchBtn.classList.remove("bg-gray-300", "cursor-wait");
+      }
+    });
+  }
+</script>

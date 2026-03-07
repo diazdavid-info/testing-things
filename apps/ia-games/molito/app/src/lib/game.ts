@@ -24,6 +24,8 @@ export interface Game {
   winner: PlayerKey | null;
   winReason: WinReason;
   lastSeen: { player1: number | null; player2: number | null };
+  rematchRequested: { player1: boolean; player2: boolean };
+  rematchGameCode: string | null;
   createdAt: string;
 }
 
@@ -72,6 +74,8 @@ export function createGame(): Game {
     winner: null,
     winReason: null,
     lastSeen: { player1: null, player2: null },
+    rematchRequested: { player1: false, player2: false },
+    rematchGameCode: null,
     createdAt: new Date().toISOString(),
   };
   store.set(code, game);
@@ -106,6 +110,38 @@ export function joinGame(code: string): { game: Game; playerId: string } | null 
   } finally {
     joinLocks.delete(code);
   }
+}
+
+export function createRematchGame(previousGame: Game): Game {
+  const code = generateUniqueCode();
+  const loser = previousGame.winner === "player1" ? "player2" : "player1";
+  const game: Game = {
+    id: crypto.randomUUID(),
+    code,
+    status: "playing",
+    player1: {
+      id: previousGame.player1.id,
+      piecesToPlace: 9,
+      piecesOnBoard: 0,
+    },
+    player2: {
+      id: previousGame.player2!.id,
+      piecesToPlace: 9,
+      piecesOnBoard: 0,
+    },
+    board: createEmptyBoard(),
+    phase: "place",
+    turn: loser,
+    turnState: "place",
+    winner: null,
+    winReason: null,
+    lastSeen: { player1: null, player2: null },
+    rematchRequested: { player1: false, player2: false },
+    rematchGameCode: null,
+    createdAt: new Date().toISOString(),
+  };
+  store.set(code, game);
+  return game;
 }
 
 /** For testing only */

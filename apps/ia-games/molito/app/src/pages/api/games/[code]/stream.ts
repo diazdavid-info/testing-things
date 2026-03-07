@@ -28,6 +28,8 @@ function gameToState(game: Game) {
       player1: isConnected(game, "player1"),
       player2: isConnected(game, "player2"),
     },
+    rematchRequested: game.rematchRequested,
+    rematchGameCode: game.rematchGameCode,
   };
 }
 
