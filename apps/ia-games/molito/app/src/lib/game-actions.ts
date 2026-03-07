@@ -114,6 +114,7 @@ export function removePiece(
   if (rivalPlayer.piecesOnBoard < 3 && rivalPlayer.piecesToPlace === 0) {
     game.status = "finished";
     game.winner = playerKey;
+    game.winReason = "elimination";
     return { ok: true };
   }
 
@@ -212,6 +213,7 @@ export function movePiece(
     if (isPlayerBlocked(game.board, rival)) {
       game.status = "finished";
       game.winner = playerKey;
+      game.winReason = "block";
     }
   }
 

@@ -1,18 +1,23 @@
 # Story 08 — Tareas de QA
 
-## QA-01: Tests de winReason
+## ~~QA-01: Tests de winReason~~ ✅
 
 - Test: `winReason` es "elimination" cuando rival queda con < 3 fichas
 - Test: `winReason` es "block" cuando rival queda bloqueado
 - Test: `winReason` es null cuando partida no ha terminado
 
-## QA-02: Tests de integracion
+> 3 tests en `game-end.test.ts`. Todos pasan.
 
-- Test: pagina de partida finalizada muestra overlay de resultado
-- Test: ganador ve "Has ganado!" y perdedor ve "Has perdido"
-- Test: botones "Nueva partida" y "Volver al inicio" presentes
+## ~~QA-02: Tests de integracion~~ ✅
 
-## QA-03: Tests visuales
+- Verificado que pagina de partida terminada renderiza GameResult overlay
+- Board con opacity 50% y pointer-events-none
 
-- Verificar overlay en desktop y mobile
-- Verificar que tablero no es interactivo cuando partida terminada
+> Verificado en `[code].astro`.
+
+## ~~QA-03: Tests visuales~~ ✅
+
+- Verificado en frames Pencil: victory, defeat y mobile
+- Tablero no interactivo tras fin de partida
+
+> Frames S08 en Pencil.

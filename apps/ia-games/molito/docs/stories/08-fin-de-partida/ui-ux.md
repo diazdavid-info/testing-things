@@ -1,22 +1,20 @@
 # Story 08 — Tareas de UI/UX (Pencil)
 
-## UX-01: Disenar pantalla de victoria — Desktop
+## ~~UX-01: Disenar pantalla de victoria — Desktop~~ ✅
 
-- Overlay semi-transparente sobre el tablero
-- Card centrada con resultado: icono de trofeo, "Has ganado!" en texto grande
-- Motivo debajo: "Tu rival se ha quedado sin fichas"
-- Dos botones: "Nueva partida" (primario), "Volver al inicio" (secundario)
-- El tablero se ve difuminado o con overlay oscuro detras
+- Overlay semi-transparente sobre el tablero con card centrada
+- Icono trofeo, "Has ganado!", motivo, botones "Nueva partida" y "Volver al inicio"
 
-## UX-02: Disenar pantalla de derrota — Desktop
+> Frame `Hn8mD` "S08 — Victory Desktop".
 
-- Mismo layout que victoria pero con tono diferente
-- "Has perdido" en texto grande
-- Motivo: "No puedes realizar mas movimientos"
-- Mismos botones
+## ~~UX-02: Disenar pantalla de derrota — Desktop~~ ✅
 
-## UX-03: Disenar pantalla de resultado — Mobile
+- Mismo layout con tono diferente, icono triste, "Has perdido"
 
-- Adaptar el overlay a mobile
-- Card de resultado a pantalla completa o casi completa
-- Botones apilados verticalmente
+> Frame `vqed1` "S08 — Defeat Desktop".
+
+## ~~UX-03: Disenar pantalla de resultado — Mobile~~ ✅
+
+- Card de resultado adaptada a mobile con botones apilados
+
+> Frame `B4Dkj` "S08 — Result Mobile".

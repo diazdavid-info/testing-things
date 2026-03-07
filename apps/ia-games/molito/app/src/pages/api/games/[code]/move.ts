@@ -63,6 +63,7 @@ export const POST: APIRoute = async ({ params, request }) => {
         : null,
       status: game.status,
       winner: game.winner,
+      winReason: game.winReason,
       mill: result.mill,
     },
     200,

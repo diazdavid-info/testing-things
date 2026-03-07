@@ -1,0 +1,60 @@
+---
+import type { PlayerKey, WinReason } from "../lib/game";
+
+interface Props {
+  winner: PlayerKey;
+  playerKey: PlayerKey;
+  winReason: WinReason;
+}
+
+const { winner, playerKey, winReason } = Astro.props;
+const isWinner = winner === playerKey;
+
+const title = isWinner ? "Has ganado!" : "Has perdido";
+const icon = isWinner ? "🏆" : "😔";
+
+const reasonTexts: Record<string, { winner: string; loser: string }> = {
+  elimination: {
+    winner: "Tu rival se ha quedado sin fichas",
+    loser: "Te has quedado sin fichas",
+  },
+  block: {
+    winner: "Tu rival no puede mover",
+    loser: "No puedes realizar mas movimientos",
+  },
+};
+
+const reasonText = winReason
+  ? reasonTexts[winReason]?.[isWinner ? "winner" : "loser"] ?? ""
+  : "";
+---
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+  id="game-result-overlay"
+>
+  <div class="bg-white rounded-3xl p-10 max-w-md w-full flex flex-col items-center gap-5 shadow-2xl">
+    <span class="text-5xl">{icon}</span>
+    <h2 class="font-heading text-2xl sm:text-3xl font-bold text-text-primary text-center">
+      {title}
+    </h2>
+    {reasonText && (
+      <p class="text-sm text-text-secondary text-center">{reasonText}</p>
+    )}
+    <div class="flex flex-col gap-3 w-full mt-2">
+      <a
+        href="/"
+        class="w-full h-12 bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
+        id="btn-new-game"
+      >
+        Nueva partida
+      </a>
+      <a
+        href="/"
+        class="w-full h-12 text-text-secondary hover:text-text-primary font-heading font-semibold text-sm rounded-[10px] flex items-center justify-center transition-colors"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </div>
+</div>

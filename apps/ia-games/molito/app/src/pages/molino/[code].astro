@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import WaitingRoom from "../../components/WaitingRoom.astro";
 import Board from "../../components/Board.astro";
 import GameInfo from "../../components/GameInfo.astro";
+import GameResult from "../../components/GameResult.astro";
 import { getGameByCode } from "../../lib/game";
 import type { PlayerKey } from "../../lib/game";
 
@@ -147,6 +148,34 @@ const pageDescription = game
         </a>
       </div>
     </div>
+  ) : game.status === "finished" && isKnownPlayer ? (
+    <div class="w-full max-w-5xl mx-auto px-4 sm:px-6 relative">
+      <div class="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start opacity-50 pointer-events-none">
+        <div class="flex-1 w-full lg:max-w-[540px]">
+          <Board
+            board={game.board}
+            turn={game.turn}
+            phase={game.phase}
+            turnState={game.turnState}
+            playerKey={playerKey}
+            code={code!}
+            playerId={playerId!}
+            currentPlayer={playerKey === "player1" ? game.player1 : game.player2!}
+          />
+        </div>
+        <div class="w-full lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">
+          <GameInfo
+            turn={game.turn}
+            phase={game.phase}
+            turnState={game.turnState}
+            playerKey={playerKey}
+            player1={{ piecesToPlace: game.player1.piecesToPlace, piecesOnBoard: game.player1.piecesOnBoard }}
+            player2={{ piecesToPlace: game.player2!.piecesToPlace, piecesOnBoard: game.player2!.piecesOnBoard }}
+          />
+        </div>
+      </div>
+      <GameResult winner={game.winner!} playerKey={playerKey} winReason={game.winReason} />
+    </div>
   ) : game.status === "finished" ? (
     <div class="w-full max-w-md mx-auto px-6">
       <div class="bg-bg-surface border border-border rounded-2xl p-12 flex flex-col items-center gap-6">
@@ -156,9 +185,6 @@ const pageDescription = game
         </h1>
         <p class="text-sm text-text-secondary text-center leading-relaxed">
           Esta partida ya ha finalizado
-        </p>
-        <p class="text-xs text-text-muted text-center">
-          Puedes crear tu propia partida desde el inicio
         </p>
         <a
           href="/"
