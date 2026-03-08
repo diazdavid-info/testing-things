@@ -23,7 +23,10 @@
     loading.classList.remove("hidden");
 
     try {
-      const res = await fetch("/api/games", { method: "POST" });
+      const res = await fetch("/api/games", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
       if (!res.ok) throw new Error("Error creating game");
       const data = await res.json();
       window.location.href = `/molino/${data.code}`;

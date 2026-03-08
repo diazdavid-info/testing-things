@@ -74,7 +74,10 @@ const { code } = Astro.props;
 
     async function attemptAutoJoin() {
       try {
-        const res = await fetch(`/api/games/${code}/join`, { method: "POST" });
+        const res = await fetch(`/api/games/${code}/join`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
 
         if (res.ok) {
           autoJoinScreen!.classList.add("hidden");

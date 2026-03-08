@@ -73,7 +73,10 @@
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/games/${code}/join`, { method: "POST" });
+      const res = await fetch(`/api/games/${code}/join`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
 
       if (res.ok) {
         // Cookie is set by the server via Set-Cookie header
