@@ -1,17 +1,17 @@
 # Build stage
 FROM node:22-alpine AS build
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN npm install -g pnpm
 
 WORKDIR /app
 
 # Copy package files for dependency installation
 COPY package.json ./
-RUN pnpm install --frozen-lockfile 2>/dev/null || pnpm install
+RUN pnpm install --no-frozen-lockfile
 
 # Copy source and build
 COPY . .
-RUN pnpm build
+RUN npx astro build
 
 # Runtime stage
 FROM node:22-alpine AS runtime
