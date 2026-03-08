@@ -1,14 +1,14 @@
-import type { APIRoute } from "astro";
-import { getGameByCode } from "../../../../lib/game";
-import { subscribe, notify } from "../../../../lib/game-events";
-import type { Game, PlayerKey } from "../../../../lib/game";
+import type { APIRoute } from 'astro'
+import { getGameByCode } from '../../../../lib/game'
+import { subscribe, notify } from '../../../../lib/game-events'
+import type { Game, PlayerKey } from '../../../../lib/game'
 
-const GRACE_PERIOD_MS = 15_000;
+const GRACE_PERIOD_MS = 15_000
 
 function isConnected(game: Game, playerKey: PlayerKey): boolean {
-  const ts = game.lastSeen[playerKey];
-  if (ts === null) return false;
-  return Date.now() - ts < GRACE_PERIOD_MS;
+  const ts = game.lastSeen[playerKey]
+  if (ts === null) return false
+  return Date.now() - ts < GRACE_PERIOD_MS
 }
 
 function gameToState(game: Game) {
@@ -25,41 +25,41 @@ function gameToState(game: Game) {
       ? { piecesToPlace: game.player2.piecesToPlace, piecesOnBoard: game.player2.piecesOnBoard }
       : null,
     connected: {
-      player1: isConnected(game, "player1"),
-      player2: isConnected(game, "player2"),
+      player1: isConnected(game, 'player1'),
+      player2: isConnected(game, 'player2'),
     },
     rematchRequested: game.rematchRequested,
     rematchGameCode: game.rematchGameCode,
-  };
+  }
 }
 
 export const GET: APIRoute = async ({ params, request }) => {
-  const code = params.code!;
-  const game = getGameByCode(code);
+  const code = params.code!
+  const game = getGameByCode(code)
 
   if (!game) {
-    return new Response("Game not found", { status: 404 });
+    return new Response('Game not found', { status: 404 })
   }
 
   // Determine which player is connecting via query param
-  const url = new URL(request.url);
-  const playerId = url.searchParams.get("playerId");
-  let playerKey: PlayerKey | null = null;
-  if (playerId && game.player1.id === playerId) playerKey = "player1";
-  else if (playerId && game.player2?.id === playerId) playerKey = "player2";
+  const url = new URL(request.url)
+  const playerId = url.searchParams.get('playerId')
+  let playerKey: PlayerKey | null = null
+  if (playerId && game.player1.id === playerId) playerKey = 'player1'
+  else if (playerId && game.player2?.id === playerId) playerKey = 'player2'
 
   // Reject unauthenticated connections
   if (!playerKey) {
-    return new Response("Forbidden", { status: 403 });
+    return new Response('Forbidden', { status: 403 })
   }
 
   const stream = new ReadableStream({
     start(controller) {
-      const encoder = new TextEncoder();
+      const encoder = new TextEncoder()
 
       function send(data: string) {
         try {
-          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+          controller.enqueue(encoder.encode(`data: ${data}\n\n`))
         } catch {
           // Stream closed
         }
@@ -67,53 +67,53 @@ export const GET: APIRoute = async ({ params, request }) => {
 
       // Mark player as connected
       if (playerKey) {
-        game.lastSeen[playerKey] = Date.now();
-        notify(code);
+        game.lastSeen[playerKey] = Date.now()
+        notify(code)
       }
 
       // Send initial state
-      send(JSON.stringify(gameToState(game)));
+      send(JSON.stringify(gameToState(game)))
 
       // Subscribe to updates
       const unsubscribe = subscribe(code, (updatedGame) => {
-        send(JSON.stringify(gameToState(updatedGame)));
-      });
+        send(JSON.stringify(gameToState(updatedGame)))
+      })
 
       // Update lastSeen periodically and heartbeat
       const heartbeat = setInterval(() => {
         try {
           if (playerKey) {
-            game.lastSeen[playerKey] = Date.now();
+            game.lastSeen[playerKey] = Date.now()
           }
-          controller.enqueue(encoder.encode(": heartbeat\n\n"));
+          controller.enqueue(encoder.encode(': heartbeat\n\n'))
         } catch {
-          clearInterval(heartbeat);
+          clearInterval(heartbeat)
         }
-      }, 10_000);
+      }, 10_000)
 
       // Cleanup when client disconnects
       const checkClosed = setInterval(() => {
         try {
-          controller.enqueue(new Uint8Array(0));
+          controller.enqueue(new Uint8Array(0))
         } catch {
-          clearInterval(checkClosed);
-          clearInterval(heartbeat);
-          unsubscribe();
+          clearInterval(checkClosed)
+          clearInterval(heartbeat)
+          unsubscribe()
           // Notify others that this player disconnected
           if (playerKey) {
-            notify(code);
+            notify(code)
           }
         }
-      }, 5_000);
+      }, 5_000)
     },
-  });
+  })
 
   return new Response(stream, {
     headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      "Connection": "keep-alive",
-      "X-Content-Type-Options": "nosniff",
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+      'X-Content-Type-Options': 'nosniff',
     },
-  });
-};
+  })
+}

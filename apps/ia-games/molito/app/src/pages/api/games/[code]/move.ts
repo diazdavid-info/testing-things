@@ -1,37 +1,45 @@
-import type { APIRoute } from "astro";
-import { movePiece } from "../../../../lib/game-actions";
-import { notify } from "../../../../lib/game-events";
-import { json, parseJsonBody, requireGame, requirePlayer, isResponse, validatePosition, validatePlayerId } from "../../../../lib/api-helpers";
+import type { APIRoute } from 'astro'
+import { movePiece } from '../../../../lib/game-actions'
+import { notify } from '../../../../lib/game-events'
+import {
+  json,
+  parseJsonBody,
+  requireGame,
+  requirePlayer,
+  isResponse,
+  validatePosition,
+  validatePlayerId,
+} from '../../../../lib/api-helpers'
 
 export const POST: APIRoute = async ({ params, request }) => {
-  const game = requireGame(params.code!);
-  if (isResponse(game)) return game;
+  const game = requireGame(params.code!)
+  if (isResponse(game)) return game
 
-  if (game.status !== "playing") {
-    return json({ error: "La partida no esta en curso" }, 409);
+  if (game.status !== 'playing') {
+    return json({ error: 'La partida no esta en curso' }, 409)
   }
 
-  if (game.phase !== "move" && game.phase !== "fly") {
-    return json({ error: "No estas en fase de movimiento" }, 409);
+  if (game.phase !== 'move' && game.phase !== 'fly') {
+    return json({ error: 'No estas en fase de movimiento' }, 409)
   }
 
-  const body = await parseJsonBody<{ from?: number; to?: number; playerId?: string }>(request);
-  if (isResponse(body)) return body;
+  const body = await parseJsonBody<{ from?: number; to?: number; playerId?: string }>(request)
+  if (isResponse(body)) return body
 
-  const { from, to, playerId } = body;
+  const { from, to, playerId } = body
   if (!validatePosition(from) || !validatePosition(to) || !validatePlayerId(playerId)) {
-    return json({ error: "Parametros invalidos" }, 400);
+    return json({ error: 'Parametros invalidos' }, 400)
   }
 
-  const playerKey = requirePlayer(game, playerId);
-  if (isResponse(playerKey)) return playerKey;
+  const playerKey = requirePlayer(game, playerId)
+  if (isResponse(playerKey)) return playerKey
 
-  const result = movePiece(game, from, to, playerKey);
+  const result = movePiece(game, from, to, playerKey)
   if (!result.ok) {
-    return json({ error: result.error }, 400);
+    return json({ error: result.error }, 400)
   }
 
-  notify(params.code!);
+  notify(params.code!)
 
   return json(
     {
@@ -49,5 +57,5 @@ export const POST: APIRoute = async ({ params, request }) => {
       mill: result.mill,
     },
     200,
-  );
-};
+  )
+}

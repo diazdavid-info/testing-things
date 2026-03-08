@@ -1,37 +1,45 @@
-import type { APIRoute } from "astro";
-import { removePiece } from "../../../../lib/game-actions";
-import { notify } from "../../../../lib/game-events";
-import { json, parseJsonBody, requireGame, requirePlayer, isResponse, validatePosition, validatePlayerId } from "../../../../lib/api-helpers";
+import type { APIRoute } from 'astro'
+import { removePiece } from '../../../../lib/game-actions'
+import { notify } from '../../../../lib/game-events'
+import {
+  json,
+  parseJsonBody,
+  requireGame,
+  requirePlayer,
+  isResponse,
+  validatePosition,
+  validatePlayerId,
+} from '../../../../lib/api-helpers'
 
 export const POST: APIRoute = async ({ params, request }) => {
-  const game = requireGame(params.code!);
-  if (isResponse(game)) return game;
+  const game = requireGame(params.code!)
+  if (isResponse(game)) return game
 
-  if (game.status !== "playing") {
-    return json({ error: "La partida no esta en curso" }, 409);
+  if (game.status !== 'playing') {
+    return json({ error: 'La partida no esta en curso' }, 409)
   }
 
-  if (game.turnState !== "remove") {
-    return json({ error: "No estas en estado de eliminacion" }, 409);
+  if (game.turnState !== 'remove') {
+    return json({ error: 'No estas en estado de eliminacion' }, 409)
   }
 
-  const body = await parseJsonBody<{ position?: number; playerId?: string }>(request);
-  if (isResponse(body)) return body;
+  const body = await parseJsonBody<{ position?: number; playerId?: string }>(request)
+  if (isResponse(body)) return body
 
-  const { position, playerId } = body;
+  const { position, playerId } = body
   if (!validatePosition(position) || !validatePlayerId(playerId)) {
-    return json({ error: "Parametros invalidos" }, 400);
+    return json({ error: 'Parametros invalidos' }, 400)
   }
 
-  const playerKey = requirePlayer(game, playerId);
-  if (isResponse(playerKey)) return playerKey;
+  const playerKey = requirePlayer(game, playerId)
+  if (isResponse(playerKey)) return playerKey
 
-  const result = removePiece(game, position, playerKey);
+  const result = removePiece(game, position, playerKey)
   if (!result.ok) {
-    return json({ error: result.error }, 400);
+    return json({ error: result.error }, 400)
   }
 
-  notify(params.code!);
+  notify(params.code!)
 
   return json(
     {
@@ -48,5 +56,5 @@ export const POST: APIRoute = async ({ params, request }) => {
       winReason: game.winReason,
     },
     200,
-  );
-};
+  )
+}

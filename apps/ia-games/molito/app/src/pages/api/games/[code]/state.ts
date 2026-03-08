@@ -1,17 +1,17 @@
-import type { APIRoute } from "astro";
-import { json, requireGame, isResponse } from "../../../../lib/api-helpers";
+import type { APIRoute } from 'astro'
+import { json, requireGame, isResponse } from '../../../../lib/api-helpers'
 
 export const GET: APIRoute = async ({ params, cookies }) => {
-  const code = params.code!;
-  const game = requireGame(code);
-  if (isResponse(game)) return game;
+  const code = params.code!
+  const game = requireGame(code)
+  if (isResponse(game)) return game
 
-  const playerId = cookies.get(`playerId_${code}`)?.value;
-  const isPlayer1 = playerId === game.player1.id;
-  const isPlayer2 = playerId === game.player2?.id;
+  const playerId = cookies.get(`playerId_${code}`)?.value
+  const isPlayer1 = playerId === game.player1.id
+  const isPlayer2 = playerId === game.player2?.id
 
   if (!isPlayer1 && !isPlayer2) {
-    return json({ error: "No eres jugador de esta partida" }, 403);
+    return json({ error: 'No eres jugador de esta partida' }, 403)
   }
 
   return json(
@@ -33,5 +33,5 @@ export const GET: APIRoute = async ({ params, cookies }) => {
         : null,
     },
     200,
-  );
-};
+  )
+}

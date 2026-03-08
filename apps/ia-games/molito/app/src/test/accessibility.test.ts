@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach } from 'vitest'
 
 function renderHomePage() {
   document.body.innerHTML = `
@@ -16,39 +16,38 @@ function renderHomePage() {
         </form>
       </div>
     </main>
-  `;
+  `
 }
 
-describe("Accessibility", () => {
+describe('Accessibility', () => {
   beforeEach(() => {
-    document.body.innerHTML = "";
-    renderHomePage();
-  });
+    document.body.innerHTML = ''
+    renderHomePage()
+  })
 
-  it("interactive elements are reachable by keyboard (tab order)", () => {
-    const createBtn = document.getElementById("create-game-btn")!;
-    const input = document.getElementById("game-code")!;
-    const joinBtn = document.getElementById("join-game-btn")!;
+  it('interactive elements are reachable by keyboard (tab order)', () => {
+    const createBtn = document.getElementById('create-game-btn')!
+    const input = document.getElementById('game-code')!
+    const joinBtn = document.getElementById('join-game-btn')!
 
     // All interactive elements should be focusable
-    expect(createBtn.tabIndex).toBeLessThanOrEqual(0);
-    expect(input.tabIndex).toBeLessThanOrEqual(0);
-    expect(joinBtn.tabIndex).toBeLessThanOrEqual(0);
-  });
+    expect(createBtn.tabIndex).toBeLessThanOrEqual(0)
+    expect(input.tabIndex).toBeLessThanOrEqual(0)
+    expect(joinBtn.tabIndex).toBeLessThanOrEqual(0)
+  })
 
-  it("error messages have role=alert", () => {
-    const createError = document.getElementById("create-error")!;
-    const joinError = document.getElementById("join-error")!;
+  it('error messages have role=alert', () => {
+    const createError = document.getElementById('create-error')!
+    const joinError = document.getElementById('join-error')!
 
-    expect(createError.getAttribute("role")).toBe("alert");
-    expect(joinError.getAttribute("role")).toBe("alert");
-  });
+    expect(createError.getAttribute('role')).toBe('alert')
+    expect(joinError.getAttribute('role')).toBe('alert')
+  })
 
-  it("input has an accessible label", () => {
-    const input = document.getElementById("game-code")!;
-    const label = document.querySelector('label[for="game-code"]');
+  it('input has an accessible label', () => {
+    const label = document.querySelector('label[for="game-code"]')
 
-    expect(label).not.toBeNull();
-    expect(label!.getAttribute("for")).toBe("game-code");
-  });
-});
+    expect(label).not.toBeNull()
+    expect(label!.getAttribute('for')).toBe('game-code')
+  })
+})

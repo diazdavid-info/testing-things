@@ -1,119 +1,119 @@
 // @vitest-environment node
-import { describe, it, expect, beforeEach } from "vitest";
-import { POST as createGameAPI } from "../pages/api/games/index";
-import { POST as joinGameAPI } from "../pages/api/games/[code]/join";
-import { GET as statusAPI } from "../pages/api/games/[code]/status";
-import { clearStore, getGameByCode } from "../lib/game";
+import { describe, it, expect, beforeEach } from 'vitest'
+import { POST as createGameAPI } from '../pages/api/games/index'
+import { POST as joinGameAPI } from '../pages/api/games/[code]/join'
+import { GET as statusAPI } from '../pages/api/games/[code]/status'
+import { clearStore, getGameByCode } from '../lib/game'
 
 function ctx(params: Record<string, string> = {}) {
-  return { params } as any;
+  return { params } as any
 }
 
-describe("POST /api/games (real)", () => {
-  beforeEach(() => clearStore());
+describe('POST /api/games (real)', () => {
+  beforeEach(() => clearStore())
 
-  it("creates a game in the store", async () => {
-    const res = await createGameAPI(ctx());
-    expect(res.status).toBe(200);
-    const data = await res.json();
+  it('creates a game in the store', async () => {
+    const res = await createGameAPI(ctx())
+    expect(res.status).toBe(200)
+    const data = await res.json()
 
-    const game = getGameByCode(data.code);
-    expect(game).not.toBeNull();
-    expect(game!.status).toBe("waiting");
-  });
+    const game = getGameByCode(data.code)
+    expect(game).not.toBeNull()
+    expect(game!.status).toBe('waiting')
+  })
 
-  it("returns id, code and playerId", async () => {
-    const res = await createGameAPI(ctx());
-    const data = await res.json();
+  it('returns id, code and playerId', async () => {
+    const res = await createGameAPI(ctx())
+    const data = await res.json()
 
-    expect(typeof data.id).toBe("string");
-    expect(typeof data.code).toBe("string");
-    expect(typeof data.playerId).toBe("string");
-    expect(data.code).toHaveLength(4);
-  });
+    expect(typeof data.id).toBe('string')
+    expect(typeof data.code).toBe('string')
+    expect(typeof data.playerId).toBe('string')
+    expect(data.code).toHaveLength(4)
+  })
 
-  it("sets a playerId cookie in the response", async () => {
-    const res = await createGameAPI(ctx());
-    const clone = res.clone();
-    const data = await clone.json();
-    const cookie = res.headers.get("set-cookie") ?? res.headers.get("Set-Cookie");
-    expect(cookie).not.toBeNull();
-    expect(cookie).toContain(`playerId_${data.code}=${data.playerId}`);
-    expect(cookie).toContain("SameSite=Strict");
-  });
-});
+  it('sets a playerId cookie in the response', async () => {
+    const res = await createGameAPI(ctx())
+    const clone = res.clone()
+    const data = await clone.json()
+    const cookie = res.headers.get('set-cookie') ?? res.headers.get('Set-Cookie')
+    expect(cookie).not.toBeNull()
+    expect(cookie).toContain(`playerId_${data.code}=${data.playerId}`)
+    expect(cookie).toContain('SameSite=Strict')
+  })
+})
 
-describe("POST /api/games/{code}/join (real)", () => {
-  beforeEach(() => clearStore());
+describe('POST /api/games/{code}/join (real)', () => {
+  beforeEach(() => clearStore())
 
-  it("returns 200 and joins on valid waiting game", async () => {
-    const createRes = await createGameAPI(ctx());
-    const { code } = await createRes.json();
+  it('returns 200 and joins on valid waiting game', async () => {
+    const createRes = await createGameAPI(ctx())
+    const { code } = await createRes.json()
 
-    const joinRes = await joinGameAPI(ctx({ code }));
-    expect(joinRes.status).toBe(200);
+    const joinRes = await joinGameAPI(ctx({ code }))
+    expect(joinRes.status).toBe(200)
 
-    const data = await joinRes.json();
-    expect(data.status).toBe("playing");
-    expect(typeof data.playerId).toBe("string");
-  });
+    const data = await joinRes.json()
+    expect(data.status).toBe('playing')
+    expect(typeof data.playerId).toBe('string')
+  })
 
-  it("sets a playerId cookie on successful join", async () => {
-    const createRes = await createGameAPI(ctx());
-    const { code } = await createRes.json();
+  it('sets a playerId cookie on successful join', async () => {
+    const createRes = await createGameAPI(ctx())
+    const { code } = await createRes.json()
 
-    const joinRes = await joinGameAPI(ctx({ code }));
-    const clone = joinRes.clone();
-    const data = await clone.json();
-    const cookie = joinRes.headers.get("set-cookie") ?? joinRes.headers.get("Set-Cookie");
-    expect(cookie).not.toBeNull();
-    expect(cookie).toContain(`playerId_${code}=${data.playerId}`);
-  });
+    const joinRes = await joinGameAPI(ctx({ code }))
+    const clone = joinRes.clone()
+    const data = await clone.json()
+    const cookie = joinRes.headers.get('set-cookie') ?? joinRes.headers.get('Set-Cookie')
+    expect(cookie).not.toBeNull()
+    expect(cookie).toContain(`playerId_${code}=${data.playerId}`)
+  })
 
-  it("returns 404 for non-existent code", async () => {
-    const res = await joinGameAPI(ctx({ code: "ZZZZ" }));
-    expect(res.status).toBe(404);
-  });
+  it('returns 404 for non-existent code', async () => {
+    const res = await joinGameAPI(ctx({ code: 'ZZZZ' }))
+    expect(res.status).toBe(404)
+  })
 
-  it("returns 409 for already full game", async () => {
-    const createRes = await createGameAPI(ctx());
-    const { code } = await createRes.json();
+  it('returns 409 for already full game', async () => {
+    const createRes = await createGameAPI(ctx())
+    const { code } = await createRes.json()
 
-    await joinGameAPI(ctx({ code }));
-    const res = await joinGameAPI(ctx({ code }));
-    expect(res.status).toBe(409);
-  });
-});
+    await joinGameAPI(ctx({ code }))
+    const res = await joinGameAPI(ctx({ code }))
+    expect(res.status).toBe(409)
+  })
+})
 
-describe("GET /api/games/{code}/status", () => {
-  beforeEach(() => clearStore());
+describe('GET /api/games/{code}/status', () => {
+  beforeEach(() => clearStore())
 
-  it("returns waiting status for new game", async () => {
-    const createRes = await createGameAPI(ctx());
-    const { code } = await createRes.json();
+  it('returns waiting status for new game', async () => {
+    const createRes = await createGameAPI(ctx())
+    const { code } = await createRes.json()
 
-    const res = await statusAPI(ctx({ code }));
-    expect(res.status).toBe(200);
+    const res = await statusAPI(ctx({ code }))
+    expect(res.status).toBe(200)
 
-    const data = await res.json();
-    expect(data.status).toBe("waiting");
-    expect(data.playerCount).toBe(1);
-  });
+    const data = await res.json()
+    expect(data.status).toBe('waiting')
+    expect(data.playerCount).toBe(1)
+  })
 
-  it("returns playing status after join", async () => {
-    const createRes = await createGameAPI(ctx());
-    const { code } = await createRes.json();
+  it('returns playing status after join', async () => {
+    const createRes = await createGameAPI(ctx())
+    const { code } = await createRes.json()
 
-    await joinGameAPI(ctx({ code }));
+    await joinGameAPI(ctx({ code }))
 
-    const res = await statusAPI(ctx({ code }));
-    const data = await res.json();
-    expect(data.status).toBe("playing");
-    expect(data.playerCount).toBe(2);
-  });
+    const res = await statusAPI(ctx({ code }))
+    const data = await res.json()
+    expect(data.status).toBe('playing')
+    expect(data.playerCount).toBe(2)
+  })
 
-  it("returns 404 for non-existent code", async () => {
-    const res = await statusAPI(ctx({ code: "ZZZZ" }));
-    expect(res.status).toBe(404);
-  });
-});
+  it('returns 404 for non-existent code', async () => {
+    const res = await statusAPI(ctx({ code: 'ZZZZ' }))
+    expect(res.status).toBe(404)
+  })
+})
