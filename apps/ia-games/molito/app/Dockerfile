@@ -24,9 +24,9 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./
 
 ENV HOST=0.0.0.0
-ENV PORT=3000
+ENV PORT=4321
 
-EXPOSE 3000
+EXPOSE 4321
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/ || exit 1
