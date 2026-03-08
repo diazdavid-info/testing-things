@@ -11,7 +11,7 @@ RUN pnpm install --no-frozen-lockfile
 
 # Copy source and build
 COPY . .
-RUN npx astro build
+RUN pnpm run build
 
 # Runtime stage
 FROM node:22-alpine AS runtime
