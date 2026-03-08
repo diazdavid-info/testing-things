@@ -1,13 +1,14 @@
 ---
 interface Props {
   code: string;
+  playerId: string;
 }
 
-const { code } = Astro.props;
+const { code, playerId } = Astro.props;
 const gameUrl = `${Astro.url.origin}/molino/${code}`;
 ---
 
-<div class="w-full max-w-lg mx-auto px-6" id="waiting-room" data-code={code}>
+<div class="w-full max-w-lg mx-auto px-6" id="waiting-room" data-code={code} data-player-id={playerId}>
   <div class="bg-bg-surface border border-border rounded-2xl p-12 sm:p-12 p-8 flex flex-col items-center gap-8">
     <div class="flex flex-col items-center gap-2">
       <h1 class="font-heading text-2xl sm:text-[28px] font-semibold text-text-primary tracking-tight">

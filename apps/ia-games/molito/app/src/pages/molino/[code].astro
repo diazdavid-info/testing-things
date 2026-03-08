@@ -40,7 +40,7 @@ const playerProps = game && game.player2 ? {
   {!game ? (
     <GameNotFound />
   ) : game.status === "waiting" && isPlayer1 ? (
-    <WaitingRoom code={code!} />
+    <WaitingRoom code={code!} playerId={playerId!} />
   ) : game.status === "waiting" && !isKnownPlayer ? (
     <AutoJoinScreen code={code!} />
   ) : game.status === "playing" && isKnownPlayer && playerProps ? (
@@ -98,8 +98,8 @@ const playerProps = game && game.player2 ? {
   const boardContainer = document.getElementById("board-container");
   const waitingRoom = document.getElementById("waiting-room");
   const gameCode = boardContainer?.dataset.code || waitingRoom?.dataset.code;
-  const ssePlayerId = boardContainer?.dataset.playerId || "";
-  const ssePlayerKey = boardContainer?.dataset.playerKey || "";
+  const ssePlayerId = boardContainer?.dataset.playerId || waitingRoom?.dataset.playerId || "";
+  const ssePlayerKey = boardContainer?.dataset.playerKey || "player1";
   const connIndicator = document.getElementById("conn-indicator");
   const disconnBanner = document.getElementById("disconnect-banner");
 
