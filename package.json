@@ -9,7 +9,6 @@
     "lint": "eslint . --fix",
     "format": "prettier --write **/*{.astro,.json,.md}"
   },
-  "packageManager": "pnpm@10.24.0",
   "devDependencies": {
     "eslint": "^9.39.2",
     "eslint-config-mytools": "^1.0.2",
