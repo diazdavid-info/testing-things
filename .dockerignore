@@ -1,8 +1,9 @@
 *
-!apps/ia-games/molito/app/
-apps/ia-games/molito/app/node_modules
-apps/ia-games/molito/app/dist
-apps/ia-games/molito/app/.astro
-apps/ia-games/molito/app/src/test
-apps/ia-games/molito/app/*.pen
-apps/ia-games/molito/app/.env*
+!apps/ia-games/molito/
+apps/ia-games/molito/node_modules
+apps/ia-games/molito/dist
+apps/ia-games/molito/.astro
+apps/ia-games/molito/src/test
+apps/ia-games/molito/*.pen
+apps/ia-games/molito/.env*
+apps/ia-games/molito/docs
