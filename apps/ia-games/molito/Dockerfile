@@ -6,11 +6,11 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 # Copy only the app's package.json and install dependencies
-COPY apps/ia-games/molito/app/package.json ./
+COPY apps/ia-games/molito/package.json ./
 RUN pnpm install --no-frozen-lockfile
 
 # Copy app source and build
-COPY apps/ia-games/molito/app/ .
+COPY apps/ia-games/molito/ .
 RUN pnpm run build
 
 # Runtime stage
