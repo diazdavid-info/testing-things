@@ -34,13 +34,13 @@ const {
 
     <title>{title}</title>
   </head>
-  <body class="bg-bg-primary min-h-screen font-body text-text-primary antialiased">
-    <main class="flex min-h-screen items-center justify-center">
+  <body class="bg-bg-primary min-h-dvh font-body text-text-primary antialiased">
+    <main class="flex flex-col min-h-dvh justify-center w-full">
       <slot />
     </main>
   </body>
 </html>
 
-<style>
+<style is:global>
   @import "../styles/global.css";
 </style>

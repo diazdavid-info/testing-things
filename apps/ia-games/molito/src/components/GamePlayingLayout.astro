@@ -21,10 +21,10 @@ interface Props {
 const { board, turn, phase, turnState, playerKey, code, playerId, currentPlayer, player1, player2, disabled = false } = Astro.props;
 ---
 
-<div class="w-full max-w-5xl mx-auto px-4 sm:px-6" class:list={[disabled && "relative"]}>
+<div class="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-4" class:list={[disabled && "relative"]}>
   {!disabled && <DisconnectBanner code={code} playerId={playerId} />}
-  <div class:list={["flex flex-col lg:flex-row gap-6 lg:gap-10 items-start", disabled && "opacity-50 pointer-events-none"]}>
-    <div class="flex-1 w-full lg:max-w-[540px]">
+  <div class:list={["flex flex-col lg:flex-row gap-6 lg:gap-10 lg:items-center", disabled && "opacity-50 pointer-events-none"]}>
+    <div class="flex-1 w-full min-w-0 lg:max-w-[540px]">
       <Board
         board={board}
         turn={turn}
@@ -36,7 +36,7 @@ const { board, turn, phase, turnState, playerKey, code, playerId, currentPlayer,
         currentPlayer={currentPlayer}
       />
     </div>
-    <div class="w-full lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">
+    <div class="w-full min-w-0 lg:w-80 bg-bg-surface border border-border rounded-2xl p-6">
       <GameInfo
         turn={turn}
         phase={phase}

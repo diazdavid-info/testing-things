@@ -42,7 +42,7 @@ const canMove = (phase === "move" || phase === "fly") && turnState === "move" &&
 const removablePositions = canRemove ? new Set(getRemovablePositions(board, playerKey)) : new Set<number>();
 ---
 
-<div class="w-full max-w-[480px] mx-auto" id="board-container" data-code={code} data-player-id={playerId} data-player-key={playerKey}>
+<div class="w-full max-w-full sm:max-w-[480px] mx-auto" id="board-container" data-code={code} data-player-id={playerId} data-player-key={playerKey}>
   <svg
     viewBox={`0 0 ${SIZE} ${SIZE}`}
     class="w-full h-auto"

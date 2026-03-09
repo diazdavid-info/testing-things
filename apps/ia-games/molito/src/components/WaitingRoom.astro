@@ -9,7 +9,7 @@ const gameUrl = `${Astro.url.origin}/molino/${code}`;
 ---
 
 <div class="w-full max-w-lg mx-auto px-6" id="waiting-room" data-code={code} data-player-id={playerId}>
-  <div class="bg-bg-surface border border-border rounded-2xl p-12 sm:p-12 p-8 flex flex-col items-center gap-8">
+  <div class="bg-bg-surface border border-border rounded-2xl p-8 sm:p-12 flex flex-col items-center gap-8">
     <div class="flex flex-col items-center gap-2">
       <h1 class="font-heading text-2xl sm:text-[28px] font-semibold text-text-primary tracking-tight">
         Tu partida esta lista
@@ -23,7 +23,7 @@ const gameUrl = `${Astro.url.origin}/molino/${code}`;
       <span class="text-[11px] font-semibold text-text-muted tracking-[1.5px] uppercase">
         Codigo de partida
       </span>
-      <span class="font-heading text-5xl sm:text-5xl text-4xl font-bold text-text-primary tracking-[8px]">
+      <span class="font-heading text-4xl sm:text-5xl font-bold text-text-primary tracking-[8px]">
         {code}
       </span>
     </div>

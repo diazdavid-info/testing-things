@@ -118,13 +118,13 @@ const playerProps = game && game.player2 ? {
       onDisconnectBannerUpdate: (rivalConnected, elapsed) => {
         if (!disconnBanner) return;
         if (!rivalConnected) {
-          disconnBanner.classList.remove("hidden");
+          disconnBanner.style.display = "flex";
           const claimBtn = document.getElementById("claim-victory-btn");
           if (claimBtn && elapsed >= 5 * 60 * 1000) {
             claimBtn.classList.remove("hidden");
           }
         } else {
-          disconnBanner.classList.add("hidden");
+          disconnBanner.style.display = "none";
         }
       },
     });

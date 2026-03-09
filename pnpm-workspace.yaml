@@ -1,5 +1,6 @@
 packages:
   - apps/*
+  - apps/ia-games/*
 
 onlyBuiltDependencies:
   - '@swc/core'
