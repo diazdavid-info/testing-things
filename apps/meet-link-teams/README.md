@@ -1,73 +1,51 @@
-# React + TypeScript + Vite
+# meet-link-teams
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicacion React + Vite con `react-router-dom` que abre un popup de Azure AD con `@azure/msal-browser` y, tras autenticarse, crea una reunion de Microsoft Teams mediante Microsoft Graph.
 
-Currently, two official plugins are available:
+## Configuracion
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Copia `.env.example` a `.env`.
+2. Rellena al menos estas variables:
 
-## React Compiler
-
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+VITE_AZURE_CLIENT_ID=tu-client-id
+VITE_AZURE_TENANT_ID=common
+VITE_AZURE_REDIRECT_URI=http://localhost:5173
+VITE_AZURE_POPUP_REDIRECT_URI=http://localhost:5173/auth/callback
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Permisos necesarios en Azure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+En el App Registration debes tener como minimo:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `User.Read`
+- `OnlineMeetings.ReadWrite` delegado
+
+Despues, concede consentimiento si tu tenant lo requiere.
+
+Tambien registra estas Redirect URIs en Azure:
+
+- `http://localhost:5173`
+- `http://localhost:5173/auth/callback`
+
+## Arranque
+
+```bash
+pnpm dev
 ```
+
+## Flujo
+
+La app usa dos rutas:
+
+- `/` para la home
+- `/auth/callback` como callback React minimo del popup, encargado de ejecutar el bridge oficial de MSAL
+
+La home muestra un boton que:
+
+1. Lanza `loginPopup()` de MSAL.
+2. Pide un token para Microsoft Graph.
+3. Hace `POST /me/onlineMeetings`.
+4. Muestra el `joinWebUrl` de Teams listo para abrir o copiar.
+
+Mientras pruebas el flujo, la home tambien muestra un bloque `Debug MSAL` con los eventos principales y errores relevantes del login popup.
