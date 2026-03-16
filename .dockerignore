@@ -7,3 +7,12 @@ apps/ia-games/molito/src/test
 apps/ia-games/molito/*.pen
 apps/ia-games/molito/.env*
 apps/ia-games/molito/docs
+
+!apps/ia-games/chopsticks/
+apps/ia-games/chopsticks/node_modules
+apps/ia-games/chopsticks/dist
+apps/ia-games/chopsticks/.astro
+apps/ia-games/chopsticks/src/test
+apps/ia-games/chopsticks/*.pen
+apps/ia-games/chopsticks/.env*
+apps/ia-games/chopsticks/docs
