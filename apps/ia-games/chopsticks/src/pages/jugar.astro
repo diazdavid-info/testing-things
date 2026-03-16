@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import GameBoard from "../components/GameBoard";
+---
+
+<Layout title="Partida — Juego de los Dedos" description="Juega una partida del Juego de los Dedos con un amigo en el mismo dispositivo.">
+  <div class="w-full px-4 sm:px-6 py-6">
+    <GameBoard client:load />
+  </div>
+</Layout>
