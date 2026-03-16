@@ -1,0 +1,129 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Como jugar — Juego de los Dedos" description="Aprende las reglas del Juego de los Dedos (Chopsticks). Atacar, repartir y eliminar las manos del rival.">
+  <div class="w-full max-w-lg mx-auto px-6 py-8">
+    <article class="bg-bg-surface border border-border rounded-2xl p-6 sm:p-10 flex flex-col gap-8">
+      <div class="flex items-center justify-between">
+        <h1 class="font-heading text-2xl sm:text-3xl font-bold text-text-primary">
+          Como jugar
+        </h1>
+        <a
+          href="/"
+          class="text-text-muted text-sm font-medium hover:text-text-primary transition-colors"
+        >
+          ← Volver
+        </a>
+      </div>
+
+      <section class="flex flex-col gap-3">
+        <h2 class="font-heading text-lg font-semibold text-text-primary">
+          Objetivo
+        </h2>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          Elimina las dos manos de tu rival. Una mano se elimina cuando llega a <strong class="text-text-primary">5 o mas dedos</strong>. Gana el jugador que elimine ambas manos del rival.
+        </p>
+      </section>
+
+      <section class="flex flex-col gap-3">
+        <h2 class="font-heading text-lg font-semibold text-text-primary">
+          Estado inicial
+        </h2>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          Cada jugador empieza con dos manos, cada una con <strong class="text-text-primary">1 dedo</strong>. El Jugador 1 empieza.
+        </p>
+        <div class="flex items-center justify-center gap-8 py-3 bg-bg-surface-subtle rounded-xl">
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-2xl">🤚</span>
+            <span class="font-heading font-bold text-lg text-text-primary">1</span>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-2xl">✋</span>
+            <span class="font-heading font-bold text-lg text-text-primary">1</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-3">
+        <h2 class="font-heading text-lg font-semibold text-text-primary">
+          Atacar
+        </h2>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          Toca una de tus manos vivas, luego toca una mano viva del rival. Los dedos se suman.
+        </p>
+        <div class="flex items-center justify-center gap-4 py-4 bg-bg-surface-subtle rounded-xl text-sm">
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-xl">🤚</span>
+            <span class="font-heading font-bold text-text-primary">2</span>
+            <span class="text-[11px] text-text-muted">Tu mano</span>
+          </div>
+          <span class="text-text-muted font-bold">→</span>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-xl">✋</span>
+            <span class="font-heading font-bold text-text-primary">3</span>
+            <span class="text-[11px] text-text-muted">Rival</span>
+          </div>
+          <span class="text-text-muted font-bold">=</span>
+          <div class="flex flex-col items-center gap-1">
+            <span class="text-xl">💀</span>
+            <span class="font-heading font-bold text-error">5</span>
+            <span class="text-[11px] text-error font-medium">Eliminada</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-3">
+        <h2 class="font-heading text-lg font-semibold text-text-primary">
+          Repartir
+        </h2>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          En vez de atacar, puedes redistribuir tus dedos entre tus dos manos. Esto permite <strong class="text-text-primary">revivir una mano eliminada</strong>.
+        </p>
+        <div class="flex items-center justify-center gap-4 py-4 bg-bg-surface-subtle rounded-xl text-sm">
+          <div class="flex flex-col items-center gap-1">
+            <div class="flex gap-2">
+              <span class="text-xl">🤚</span>
+              <span class="text-xl opacity-30">✊</span>
+            </div>
+            <span class="font-heading font-bold text-text-primary">4 | 0</span>
+            <span class="text-[11px] text-text-muted">Antes</span>
+          </div>
+          <span class="text-success font-bold text-lg">→</span>
+          <div class="flex flex-col items-center gap-1">
+            <div class="flex gap-2">
+              <span class="text-xl">🤚</span>
+              <span class="text-xl">✋</span>
+            </div>
+            <span class="font-heading font-bold text-success">2 | 2</span>
+            <span class="text-[11px] text-success font-medium">Revive!</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-3">
+        <h2 class="font-heading text-lg font-semibold text-text-primary">
+          Victoria
+        </h2>
+        <p class="text-text-secondary text-sm leading-relaxed">
+          La partida termina cuando un jugador tiene las dos manos eliminadas (ambas en 0). El otro jugador gana.
+        </p>
+      </section>
+
+      <div class="flex gap-3 pt-2">
+        <a
+          href="/jugar"
+          class="flex-1 h-12 flex items-center justify-center bg-accent-primary text-white font-heading font-semibold rounded-xl hover:bg-accent-primary-hover transition-colors"
+        >
+          Jugar ahora
+        </a>
+        <a
+          href="/"
+          class="flex-1 h-12 flex items-center justify-center bg-bg-surface-subtle border border-border text-text-primary font-heading font-medium rounded-xl hover:bg-border transition-colors"
+        >
+          Volver al inicio
+        </a>
+      </div>
+    </article>
+  </div>
+</Layout>
