@@ -5,10 +5,10 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY package.json ./
+COPY apps/ia-games/chopsticks/package.json ./
 RUN pnpm install --no-frozen-lockfile
 
-COPY . .
+COPY apps/ia-games/chopsticks/ .
 RUN pnpm run build
 
 # Runtime stage
