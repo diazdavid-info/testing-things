@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="relative w-full max-w-md mx-auto px-6">
+    <div class="relative bg-bg-surface border border-border rounded-2xl p-8 sm:p-12 flex flex-col items-center gap-10">
+      <div class="flex flex-col items-center gap-4">
+        <div class="text-6xl" aria-hidden="true">🤚</div>
+        <h1 class="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-text-primary text-center">
+          Juego de los Dedos
+        </h1>
+        <p class="text-center text-text-secondary text-sm sm:text-base leading-relaxed max-w-xs">
+          El clasico juego de manos para dos jugadores. Partidas rapidas y estrategicas.
+        </p>
+      </div>
+
+      <div class="w-full flex flex-col gap-4">
+        <a
+          href="/jugar"
+          class="w-full bg-accent-primary hover:bg-accent-primary-hover text-white font-heading font-semibold text-lg py-4 rounded-xl text-center transition-colors"
+        >
+          Nueva partida
+        </a>
+
+        <a
+          href="/como-jugar"
+          class="w-full bg-bg-surface-subtle hover:bg-border text-text-primary font-heading font-medium text-base py-3 rounded-xl text-center border border-border transition-colors"
+        >
+          Como jugar
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

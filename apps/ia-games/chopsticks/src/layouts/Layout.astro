@@ -1,0 +1,46 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Juego de los Dedos — El clasico juego de manos para dos jugadores",
+  description = "Juega al clasico juego de los dedos (Chopsticks) con un amigo. Partidas rapidas, reglas claras, sin registro.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="juego de los dedos, chopsticks, juego de manos, juego para dos, juego de turnos, juego para ninos" />
+
+    <meta property="og:title" content="Juego de los Dedos — Juego de manos para dos" />
+    <meta property="og:description" content="Partidas rapidas y estrategicas. Sin registro, directo al juego." />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Juego de los Dedos — Juego de manos para dos" />
+    <meta name="twitter:description" content="Partidas rapidas y estrategicas. Sin registro, directo al juego." />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-bg-primary min-h-dvh font-body text-text-primary antialiased">
+    <main class="flex flex-col min-h-dvh justify-center w-full">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>
