@@ -1,0 +1,28 @@
+.lab { padding: 130px 0; display: grid; grid-template-columns: .75fr 1.35fr; gap: 8vw; align-items: start; }
+.copy > span { color: var(--cande); font-size: .68rem; letter-spacing: .12em; }
+.copy h2 { margin: 22px 0 28px; font: 400 clamp(2.8rem, 6vw, 5.2rem)/.91 ui-sans-serif, system-ui; letter-spacing: -.07em; }
+.copy h2 em { color: var(--cande); font-style: normal; }
+.copy p { color: #a6a19a; font: 1rem/1.75 ui-sans-serif, system-ui; }
+.legend { margin-top: 35px; color: #706b66; font-size: .65rem; text-transform: uppercase; }
+.legend i { width: 7px; height: 7px; display: inline-block; margin: 0 8px 0 16px; background: var(--cande); }
+.legend i:first-child { margin-left: 0; background: var(--cande2); }
+.window { border: 1px solid #3a3631; background: #11100f; box-shadow: 14px 14px 0 #050505; }
+.window > header, .sortBar { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid #3a3631; color: var(--cande); font-size: .67rem; text-transform: uppercase; }
+.window > header b { color: #777069; font-weight: 400; }
+.window form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 14px; padding: 22px 20px 12px; border-bottom: 1px solid #3a3631; }
+.window label { color: #777069; font-size: .62rem; text-transform: uppercase; }
+.window input, .window select { width: 100%; margin-top: 8px; padding: 12px; border: 1px solid #3a3631; background: #080807; color: #eee9e1; font: inherit; }
+.window input[aria-invalid="true"] { border-color: var(--cande2); }
+.window form button { align-self: end; padding: 13px 17px; border: 0; background: var(--cande); color: #17120d; font: inherit; font-weight: 700; }
+.window form button span { margin-left: 10px; }
+.error { grid-column: 1/-1; min-height: 18px; margin: 0; color: var(--cande2); font-size: .7rem; }
+.sortBar { color: #777069; }
+.sortBar label { display: flex; align-items: center; gap: 10px; }
+.sortBar select { width: auto; margin: 0; padding: 7px 28px 7px 9px; color: #eee9e1; }
+.window ol { margin: 0; padding: 0; list-style: none; }
+.window li { display: grid; grid-template-columns: 44px 1fr; gap: 15px; padding: 17px 20px; border-bottom: 1px solid #292622; }
+.window li > span { padding-top: 3px; color: var(--cande); font-size: .65rem; }
+.window strong, .window small { display: block; }
+.window strong { font-size: .88rem; }
+.window small { margin-top: 5px; color: #777069; }
+@media (max-width: 750px) { .lab { grid-template-columns: 1fr; } .window form { grid-template-columns: 1fr; } }

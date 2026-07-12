@@ -5,6 +5,12 @@ const interviews = [
     description:
       'Formularios, estado como snapshot, valores derivados, useEffect e historial con deshacer.',
   },
+  {
+    title: 'Goncy × Cande — React live coding',
+    href: '/interviews/goncy-cande',
+    description:
+      'Submit y reset del formulario, validación, emails duplicados y ordenación por nombre.',
+  },
 ]
 
 export function HomePage() {

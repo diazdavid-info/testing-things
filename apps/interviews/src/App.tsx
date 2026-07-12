@@ -9,6 +9,11 @@ const GoncyLucasPage = lazy(() =>
     default: GoncyLucasPage,
   })),
 )
+const GoncyCandePage = lazy(() =>
+  import('./pages/goncy-cande/GoncyCandePage.tsx').then(({ GoncyCandePage }) => ({
+    default: GoncyCandePage,
+  })),
+)
 
 export function App() {
   return (
@@ -16,6 +21,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/interviews/goncy-lucas" element={<GoncyLucasPage />} />
+        <Route path="/interviews/goncy-cande" element={<GoncyCandePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
