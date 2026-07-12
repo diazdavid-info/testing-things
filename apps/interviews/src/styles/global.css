@@ -1,0 +1,30 @@
+:root {
+  --ink: #d8e3dc;
+  --muted: #79877f;
+  --panel: #101613;
+  --line: #26312b;
+  --accent: #b9f227;
+  --orange: #ff805e;
+  color: var(--ink);
+  background: #090d0b;
+  font-family: 'IBM Plex Mono', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+html { min-width: 320px; min-height: 100%; background: #090d0b; scroll-behavior: smooth; }
+body { min-width: 320px; min-height: 100vh; margin: 0; }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: .22;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+}
+button, input { font: inherit; }
+.route-loading { width: min(1180px, calc(100% - 48px)); margin: 72px auto; color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
