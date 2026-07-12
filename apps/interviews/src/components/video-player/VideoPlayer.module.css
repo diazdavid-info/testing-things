@@ -1,0 +1,18 @@
+.playerFrame { overflow: hidden; border: 1px solid var(--line); background: #050806; box-shadow: 12px 12px 0 #050806; }
+.playerFrame lite-youtube { max-width: none; }
+.windowBar { display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-bottom: 1px solid var(--line); background: #161e19; }
+.windowBar span { width: 8px; height: 8px; border-radius: 50%; background: #3e4942; }
+.windowBar span:first-child { background: var(--orange); }
+.windowBar p { flex: 1; margin: 0; color: #657169; font-size: .65rem; text-align: center; }
+.playerControls { display: flex; border-top: 1px solid var(--line); background: #0f1512; }
+.playerControls button { flex: 1; padding: 16px 20px; border: 0; border-right: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; text-transform: uppercase; transition: color 150ms ease, background 150ms ease; }
+.playerControls button:last-child { border-right: 0; }
+.playerControls button:hover, .playerControls button:focus-visible { background: var(--accent); color: #10140f; outline: 0; }
+.playerControls button span { margin-right: 8px; color: var(--accent); }
+.playerControls button:hover span, .playerControls button:focus-visible span { color: inherit; }
+
+@media (max-width: 700px) {
+  .playerControls { flex-direction: column; }
+  .playerControls button { border-right: 0; border-bottom: 1px solid var(--line); }
+  .playerControls button:last-child { border-bottom: 0; }
+}

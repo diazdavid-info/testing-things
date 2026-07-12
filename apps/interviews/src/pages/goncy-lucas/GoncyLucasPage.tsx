@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import { DirectoryLab } from './DirectoryLab.tsx'
+import { InterviewVideo } from './InterviewVideo.tsx'
 import { derivedValueExample, duplicatedStateExample, lessons } from './interview-content.ts'
 import styles from './GoncyLucasPage.module.css'
 
@@ -12,7 +13,7 @@ export function GoncyLucasPage() {
         <div>
           <a href="#aprendizajes">Apuntes</a>
           <a href="#laboratorio">Demo</a>
-          <a className={styles.watch} href="https://lnkd.in/dkARQRnP" target="_blank" rel="noreferrer">Ver entrevista ↗</a>
+          <a href="#video">Vídeo</a>
         </div>
       </nav>
 
@@ -54,6 +55,7 @@ export function GoncyLucasPage() {
 
         <DirectoryLab />
         <EffectChecklist />
+        <InterviewVideo />
       </main>
 
       <footer><span>Entrevistador · Goncy</span><span>Entrevistado · Lucas</span><a href="#inicio">Volver arriba ↑</a></footer>

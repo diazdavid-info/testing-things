@@ -1,0 +1,9 @@
+.videoSection { padding: 130px 0; }
+.videoSection > header { display: grid; grid-template-columns: 1.4fr .6fr; gap: 8vw; align-items: end; margin-bottom: 52px; }
+.videoSection header span { color: var(--orange); font-size: .68rem; letter-spacing: .1em; }
+.videoSection h2 { margin: 20px 0 0; color: var(--ink); font: 400 clamp(2.5rem, 6vw, 5rem)/.95 ui-sans-serif, system-ui; letter-spacing: -.06em; }
+.videoSection header p { margin: 0; color: var(--muted); font: 1rem/1.7 ui-sans-serif, system-ui; }
+
+@media (max-width: 700px) {
+  .videoSection > header { grid-template-columns: 1fr; gap: 24px; }
+}

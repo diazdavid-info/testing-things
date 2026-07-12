@@ -3,7 +3,6 @@
 .page > nav { width: min(1180px, calc(100% - 48px)); height: 72px; margin: auto; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); font-size: .72rem; text-transform: uppercase; }
 .page > nav > div { display: flex; align-items: center; gap: 24px; }
 .brand { font-weight: 700; }
-.watch { padding: 10px 14px; border: 1px solid var(--accent); color: var(--accent) !important; }
 .page main { width: min(1180px, calc(100% - 48px)); margin: auto; }
 .interviewHero { padding: 70px 0 110px; }
 .heroMeta { display: flex; justify-content: space-between; color: var(--orange); font-size: .7rem; }
@@ -42,7 +41,7 @@
 
 @media (max-width: 700px) {
   .page main, .page > nav, .page > footer { width: min(100% - 28px, 1180px); }
-  .page > nav > div > a:not(.watch) { display: none; }
+  .page > nav > div > a:not(:last-child) { display: none; }
   .heroBottom, .lessons, .comparison, .effectRule, .thesis { grid-template-columns: 1fr; }
   .comparisonHead { grid-column: auto; }
   .interviewHero h1 { margin: 80px 0; }
