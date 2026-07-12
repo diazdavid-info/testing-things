@@ -11,6 +11,12 @@ const interviews = [
     description:
       'Submit y reset del formulario, validación, emails duplicados y ordenación por nombre.',
   },
+  {
+    title: 'Goncy × Juan — React live coding',
+    href: '/interviews/goncy-juan',
+    description:
+      'Paginación, carga incremental, estados asíncronos e infinite scroll con IntersectionObserver.',
+  },
 ]
 
 export function HomePage() {
