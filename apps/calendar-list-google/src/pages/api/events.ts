@@ -7,6 +7,16 @@ function safeCalendarId(url: URL): string | null {
   return id && id.length <= 1024 ? id : null
 }
 
+function safePageToken(url: URL): string | undefined {
+  const token = url.searchParams.get('pageToken')
+  return token && token.length <= 4096 ? token : undefined
+}
+
+function safeTimeMin(url: URL): string {
+  const value = url.searchParams.get('timeMin')
+  return value && value.length <= 64 && !Number.isNaN(Date.parse(value)) ? new Date(value).toISOString() : new Date().toISOString()
+}
+
 export const GET: APIRoute = async ({ cookies, url }) => {
   const calendar = authenticatedCalendar(cookies)
   if (!calendar) return Response.json({ error: 'Unauthorized' }, { status: 401 })
@@ -17,11 +27,12 @@ export const GET: APIRoute = async ({ cookies, url }) => {
   try {
     const { data } = await calendar.events.list({
       calendarId,
-      maxResults: 100,
+      maxResults: 20,
       orderBy: 'startTime',
+      pageToken: safePageToken(url),
       showDeleted: false,
       singleEvents: true,
-      timeMin: new Date().toISOString(),
+      timeMin: safeTimeMin(url),
     })
 
     return Response.json({
@@ -36,6 +47,7 @@ export const GET: APIRoute = async ({ cookies, url }) => {
         status: event.status,
         summary: event.summary ?? '(Sin título)',
       })),
+      nextPageToken: data.nextPageToken,
       timeZone: data.timeZone,
     })
   } catch (error) {

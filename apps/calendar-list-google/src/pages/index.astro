@@ -187,6 +187,8 @@ const authError = Astro.url.searchParams.has('auth_error')
               <span>Ordenando tu agenda…</span>
             </div>
             <div id="event-list" class="event-list" aria-live="polite" />
+            <div id="load-more-status" class="load-more-status" role="status" aria-live="polite" hidden />
+            <div id="events-sentinel" class="events-sentinel" aria-hidden="true" hidden />
           </section>
         </main>
       )
@@ -687,6 +689,29 @@ const authError = Astro.url.searchParams.has('auth_error')
 
   .status.error {
     color: #a52c18;
+  }
+
+  .load-more-status {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .load-more-status[hidden],
+  .events-sentinel[hidden] {
+    display: none;
+  }
+
+  .load-more-status.error {
+    color: #a52c18;
+  }
+
+  .events-sentinel {
+    height: 1px;
   }
 
   .loader {

@@ -27,6 +27,8 @@ const calendarSelect = requiredElement<HTMLSelectElement>('#calendar-select')
 const calendarDot = requiredElement<HTMLElement>('#calendar-dot')
 const eventList = requiredElement<HTMLElement>('#event-list')
 const statusElement = requiredElement<HTMLElement>('#status')
+const loadMoreStatus = requiredElement<HTMLElement>('#load-more-status')
+const eventsSentinel = requiredElement<HTMLElement>('#events-sentinel')
 const eventCount = requiredElement<HTMLElement>('#event-count')
 const selectedCount = requiredElement<HTMLElement>('#selected-count')
 const selectAll = requiredElement<HTMLInputElement>('#select-all')
@@ -40,6 +42,10 @@ const selectedIds = new Set<string>()
 let calendars: CalendarItem[] = []
 let events: CalendarEvent[] = []
 let pendingDeletion: string[] = []
+let nextPageToken: string | null = null
+let loadingEvents = false
+let loadGeneration = 0
+let eventsTimeMin = ''
 
 const dateFormatter = new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', weekday: 'short' })
 const monthFormatter = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' })
@@ -81,6 +87,14 @@ function setStatus(message: string, type: 'loading' | 'error' | 'empty' = 'loadi
       : `<span>${escapeHtml(message)}</span>`
 }
 
+function setLoadMoreStatus(message?: string, error = false): void {
+  loadMoreStatus.hidden = !message
+  loadMoreStatus.classList.toggle('error', error)
+  loadMoreStatus.innerHTML = message
+    ? `${error ? '' : '<span class="loader"></span>'}<span>${escapeHtml(message)}</span>`
+    : ''
+}
+
 function formatEventDate(event: CalendarEvent): {
   day: string
   monthKey: string
@@ -106,8 +120,7 @@ function formatEventDate(event: CalendarEvent): {
   return { day, monthKey, monthLabel, time: endTime ? `${startTime} — ${endTime}` : startTime, weekday }
 }
 
-function renderEvents(): void {
-  eventList.replaceChildren()
+function appendEvents(newEvents: CalendarEvent[], startIndex: number): void {
   eventCount.textContent = String(events.length).padStart(2, '0')
 
   if (events.length === 0) {
@@ -122,9 +135,9 @@ function renderEvents(): void {
   }
 
   statusElement.hidden = true
-  let activeMonth = ''
+  let activeMonth = startIndex > 0 ? formatEventDate(events[startIndex - 1]).monthKey : ''
 
-  events.forEach((event, index) => {
+  newEvents.forEach((event, index) => {
     const formatted = formatEventDate(event)
     if (formatted.monthKey !== activeMonth) {
       activeMonth = formatted.monthKey
@@ -161,26 +174,59 @@ function renderEvents(): void {
   updateSelectionUi()
 }
 
-async function loadEvents(): Promise<void> {
-  selectedIds.clear()
-  setStatus('Ordenando tu agenda…')
-  eventList.replaceChildren()
+async function loadEventPage(generation: number): Promise<void> {
+  if (loadingEvents) return
+  loadingEvents = true
+  const firstPage = events.length === 0 && !nextPageToken
+  if (!firstPage) setLoadMoreStatus('Cargando más eventos…')
 
   try {
-    const response = await fetch(`/api/events?calendarId=${encodeURIComponent(calendarSelect.value)}`)
+    const params = new URLSearchParams({ calendarId: calendarSelect.value, timeMin: eventsTimeMin })
+    if (nextPageToken) params.set('pageToken', nextPageToken)
+    const response = await fetch(`/api/events?${params}`)
     if (response.status === 401) {
       window.location.reload()
       return
     }
-    const data = (await response.json()) as { error?: string; events?: CalendarEvent[] }
+    const data = (await response.json()) as { error?: string; events?: CalendarEvent[]; nextPageToken?: string }
     if (!response.ok) throw new Error(data.error ?? 'No se pudieron cargar los eventos.')
-    events = data.events ?? []
-    renderEvents()
+    if (generation !== loadGeneration) return
+
+    const newEvents = data.events ?? []
+    const startIndex = events.length
+    events.push(...newEvents)
+    nextPageToken = data.nextPageToken ?? null
+    appendEvents(newEvents, startIndex)
+    eventsSentinel.hidden = !nextPageToken
+    setLoadMoreStatus()
   } catch (error) {
+    if (generation !== loadGeneration) return
+    const message = error instanceof Error ? error.message : 'Ha ocurrido un error.'
+    if (!firstPage) {
+      eventsSentinel.hidden = true
+      setLoadMoreStatus(message, true)
+      return
+    }
     events = []
     eventCount.textContent = '—'
-    setStatus(error instanceof Error ? error.message : 'Ha ocurrido un error.', 'error')
+    setStatus(message, 'error')
+  } finally {
+    if (generation === loadGeneration) loadingEvents = false
   }
+}
+
+async function loadEvents(): Promise<void> {
+  const generation = ++loadGeneration
+  selectedIds.clear()
+  events = []
+  nextPageToken = null
+  loadingEvents = false
+  eventsTimeMin = new Date().toISOString()
+  eventsSentinel.hidden = true
+  setLoadMoreStatus()
+  setStatus('Ordenando tu agenda…')
+  eventList.replaceChildren()
+  await loadEventPage(generation)
 }
 
 async function loadCalendars(): Promise<void> {
@@ -296,5 +342,13 @@ confirmDelete.addEventListener('click', (event) => {
   event.preventDefault()
   void deleteEvents(pendingDeletion)
 })
+
+const eventsObserver = new IntersectionObserver(
+  ([entry]) => {
+    if (entry?.isIntersecting && nextPageToken && !loadingEvents) void loadEventPage(loadGeneration)
+  },
+  { rootMargin: '400px 0px' },
+)
+eventsObserver.observe(eventsSentinel)
 
 void loadCalendars()
