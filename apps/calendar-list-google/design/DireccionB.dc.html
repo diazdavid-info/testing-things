@@ -1,0 +1,431 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f6f6f4;
+      color: #17181a;
+      font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: #1f5f5b; }
+    a:hover { color: #143f3c; }
+
+    .tag {
+      margin: 0 0 10px;
+      color: #1f5f5b;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+
+    .rationale dt {
+      margin-bottom: 7px;
+      color: #6b7078;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+
+    .rationale dd { margin: 0; font-size: 15px; line-height: 1.5; text-wrap: pretty; }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e4e4e0;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(23, 24, 26, 0.04), 0 12px 32px -18px rgba(23, 24, 26, 0.18);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid #eeeeea;
+    }
+
+    .card-head h2 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+
+    .icon { width: 18px; height: 18px; flex: 0 0 auto; }
+    .icon path, .icon circle { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+    .pill {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 14px;
+      border: 1px solid #e4e4e0;
+      border-radius: 10px;
+      background: #fff;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 500;
+    }
+
+    .pill:hover { background: #f6f6f4; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #7fd3d8; }
+
+    /* barra de acción contextual: aparece solo con selección */
+    .action-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      padding: 12px 20px;
+      background: #f0f5f4;
+      border-bottom: 1px solid #e0ebe9;
+    }
+
+    .action-bar p { flex: 1; margin: 0; font-weight: 600; }
+
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .btn-danger { background: #b23c22; color: #fff; }
+    .btn-danger:hover { background: #97321b; }
+    .btn-quiet { border-color: #dcdcd8; background: #fff; }
+
+    .day-head {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px 8px;
+      background: linear-gradient(#fff 70%, rgba(255, 255, 255, 0.85));
+      color: #6b7078;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .day-head strong { color: #17181a; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 44px 66px 3px minmax(0, 1fr) 44px;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+
+    .row:hover { background: #f6f6f4; }
+    .row.on { background: #f0f5f4; }
+
+    .check-target { min-width: 44px; min-height: 44px; display: grid; place-items: center; cursor: pointer; }
+
+    .box {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border: 1.5px solid #c9c9c4;
+      border-radius: 6px;
+      color: transparent;
+    }
+
+    .box.on { border-color: #1f5f5b; background: #1f5f5b; color: #fff; }
+    .box.part { border-color: #1f5f5b; background: #fff; color: #1f5f5b; }
+
+    .time { margin: 0; font-size: 14px; font-variant-numeric: tabular-nums; font-weight: 600; line-height: 1.4; }
+    .time span { display: block; color: #6b7078; font-weight: 400; }
+
+    .rail { align-self: stretch; min-height: 34px; border-radius: 3px; background: #7fd3d8; }
+
+    .row h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 3px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+    }
+
+    .row p { margin: 0; color: #6b7078; font-size: 13px; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #eef1f0;
+      color: #4c5560;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .chip .icon { width: 13px; height: 13px; }
+
+    .ghost {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #6b7078;
+      cursor: pointer;
+    }
+
+    .ghost:hover { background: #f0e7e4; color: #b23c22; }
+
+    /* --- calendario --- */
+    .seg { display: flex; border: 1px solid #e4e4e0; border-radius: 10px; overflow: hidden; }
+
+    .seg button {
+      min-width: 44px;
+      min-height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0 14px;
+      border: 0;
+      background: #fff;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .seg button + button { border-left: 1px solid #e4e4e0; }
+    .seg button:hover { background: #f6f6f4; }
+
+    .legend { display: flex; align-items: center; gap: 10px; padding: 14px 20px; border-bottom: 1px solid #eeeeea; }
+
+    .legend-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px 7px 9px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .legend-chip i { width: 12px; height: 12px; border-radius: 50%; }
+    .legend-note { flex: 1; margin: 0; color: #6b7078; font-size: 13px; text-align: right; }
+
+    .weekdays, .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+
+    .weekdays { padding: 4px 0 10px; color: #6b7078; font-size: 13px; font-weight: 600; text-align: center; }
+
+    .d {
+      position: relative;
+      min-height: 54px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+    }
+
+    .d.a { background: var(--pa-soft); color: var(--pa-ink); }
+    .d.b { background: var(--pb-soft); color: var(--pb-ink); }
+    .r-l { border-top-left-radius: 999px; border-bottom-left-radius: 999px; }
+    .r-r { border-top-right-radius: 999px; border-bottom-right-radius: 999px; }
+    .d.off { color: #b6b6b0; }
+    .d small { font-size: 12px; font-weight: 600; opacity: 0.75; }
+
+    .d.now::after {
+      position: absolute;
+      inset: 3px;
+      border: 2px solid #17181a;
+      border-radius: 999px;
+      content: '';
+    }
+
+    .hand { box-shadow: inset 2px 0 0 #17181a; }
+  </style>
+</helmet>
+<div style="--pa-soft: {{ personA }}; --pb-soft: {{ personB }}; --pa-ink: color-mix(in srgb, var(--pa-soft) 30%, #111315); --pb-ink: color-mix(in srgb, var(--pb-soft) 30%, #171012); min-height: 900px; display: flex; flex-direction: column">
+  <header style="display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: end; gap: 48px; padding: 34px 40px 26px; border-bottom: 1px solid #e4e4e0">
+    <div>
+      <p class="tag">OPCIÓN B</p>
+      <h1 style="margin: 0; font-size: 42px; font-weight: 600; letter-spacing: -0.035em; line-height: 1">App clara</h1>
+    </div>
+    <dl class="rationale" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; margin: 0">
+      <div>
+        <dt>POR QUÉ</dt>
+        <dd>Patrones que cualquiera sabe usar ya: agenda agrupada por día con la hora a la izquierda, turno como una píldora continua sobre la rejilla, y las acciones de borrado en una barra que solo aparece cuando hay algo seleccionado.</dd>
+      </div>
+      <div>
+        <dt>A CAMBIO</dt>
+        <dd>Pierde la identidad. Bien ejecutada se parecerá a cualquier otro cliente de calendario, que es exactamente lo que hoy no es.</dd>
+      </div>
+    </dl>
+  </header>
+
+  <div style="flex: 1; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 26px; padding: 26px 40px 34px">
+    <section class="card">
+      <div class="card-head">
+        <h2>Agenda</h2>
+        <button class="pill" type="button">
+          <span class="dot"></span>
+          Principal
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 8L10 12.5 14.5 8"></path></svg>
+        </button>
+      </div>
+
+      <div class="action-bar">
+        <p>2 eventos seleccionados</p>
+        <button class="btn btn-quiet" type="button">Quitar selección</button>
+        <button class="btn btn-danger" type="button">
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          Eliminar
+        </button>
+      </div>
+
+      <div style="padding: 6px 0 14px">
+        <div class="day-head"><span><strong>Jueves 20</strong> de agosto</span><span>2 eventos</span></div>
+        <article class="row">
+          <label class="check-target"><span class="box"></span></label>
+          <p class="time">09:30<span>10:15</span></p>
+          <span class="rail"></span>
+          <div>
+            <h3>Revisión del trimestre</h3>
+            <p>Estudio · Sala verde</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar evento">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+        <article class="row on">
+          <label class="check-target"><span class="box on"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" style="width: 13px; height: 13px"><path d="M4.5 10.5l3.5 3.5 7-8"></path></svg></span></label>
+          <p class="time">13:00<span>14:00</span></p>
+          <span class="rail"></span>
+          <div>
+            <h3>Comida con el equipo</h3>
+            <p>Sin ubicación</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar evento">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+
+        <div class="day-head"><span><strong>Viernes 21</strong> de agosto</span><span>1 evento</span></div>
+        <article class="row">
+          <label class="check-target"><span class="box"></span></label>
+          <p class="time">Todo<span>el día</span></p>
+          <span class="rail"></span>
+          <div>
+            <h3>Entrega editorial</h3>
+            <p>Sin ubicación</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar evento">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+
+        <div class="day-head"><span><strong>Lunes 24</strong> de agosto</span><span>1 evento</span></div>
+        <article class="row on">
+          <label class="check-target"><span class="box on"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" style="width: 13px; height: 13px"><path d="M4.5 10.5l3.5 3.5 7-8"></path></svg></span></label>
+          <p class="time">11:00<span>11:30</span></p>
+          <span class="rail"></span>
+          <div>
+            <h3>Café con Elena <span class="chip"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 9a5 5 0 0 1 5-5h5M12 2l2.5 2L12 6M16 11a5 5 0 0 1-5 5H6M8 12l-2.5 2L8 16"></path></svg> Serie</span></h3>
+            <p>La Bicicleta · Madrid</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar solo esta ocurrencia">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Agosto 2026</h2>
+        <div style="display: flex; gap: 10px">
+          <div class="seg">
+            <button type="button" aria-label="Mes anterior"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4.5L6.5 10l5.5 5.5"></path></svg></button>
+            <button type="button">Hoy</button>
+            <button type="button" aria-label="Mes siguiente"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4.5L13.5 10 8 15.5"></path></svg></button>
+          </div>
+          <button class="pill" type="button">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5M10 3v2M10 15v2M4 10H2M18 10h-2M5.8 5.8L4.4 4.4M15.6 15.6l-1.4-1.4M14.2 5.8l1.4-1.4M4.4 15.6l1.4-1.4"></path></svg>
+            Ajustes
+          </button>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span class="legend-chip" style="background: var(--pa-soft); color: var(--pa-ink)"><i style="background: var(--pa-ink)"></i> Papá · 1 → 15</span>
+        <span class="legend-chip" style="background: var(--pb-soft); color: var(--pb-ink)"><i style="background: var(--pb-ink)"></i> Mamá · 16 → 31</span>
+        <p class="legend-note">Verano: quincenas, cambio a las 19:00</p>
+      </div>
+
+      <div style="padding: 12px 20px 20px">
+        <div class="weekdays" aria-hidden="true">
+          <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+        </div>
+
+        <div class="week">
+          <span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span>
+          <span class="d a r-l">1</span><span class="d a r-r">2</span>
+        </div>
+        <div class="week">
+          <span class="d a r-l">3</span><span class="d a">4</span><span class="d a">5</span><span class="d a">6</span><span class="d a">7</span><span class="d a">8</span><span class="d a r-r">9</span>
+        </div>
+        <div class="week">
+          <span class="d a r-l">10</span><span class="d a">11</span><span class="d a">12</span><span class="d a">13</span><span class="d a">14</span><span class="d a r-r">15</span>
+          <span class="d b r-l r-r hand">16<small>19:00</small></span>
+        </div>
+        <div class="week">
+          <span class="d b r-l">17</span><span class="d b">18</span><span class="d b">19</span><span class="d b now">20</span><span class="d b">21</span><span class="d b">22</span><span class="d b r-r">23</span>
+        </div>
+        <div class="week">
+          <span class="d b r-l">24</span><span class="d b">25</span><span class="d b">26</span><span class="d b">27</span><span class="d b">28</span><span class="d b">29</span><span class="d b r-r">30</span>
+        </div>
+        <div class="week">
+          <span class="d b r-l r-r">31</span>
+          <span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"personA":{"editor":"color","default":"#d9e8e5","section":"Personas","options":["#d9e8e5","#dde6f2","#e0e8d8","#dfe3e8"]},"personB":{"editor":"color","default":"#f6dcd2","section":"Personas","options":["#f6dcd2","#f7e2c9","#f2dae2","#eee0d2"]},"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      personA: this.props.personA ?? '#d9e8e5',
+      personB: this.props.personB ?? '#f6dcd2',
+    };
+  }
+}
+</script>
+</body>
+</html>

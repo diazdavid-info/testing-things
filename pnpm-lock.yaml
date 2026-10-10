@@ -70,6 +70,22 @@ importers:
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.0.15)
 
+  apps/calendar-custody:
+    dependencies:
+      '@astrojs/node':
+        specifier: 11.0.2
+        version: 11.0.2(astro@7.1.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.3.0)(ioredis@5.8.2)(jiti@2.6.1)(rollup@4.57.0)(tsx@4.21.0)(yaml@2.9.0))
+      astro:
+        specifier: 7.1.4
+        version: 7.1.4(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.3.0)(ioredis@5.8.2)(jiti@2.6.1)(rollup@4.57.0)(tsx@4.21.0)(yaml@2.9.0)
+    devDependencies:
+      '@astrojs/check':
+        specifier: ^0.9.6
+        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   apps/calendar-list-google:
     dependencies:
       '@astrojs/node':

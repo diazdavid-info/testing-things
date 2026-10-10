@@ -372,7 +372,11 @@ function vacationFirstParent(period: VacationPeriod): Parent {
 
 function getVacationAssignment(timestamp: number): CustodyAssignment | null {
   const period = configuration.exceptions.vacationPeriods.find(
-    (candidate) => timestamp >= parseUtcDate(candidate.startDate) && timestamp <= parseUtcDate(candidate.endDate),
+    (candidate) =>
+      timestamp >= parseUtcDate(candidate.startDate) &&
+      (candidate.kind === 'other'
+        ? timestamp <= parseUtcDate(candidate.endDate)
+        : timestamp < parseUtcDate(candidate.endDate)),
   )
   if (!period) return null
 
@@ -395,18 +399,21 @@ function getVacationAssignment(timestamp: number): CustodyAssignment | null {
 function getVacationReturnAssignment(timestamp: number): CustodyAssignment | null {
   for (const period of configuration.exceptions.vacationPeriods) {
     const endTimestamp = parseUtcDate(period.endDate)
-    const firstDayAfter = endTimestamp + MILLISECONDS_PER_DAY
-    const firstDay = new Date(firstDayAfter)
+    // School holidays end at 19:00 on endDate, before school resumes.
+    // Custom periods keep their inclusive end date.
+    const returnTimestamp = period.kind === 'other' ? endTimestamp + MILLISECONDS_PER_DAY : endTimestamp
+    const firstDay = new Date(period.kind === 'other' ? returnTimestamp : returnTimestamp + MILLISECONDS_PER_DAY)
     const nextExchange = nextWeekdayOnOrAfter(
       firstDay.getUTCFullYear(),
       firstDay.getUTCMonth(),
       firstDay.getUTCDate(),
       configuration.weekly.exchangeWeekday,
     )
-    if (timestamp < firstDayAfter || timestamp >= nextExchange) continue
+    if (timestamp < returnTimestamp || timestamp >= nextExchange) continue
     const lastParent = opposite(vacationFirstParent(period))
     return {
-      handoverFrom: timestamp === firstDayAfter ? lastParent : undefined,
+      exchangeTime: period.exchangeTime,
+      handoverFrom: timestamp === returnTimestamp ? lastParent : undefined,
       label: `Regreso tras ${period.name}`,
       mode: 'holiday-return',
       parent: opposite(lastParent),
@@ -553,7 +560,15 @@ function createDay(year: number, month: number, day: number): HTMLDivElement {
             : assignment.mode === 'non-school'
               ? `${currentOwnerName} · ${assignment.label} · festivo o puente escolar · ${key}`
               : `${currentOwnerName} · ${key}${mondayBasedWeekday === 0 ? ` · ${isoWeek.year}-W${String(isoWeek.week).padStart(2, '0')}` : ''}`
-  dayElement.setAttribute('aria-label', `${day} de ${MONTH_NAMES[month]} de ${year}, corresponde a ${currentOwnerName}`)
+  const holidayReturnChange =
+    assignment.mode === 'holiday-return' && ownerChanges
+      ? ` · cambio de ${previousOwnerName} a ${currentOwnerName} a las ${assignment.exchangeTime}`
+      : ''
+  dayElement.title += holidayReturnChange
+  dayElement.setAttribute(
+    'aria-label',
+    `${day} de ${MONTH_NAMES[month]} de ${year}, corresponde a ${currentOwnerName}${holidayReturnChange}`,
+  )
   return dayElement
 }
 

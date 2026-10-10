@@ -1,0 +1,45 @@
+{
+  "pages": [
+    { "id": "page-renglon", "name": "Renglón · / (actual)" },
+    { "id": "page-turnos", "name": "Turnos · /custodia (actual)" },
+    { "id": "page-direcciones", "name": "Direcciones · elige una" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html", "title": "Renglón · Acceso", "page": "page-renglon", "x": 0, "y": 0, "w": 1440, "h": 900 },
+    { "file": "Agenda.dc.html", "title": "Renglón · Agenda", "page": "page-renglon", "x": 1560, "y": 0, "w": 1440, "h": 1500 },
+    { "file": "AgendaMovil.dc.html", "title": "Renglón · Agenda (móvil)", "page": "page-renglon", "x": 3120, "y": 0, "w": 390, "h": 844 },
+    { "file": "Calendario.dc.html", "title": "Turnos · Calendario 2026", "page": "page-turnos", "x": 0, "y": 0, "w": 1600, "h": 2820 },
+    { "file": "Configurar.dc.html", "title": "Turnos · Configuración (paso 01)", "page": "page-turnos", "x": 1720, "y": 0, "w": 1600, "h": 900 },
+    { "file": "CalendarioMovil.dc.html", "title": "Turnos · Calendario (móvil)", "page": "page-turnos", "x": 3440, "y": 0, "w": 390, "h": 1680 },
+    { "file": "DireccionA.dc.html", "title": "A · Editorial afinada", "page": "page-direcciones", "x": 0, "y": 0, "w": 1280, "h": 900 },
+    { "file": "DireccionB.dc.html", "title": "B · App clara", "page": "page-direcciones", "x": 1400, "y": 0, "w": 1280, "h": 900 },
+    { "file": "DireccionC.dc.html", "title": "C · Panel de datos", "page": "page-direcciones", "x": 2800, "y": 0, "w": 1280, "h": 900 }
+  ],
+  "annotations": [
+    {
+      "id": "nota-renglon",
+      "page": "page-renglon",
+      "x": 1560,
+      "y": -210,
+      "w": 480,
+      "text": "Selección parcial: con 2 de 7 eventos marcados, updateSelectionUi() pone SELECCIONAR TODO en indeterminate, pero el CSS solo estiliza input:checked + .custom-check. El resultado es una casilla idéntica a la vacía. Falta un estado intermedio (una barra dentro del cuadro)."
+    },
+    {
+      "id": "nota-turnos",
+      "page": "page-turnos",
+      "x": 0,
+      "y": -210,
+      "w": 480,
+      "text": "Control de año: al mirar el año actual, #current-year queda disabled y el CSS le aplica opacity 0.25. La etiqueta AÑO 2026 —el dato más importante de la barra— es lo que se ve más apagado. Merece un estado \"actual\" propio en lugar de heredar el de deshabilitado."
+    },
+    {
+      "id": "nota-direcciones",
+      "page": "page-direcciones",
+      "x": 0,
+      "y": -250,
+      "w": 620,
+      "text": "Tres direcciones, un mismo contenido para poder compararlas: la agenda del 20-24 de agosto y el turno real de agosto de 2026.\n\nLas tres arreglan lo mismo por debajo: nada de tipografía por debajo de 12px, objetivos de 44px, iconos SVG en vez de flechas de teclado y estados visibles para selección parcial y mes actual.\n\nElige una y construyo con ella las seis pantallas completas."
+    }
+  ],
+  "launch": { "view": "canvas", "page": "page-direcciones" }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "calendar-custody",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "start": "node ./dist/server/entry.mjs",
+    "check": "astro check",
+    "lint": "eslint src --fix"
+  },
+  "dependencies": {
+    "@astrojs/node": "11.0.2",
+    "astro": "7.1.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "typescript": "^5.9.3"
+  }
+}

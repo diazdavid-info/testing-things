@@ -1,0 +1,480 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f3f0e8;
+      color: #1c1b19;
+      font-family: 'DM Mono', ui-monospace, monospace;
+      font-size: 13px;
+    }
+
+    a { color: #e85d3f; }
+    a:hover { color: #c94a2e; }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+    }
+
+    .tag {
+      margin: 0 0 10px;
+      color: #e85d3f;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+    }
+
+    .rationale dt {
+      margin-bottom: 7px;
+      color: #6c6961;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+    }
+
+    .rationale dd {
+      margin: 0;
+      font-family: 'Newsreader', serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .pane-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 24px;
+      color: #6c6961;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+    }
+
+    .pane-label::after {
+      flex: 1;
+      height: 1px;
+      background: rgba(28, 27, 25, 0.2);
+      content: '';
+    }
+
+    .icon { width: 20px; height: 20px; flex: 0 0 auto; }
+    .icon path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* --- barra de lista: 44px de altura real, texto de 13px --- */
+    .list-bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #1c1b19;
+    }
+
+    .check-target {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 44px;
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    .box {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 1px solid #1c1b19;
+      color: transparent;
+    }
+
+    .box.on { background: #1c1b19; color: #f3f0e8; }
+    .box.part { background: #d7ea48; }
+    .box.part::after { width: 12px; height: 2px; background: #1c1b19; content: ''; }
+
+    .bar-count { flex: 1; color: #6c6961; font-size: 13px; }
+
+    .danger {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 16px;
+      border: 1px solid #e85d3f;
+      background: transparent;
+      color: #e85d3f;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    .danger:hover { background: #e85d3f; color: #fff; }
+
+    /* --- agrupada por día, no por mes --- */
+    .day-group { margin-top: 30px; }
+
+    .day-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 0 0 4px;
+      font-family: 'Newsreader', serif;
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .day-head span {
+      color: #6c6961;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 44px 78px minmax(0, 1fr) 44px;
+      align-items: center;
+      gap: 16px;
+      min-height: 68px;
+      border-bottom: 1px solid rgba(28, 27, 25, 0.2);
+    }
+
+    .row.on { margin-inline: -12px; padding-inline: 12px; background: rgba(215, 234, 72, 0.28); }
+
+    .time { font-size: 14px; font-variant-numeric: tabular-nums; line-height: 1.5; }
+    .time span { display: block; color: #6c6961; }
+
+    .row h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 5px;
+      font-family: 'Newsreader', serif;
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+    }
+
+    .row p { margin: 0; color: #6c6961; font-size: 13px; }
+
+    .serie {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 7px;
+      border: 1px solid #e85d3f;
+      color: #e85d3f;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .serie .icon { width: 14px; height: 14px; }
+
+    .ghost {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #6c6961;
+      cursor: pointer;
+    }
+
+    .ghost:hover { border-color: #e85d3f; color: #e85d3f; }
+
+    /* --- calendario en bandas de turno --- */
+    .cal-head { display: flex; align-items: flex-end; justify-content: space-between; }
+
+    .cal-head h2 {
+      margin: 0;
+      font-family: 'Newsreader', serif;
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+
+    .cal-head h2 span { color: #6c6961; font-size: 20px; }
+
+    .nav { display: flex; gap: 8px; }
+
+    .nav button {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #1c1b19;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .nav button:hover { background: #d7ea48; }
+
+    .turns {
+      display: grid;
+      grid-template-columns: 15fr 16fr;
+      margin-top: 26px;
+      border: 1px solid #1c1b19;
+    }
+
+    .turn { padding: 12px 14px; }
+    .turn + .turn { border-left: 2px solid #1c1b19; }
+    .turn strong { display: block; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; }
+    .turn span { display: block; margin-top: 5px; color: #4a4842; font-size: 12px; }
+
+    .turn-a { background: var(--pa); }
+    .turn-b { background: var(--pb); }
+
+    .summer-note {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 12px 0 0;
+      color: #6c6961;
+      font-size: 12px;
+    }
+
+    .hatch {
+      width: 26px;
+      height: 14px;
+      flex: 0 0 auto;
+      border: 1px solid #1c1b19;
+      background-image: repeating-linear-gradient(135deg, transparent 0 4px, rgba(28, 27, 25, 0.28) 4px 6px);
+    }
+
+    .weekdays, .week {
+      display: grid;
+      grid-template-columns: 42px repeat(7, minmax(0, 1fr));
+    }
+
+    .weekdays {
+      margin-top: 24px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid #1c1b19;
+      color: #6c6961;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+
+    .week { min-height: 54px; }
+    .wk { display: grid; place-items: center; color: #6c6961; font-size: 12px; }
+
+    .d {
+      position: relative;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .d.a { background: var(--pa); }
+    .d.b { background: var(--pb); }
+    .d.sum { background-image: repeating-linear-gradient(135deg, transparent 0 4px, rgba(28, 27, 25, 0.12) 4px 6px); }
+    .d.hand { border-left: 2px solid #1c1b19; }
+
+    .d.hand::after {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      color: #1c1b19;
+      content: '19:00';
+      font-size: 11px;
+    }
+
+    .d.now { box-shadow: inset 0 0 0 2px #1c1b19; font-weight: 500; }
+    .d.off { color: #a8a49a; }
+
+    .cal-foot { margin: 20px 0 0; color: #6c6961; font-size: 12px; line-height: 1.6; }
+  </style>
+</helmet>
+<div style="--pa: {{ personA }}; --pb: {{ personB }}; min-height: 900px; display: flex; flex-direction: column">
+  <div class="grain" aria-hidden="true"></div>
+
+  <header style="display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: end; gap: 48px; padding: 34px 44px 26px; border-bottom: 1px solid #1c1b19">
+    <div>
+      <p class="tag">OPCIÓN A</p>
+      <h1 style="margin: 0; font-family: 'Newsreader', serif; font-size: 46px; font-weight: 400; letter-spacing: -0.04em; line-height: 1">Editorial afinada</h1>
+    </div>
+    <dl class="rationale" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; margin: 0">
+      <div>
+        <dt>POR QUÉ</dt>
+        <dd>Conserva lo que hace que esto no parezca otro calendario más. Solo arregla lo que estorba: nada por debajo de 12px, objetivos de 44px, y el turno leído como bandas de días en vez de 31 celdas iguales.</dd>
+      </div>
+      <div>
+        <dt>A CAMBIO</dt>
+        <dd>Sigue siendo un gusto minoritario. El serif grande come altura y nadie reconoce en ella el patrón de un producto de calendario al abrirla por primera vez.</dd>
+      </div>
+    </dl>
+  </header>
+
+  <div style="flex: 1; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr)">
+    <section style="padding: 30px 40px 34px 44px; border-right: 1px solid #1c1b19">
+      <p class="pane-label">AGENDA · RENGLÓN</p>
+
+      <div class="list-bar">
+        <label class="check-target">
+          <span class="box part"></span>
+          <span>2 de 7</span>
+        </label>
+        <p class="bar-count">Próximos eventos</p>
+        <button class="danger" type="button">
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          Eliminar 2
+        </button>
+      </div>
+
+      <div class="day-group">
+        <h2 class="day-head">Jueves 20 <span>AGOSTO</span></h2>
+        <article class="row">
+          <label class="check-target"><span class="box"></span></label>
+          <p class="time">09:30<span>10:15</span></p>
+          <div>
+            <h3>Revisión del trimestre</h3>
+            <p>Estudio · Sala verde</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar evento">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+        <article class="row on">
+          <label class="check-target"><span class="box on"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" style="width: 14px; height: 14px"><path d="M4.5 10.5l3.5 3.5 7-8"></path></svg></span></label>
+          <p class="time">13:00<span>14:00</span></p>
+          <div>
+            <h3>Comida con el equipo</h3>
+            <p>Sin ubicación</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar evento">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+      </div>
+
+      <div class="day-group">
+        <h2 class="day-head">Viernes 21 <span>AGOSTO</span></h2>
+        <article class="row">
+          <label class="check-target"><span class="box"></span></label>
+          <p class="time">Todo<span>el día</span></p>
+          <div>
+            <h3>Entrega editorial</h3>
+            <p>Sin ubicación</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar evento">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+      </div>
+
+      <div class="day-group">
+        <h2 class="day-head">Lunes 24 <span>AGOSTO</span></h2>
+        <article class="row on">
+          <label class="check-target"><span class="box on"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" style="width: 14px; height: 14px"><path d="M4.5 10.5l3.5 3.5 7-8"></path></svg></span></label>
+          <p class="time">11:00<span>11:30</span></p>
+          <div>
+            <h3>Café con Elena
+              <span class="serie">
+                <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 9a5 5 0 0 1 5-5h5M12 2l2.5 2L12 6M16 11a5 5 0 0 1-5 5H6M8 12l-2.5 2L8 16"></path></svg>
+                SERIE
+              </span>
+            </h3>
+            <p>La Bicicleta · Madrid</p>
+          </div>
+          <button class="ghost" type="button" aria-label="Eliminar solo esta ocurrencia">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4.5h4V6M6.5 6l.8 9.5h5.4L13.5 6"></path></svg>
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <section style="padding: 30px 44px 34px 40px">
+      <p class="pane-label">CALENDARIO · TURNOS</p>
+
+      <div class="cal-head">
+        <h2>Agosto <span>2026</span></h2>
+        <nav class="nav" aria-label="Cambiar de mes">
+          <button type="button" aria-label="Mes anterior">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4.5L6.5 10l5.5 5.5"></path></svg>
+          </button>
+          <button type="button" aria-label="Mes siguiente">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4.5L13.5 10 8 15.5"></path></svg>
+          </button>
+        </nav>
+      </div>
+
+      <div class="turns">
+        <div class="turn turn-a">
+          <strong>PAPÁ · 1 → 15</strong>
+          <span>15 días · primera quincena</span>
+        </div>
+        <div class="turn turn-b">
+          <strong>MAMÁ · 16 → 31</strong>
+          <span>16 días · cambio el 16 a las 19:00</span>
+        </div>
+      </div>
+      <p class="summer-note"><span class="hatch"></span> El rayado marca el régimen de verano: quincenas en vez de semanas.</p>
+
+      <div class="weekdays" aria-hidden="true">
+        <span></span><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+      </div>
+
+      <div class="week">
+        <span class="wk">W31</span>
+        <span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span>
+        <span class="d a sum">1</span><span class="d a sum">2</span>
+      </div>
+      <div class="week">
+        <span class="wk">W32</span>
+        <span class="d a sum">3</span><span class="d a sum">4</span><span class="d a sum">5</span><span class="d a sum">6</span><span class="d a sum">7</span><span class="d a sum">8</span><span class="d a sum">9</span>
+      </div>
+      <div class="week">
+        <span class="wk">W33</span>
+        <span class="d a sum">10</span><span class="d a sum">11</span><span class="d a sum">12</span><span class="d a sum">13</span><span class="d a sum">14</span><span class="d a sum">15</span><span class="d b sum hand">16</span>
+      </div>
+      <div class="week">
+        <span class="wk">W34</span>
+        <span class="d b sum">17</span><span class="d b sum">18</span><span class="d b sum">19</span><span class="d b sum now">20</span><span class="d b sum">21</span><span class="d b sum">22</span><span class="d b sum">23</span>
+      </div>
+      <div class="week">
+        <span class="wk">W35</span>
+        <span class="d b sum">24</span><span class="d b sum">25</span><span class="d b sum">26</span><span class="d b sum">27</span><span class="d b sum">28</span><span class="d b sum">29</span><span class="d b sum">30</span>
+      </div>
+      <div class="week">
+        <span class="wk">W36</span>
+        <span class="d b sum">31</span>
+        <span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span><span class="d off"></span>
+      </div>
+
+      <p class="cal-foot">La semana ISO pasa al margen izquierdo: hoy solo existe dentro de un <em>title</em> al pasar el ratón.</p>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"personA":{"editor":"color","default":"#bdc7bd","section":"Personas","options":["#bdc7bd","#c9ddd5","#cfd8c4","#a9c2d6"]},"personB":{"editor":"color","default":"#eccdbf","section":"Personas","options":["#eccdbf","#f1c8b9","#e8d3a8","#e3c9d4"]},"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      personA: this.props.personA ?? '#bdc7bd',
+      personB: this.props.personB ?? '#eccdbf',
+    };
+  }
+}
+</script>
+</body>
+</html>

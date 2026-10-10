@@ -1,0 +1,369 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #101317;
+      color: #e9ecf1;
+      font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: #6ad0bb; }
+    a:hover { color: #8fe0cf; }
+
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+    .tag {
+      margin: 0 0 10px;
+      color: #6ad0bb;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+    }
+
+    .rationale dt {
+      margin-bottom: 7px;
+      color: #98a1ae;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .rationale dd { margin: 0; font-size: 15px; line-height: 1.5; text-wrap: pretty; }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #262c35;
+      border-radius: 12px;
+      background: #171b21;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid #262c35;
+    }
+
+    .panel-head h2 { margin: 0; font-size: 17px; font-weight: 500; letter-spacing: -0.01em; }
+    .panel-head p { margin: 3px 0 0; color: #98a1ae; font-size: 13px; }
+
+    .icon { width: 18px; height: 18px; flex: 0 0 auto; }
+    .icon path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+    .step { display: flex; border: 1px solid #2c333d; border-radius: 9px; overflow: hidden; }
+
+    .step button {
+      min-width: 44px;
+      min-height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0 13px;
+      border: 0;
+      background: #1c2128;
+      color: #e9ecf1;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .step button + button { border-left: 1px solid #2c333d; }
+    .step button:hover { background: #232a33; }
+
+    /* --- agenda como eje de horas --- */
+    .grid-days { display: grid; grid-template-columns: 46px repeat(3, minmax(0, 1fr)); }
+
+    .col-head { padding: 11px 8px 9px; border-bottom: 1px solid #262c35; text-align: center; }
+    .col-head strong { display: block; font-size: 14px; font-weight: 500; }
+    .col-head span { display: block; margin-top: 2px; color: #98a1ae; font-size: 12px; }
+    .col-head.today { box-shadow: inset 0 -2px 0 #6ad0bb; }
+    .col-head.today span { color: #6ad0bb; }
+
+    .allday { min-height: 34px; border-bottom: 1px solid #262c35; padding: 4px; }
+    .allday-gutter { display: grid; place-items: center; color: #6b7480; font-size: 11px; letter-spacing: 0.08em; }
+
+    .allday-chip {
+      display: block;
+      padding: 6px 8px;
+      border-left: 2px solid #6ad0bb;
+      border-radius: 4px;
+      background: rgba(106, 208, 187, 0.13);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .axis { position: relative; height: 480px; }
+    .axis-hours { position: absolute; inset: 0; }
+
+    .hour { position: absolute; left: 0; right: 0; border-top: 1px solid #1f242b; }
+    .hour span { position: absolute; top: -8px; left: 0; width: 38px; color: #6b7480; font-size: 12px; text-align: right; }
+    .col-line { position: absolute; top: 0; bottom: 0; width: 1px; background: #1f242b; }
+    .col-today { position: absolute; top: 0; bottom: 0; background: rgba(106, 208, 187, 0.05); }
+
+    .ev {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      padding: 5px 8px;
+      border-left: 2px solid #6ad0bb;
+      border-radius: 4px;
+      background: rgba(106, 208, 187, 0.15);
+      overflow: hidden;
+    }
+
+    .ev strong { font-size: 12px; font-weight: 500; line-height: 1.2; }
+    .ev span { color: #a9d8ce; font-size: 11px; }
+    .ev.serie { border-left-style: dashed; }
+
+    /* --- el año en bandas --- */
+    .ruler, .band-days { display: grid; grid-template-columns: repeat(31, minmax(0, 1fr)); }
+
+    .ruler { color: #6b7480; font-size: 11px; text-align: center; }
+    .ruler span { padding-bottom: 5px; }
+
+    .band { display: grid; grid-template-columns: 38px minmax(0, 1fr) 112px; align-items: center; gap: 10px; }
+    .band + .band { margin-top: 4px; }
+    .band-m { color: #98a1ae; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em; }
+
+    .band-days { height: 24px; border-radius: 4px; overflow: hidden; }
+
+    .c { display: block; height: 100%; }
+    .c.a { background: color-mix(in srgb, var(--pa) 62%, #171b21); }
+    .c.b { background: color-mix(in srgb, var(--pb) 62%, #171b21); }
+    .c.void { background: #1b2027; }
+    .c.turn { box-shadow: inset 2px 0 0 #e9ecf1; }
+    .c.now { box-shadow: inset 0 0 0 2px #e9ecf1; }
+
+    .band-r { color: #6b7480; font-size: 12px; }
+    .band-r-on { color: #f0a06b; }
+
+    .legend { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 14px 18px; border-top: 1px solid #262c35; color: #98a1ae; font-size: 12px; }
+    .legend b { display: inline-flex; align-items: center; gap: 7px; color: #e9ecf1; font-weight: 500; }
+    .legend i { width: 22px; height: 12px; border-radius: 3px; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: #262c35; border-top: 1px solid #262c35; }
+    .stat { padding: 14px 18px; background: #171b21; }
+    .stat span { display: block; color: #98a1ae; font-size: 12px; letter-spacing: 0.06em; }
+    .stat strong { display: block; margin-top: 5px; font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 500; }
+    .stat em { display: block; margin-top: 4px; color: #6b7480; font-size: 12px; font-style: normal; }
+  </style>
+</helmet>
+<div style="--pa: {{ personA }}; --pb: {{ personB }}; min-height: 900px; display: flex; flex-direction: column">
+  <header style="display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: end; gap: 48px; padding: 34px 40px 26px; border-bottom: 1px solid #262c35">
+    <div>
+      <p class="tag">OPCIÓN C</p>
+      <h1 style="margin: 0; font-size: 42px; font-weight: 700; letter-spacing: -0.035em; line-height: 1">Panel de datos</h1>
+    </div>
+    <dl class="rationale" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; margin: 0">
+      <div>
+        <dt>POR QUÉ</dt>
+        <dd>Replantea la información en vez de repintarla. La custodia son tramos de días, no celdas sueltas: el año entero cabe en doce bandas y la rotación se lee de un golpe. La agenda pasa a eje de horas, con los huecos a la vista.</dd>
+      </div>
+      <div>
+        <dt>A CAMBIO</dt>
+        <dd>Es la menos familiar de las tres y el modo oscuro empeora la impresión en papel, que es justo lo que el calendario de custodia hoy hace bien.</dd>
+      </div>
+    </dl>
+  </header>
+
+  <div style="flex: 1; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 22px; padding: 24px 40px 32px">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Próximos tres días</h2>
+          <p>7 eventos · 2 seleccionados</p>
+        </div>
+        <div class="step">
+          <button type="button" aria-label="Días anteriores"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4.5L6.5 10l5.5 5.5"></path></svg></button>
+          <button type="button" aria-label="Días siguientes"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4.5L13.5 10 8 15.5"></path></svg></button>
+        </div>
+      </div>
+
+      <div class="grid-days">
+        <span class="col-head" aria-hidden="true"></span>
+        <div class="col-head today"><strong>Jue 20</strong><span>HOY</span></div>
+        <div class="col-head"><strong>Vie 21</strong><span>AGO</span></div>
+        <div class="col-head"><strong>Lun 24</strong><span>AGO</span></div>
+      </div>
+
+      <div class="grid-days">
+        <span class="allday allday-gutter">DÍA</span>
+        <span class="allday"></span>
+        <span class="allday"><span class="allday-chip">Entrega editorial</span></span>
+        <span class="allday"></span>
+      </div>
+
+      <div class="axis">
+        <div class="axis-hours">
+          <div class="hour" style="top: 0"><span class="mono">08:00</span></div>
+          <div class="hour" style="top: 80px"><span class="mono">10:00</span></div>
+          <div class="hour" style="top: 160px"><span class="mono">12:00</span></div>
+          <div class="hour" style="top: 240px"><span class="mono">14:00</span></div>
+          <div class="hour" style="top: 320px"><span class="mono">16:00</span></div>
+          <div class="hour" style="top: 400px"><span class="mono">18:00</span></div>
+          <div class="hour" style="top: 480px"><span class="mono">20:00</span></div>
+        </div>
+        <div class="col-today" style="left: 46px; width: calc((100% - 46px) / 3)"></div>
+        <div class="col-line" style="left: 46px"></div>
+        <div class="col-line" style="left: calc(46px + (100% - 46px) / 3)"></div>
+        <div class="col-line" style="left: calc(46px + 2 * ((100% - 46px) / 3))"></div>
+
+        <div class="ev" style="top: 60px; height: 30px; left: calc(46px + 6px); width: calc((100% - 46px) / 3 - 12px)">
+          <strong><span class="mono">09:30</span> Revisión del trimestre</strong>
+        </div>
+        <div class="ev" style="top: 200px; height: 40px; left: calc(46px + 6px); width: calc((100% - 46px) / 3 - 12px)">
+          <strong>Comida con el equipo</strong>
+          <span class="mono">13:00 – 14:00</span>
+        </div>
+        <div class="ev serie" style="top: 120px; height: 30px; left: calc(46px + 2 * ((100% - 46px) / 3) + 6px); width: calc((100% - 46px) / 3 - 12px)">
+          <strong><span class="mono">11:00</span> Café con Elena · serie</strong>
+        </div>
+      </div>
+
+      <div class="legend" style="margin-top: auto">
+        Los huecos entre bloques son el dato que una lista no da: el jueves quedan tres horas libres entre eventos.
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>El reparto de 2026</h2>
+          <p>Un año completo, doce bandas, sin desplazar la página</p>
+        </div>
+        <div class="step">
+          <button type="button" aria-label="Año anterior"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4.5L6.5 10l5.5 5.5"></path></svg></button>
+          <button type="button" class="mono">2026</button>
+          <button type="button" aria-label="Año siguiente"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4.5L13.5 10 8 15.5"></path></svg></button>
+        </div>
+      </div>
+
+      <div style="padding: 14px 18px 18px">
+        <div class="band" aria-hidden="true">
+          <span></span>
+          <div class="ruler mono">
+            <span>1</span><span></span><span></span><span></span><span>5</span><span></span><span></span><span></span><span></span><span>10</span><span></span><span></span><span></span><span></span><span>15</span><span></span><span></span><span></span><span></span><span>20</span><span></span><span></span><span></span><span></span><span>25</span><span></span><span></span><span></span><span></span><span>30</span><span></span>
+          </div>
+          <span></span>
+        </div>
+        <div class="band">
+          <span class="band-m">ENE</span>
+          <div class="band-days"><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">FEB</span>
+          <div class="band-days"><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c void"></i><i class="c void"></i><i class="c void"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">MAR</span>
+          <div class="band-days"><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">ABR</span>
+          <div class="band-days"><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c void"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">MAY</span>
+          <div class="band-days"><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">JUN</span>
+          <div class="band-days"><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c void"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">JUL</span>
+          <div class="band-days"><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i></div>
+          <span class="band-r band-r-on">quincenas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">AGO</span>
+          <div class="band-days"><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b now"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i></div>
+          <span class="band-r band-r-on">quincenas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">SEP</span>
+          <div class="band-days"><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c void"></i></div>
+          <span class="band-r band-r-on">regreso + semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">OCT</span>
+          <div class="band-days"><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">NOV</span>
+          <div class="band-days"><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c void"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+        <div class="band">
+          <span class="band-m">DIC</span>
+          <div class="band-days"><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c b turn"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c b"></i><i class="c a turn"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i></div>
+          <span class="band-r">semanas</span>
+        </div>
+      </div>
+
+      <div class="legend">
+        <b><i style="background: color-mix(in srgb, var(--pa) 62%, #171b21)"></i> Papá</b>
+        <b><i style="background: color-mix(in srgb, var(--pb) 62%, #171b21)"></i> Mamá</b>
+        <b><i style="background: #1b2027; box-shadow: inset 2px 0 0 #e9ecf1"></i> Cambio de turno</b>
+        <b><i style="background: #1b2027; box-shadow: inset 0 0 0 2px #e9ecf1"></i> Hoy</b>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span>DÍAS PAPÁ</span>
+          <strong>186</strong>
+          <em>51% del año</em>
+        </div>
+        <div class="stat">
+          <span>DÍAS MAMÁ</span>
+          <strong>179</strong>
+          <em>49% del año</em>
+        </div>
+        <div class="stat">
+          <span>CAMBIOS</span>
+          <strong>46</strong>
+          <em>un desvío de 7 días que hoy no se ve</em>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"personA":{"editor":"color","default":"#6ad0bb","section":"Personas","options":["#6ad0bb","#7fb2ff","#9bd35a","#79c7d8"]},"personB":{"editor":"color","default":"#f0a06b","section":"Personas","options":["#f0a06b","#e88a8a","#d8a4e0","#e8c46a"]},"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      personA: this.props.personA ?? '#6ad0bb',
+      personB: this.props.personB ?? '#f0a06b',
+    };
+  }
+}
+</script>
+</body>
+</html>

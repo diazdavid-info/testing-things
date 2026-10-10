@@ -2,6 +2,15 @@ packages:
   - apps/*
   - apps/ia-games/*
 
+allowBuilds:
+  '@swc/core': true
+  dtrace-provider: true
+  esbuild: true
+  msgpackr-extract: true
+  protobufjs: true
+  sharp: true
+  sqlite3: true
+
 onlyBuiltDependencies:
   - '@swc/core'
   - dtrace-provider
