@@ -2052,90 +2052,8 @@
                         },
                         {
                           "type": "frame",
-                          "id": "DB8eC",
-                          "name": "Paso 4",
-                          "width": "fill_container",
-                          "cornerRadius": 16,
-                          "gap": 14,
-                          "padding": [
-                            10,
-                            12
-                          ],
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "eS8Ae",
-                              "name": "Círculo",
-                              "width": 34,
-                              "height": 34,
-                              "cornerRadius": 999,
-                              "stroke": {
-                                "align": "inside",
-                                "thickness": 2,
-                                "fill": "#C3CADB"
-                              },
-                              "justifyContent": "center",
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "0yRz5",
-                                  "name": "Número",
-                                  "fill": "$ink-3",
-                                  "content": "4",
-                                  "fontFamily": "Nunito",
-                                  "fontSize": 14,
-                                  "fontWeight": "800"
-                                },
-                                {
-                                  "type": "icon_font",
-                                  "id": "DfEuB",
-                                  "x": 0,
-                                  "y": 0,
-                                  "name": "Hecho",
-                                  "enabled": false,
-                                  "width": 16,
-                                  "height": 16,
-                                  "iconFontName": "check",
-                                  "iconFontFamily": "lucide",
-                                  "fill": "#FFFFFF"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "eQex7",
-                              "layout": "vertical",
-                              "gap": 1,
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "kf6j7",
-                                  "name": "Nombre",
-                                  "fill": "$ink-2",
-                                  "content": "Calendario escolar",
-                                  "fontFamily": "Nunito",
-                                  "fontSize": 15,
-                                  "fontWeight": "800"
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "tT77q",
-                                  "fill": "$ink-3",
-                                  "content": "Vacaciones y festivos",
-                                  "fontFamily": "Nunito",
-                                  "fontSize": 13,
-                                  "fontWeight": "600"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
                           "id": "AJ2Bk",
-                          "name": "Paso 5",
+                          "name": "Paso 4",
                           "width": "fill_container",
                           "cornerRadius": 16,
                           "gap": 14,
@@ -2165,7 +2083,7 @@
                                   "id": "kGu6x",
                                   "name": "Número",
                                   "fill": "$ink-3",
-                                  "content": "5",
+                                  "content": "4",
                                   "fontFamily": "Nunito",
                                   "fontSize": 14,
                                   "fontWeight": "800"
@@ -2292,7 +2210,7 @@
                               "id": "DafJi",
                               "name": "Paso actual",
                               "fill": "$ink-3",
-                              "content": "Paso 1 de 5 · Personas",
+                              "content": "Paso 1 de 4 · Personas",
                               "fontFamily": "Nunito",
                               "fontSize": 14,
                               "fontWeight": "800"
@@ -2339,15 +2257,6 @@
                                   "fill": "$line",
                                   "width": "fill_container",
                                   "height": 6
-                                },
-                                {
-                                  "type": "rectangle",
-                                  "cornerRadius": 999,
-                                  "id": "Kql5F",
-                                  "name": "B5",
-                                  "fill": "$line",
-                                  "width": "fill_container",
-                                  "height": 6
                                 }
                               ]
                             }
@@ -2381,7 +2290,6 @@
                         "sZ6Z3",
                         "rUpjD",
                         "8Jfx1",
-                        "1xIHQ",
                         "c5VfZ"
                       ],
                       "clip": true,
@@ -2658,7 +2566,7 @@
                                       "id": "jdBsD",
                                       "name": "Paso actual",
                                       "fill": "$ink-3",
-                                      "content": "Paso 1 de 5 · Personas",
+                                      "content": "Paso 1 de 4 · Personas",
                                       "fontFamily": "Nunito",
                                       "fontSize": 13,
                                       "fontWeight": "700"
@@ -2735,15 +2643,6 @@
                                   "fill": "$line",
                                   "width": "fill_container",
                                   "height": 5
-                                },
-                                {
-                                  "type": "rectangle",
-                                  "cornerRadius": 999,
-                                  "id": "3dRkb",
-                                  "name": "B5",
-                                  "fill": "$line",
-                                  "width": "fill_container",
-                                  "height": 5
                                 }
                               ]
                             }
@@ -2757,7 +2656,6 @@
                             "sZ6Z3",
                             "rUpjD",
                             "8Jfx1",
-                            "1xIHQ",
                             "c5VfZ"
                           ],
                           "width": "fill_container",
@@ -2858,6 +2756,1138 @@
                                   "content": "Guardar calendario",
                                   "fontSize": 16,
                                   "x": -59,
+                                  "y": 15
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PEhEg",
+              "name": "Modal vacaciones y festivos",
+              "reusable": true,
+              "clip": true,
+              "width": 880,
+              "fill": "$surface",
+              "cornerRadius": 28,
+              "effect": [
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#0F142D14",
+                  "offset": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "blur": 6
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#0F142D8C",
+                  "offset": {
+                    "x": 0,
+                    "y": 40
+                  },
+                  "blur": 100,
+                  "spread": -40
+                }
+              ],
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "VT3KZ",
+                  "name": "Cabecera",
+                  "width": "fill_container",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "$line"
+                  },
+                  "gap": 16,
+                  "padding": [
+                    28,
+                    24,
+                    22,
+                    32
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "DCN65",
+                      "name": "Icono",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "$tint",
+                      "cornerRadius": 16,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "c0F7F",
+                          "name": "iconGlyph",
+                          "width": 20,
+                          "height": 20,
+                          "iconFontName": "book-open",
+                          "iconFontFamily": "lucide",
+                          "fill": "$ink"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WOlQs",
+                      "name": "Encabezado",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iDFW3",
+                          "name": "over",
+                          "fill": "$ink-3",
+                          "content": "CALENDARIO ESCOLAR",
+                          "fontFamily": "Nunito",
+                          "fontSize": 13,
+                          "fontWeight": "800",
+                          "letterSpacing": 0.8
+                        },
+                        {
+                          "type": "text",
+                          "id": "nPrvq",
+                          "name": "Título",
+                          "fill": "$ink",
+                          "content": "Vacaciones y festivos",
+                          "lineHeight": 1.15,
+                          "fontFamily": "Nunito",
+                          "fontSize": 28,
+                          "fontWeight": "800",
+                          "letterSpacing": -0.56
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ds9di",
+                          "name": "Descripción",
+                          "width": "fill_container",
+                          "padding": [
+                            4,
+                            0,
+                            0,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jvhqG",
+                              "name": "desc",
+                              "fill": "$ink-2",
+                              "textGrowth": "fixed-width",
+                              "width": 600,
+                              "content": "Cambian cada curso: apúntalos cuando el colegio publique su calendario. Solo necesitas el último día de clase y el día de vuelta; el día de cambio lo calculamos por ti.",
+                              "lineHeight": 1.55,
+                              "fontFamily": "Nunito",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "HurbP",
+                      "type": "ref",
+                      "ref": "NS7R1",
+                      "name": "Cerrar",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$line"
+                      },
+                      "x": 812,
+                      "y": 28,
+                      "descendants": {
+                        "VaY8N": {
+                          "iconFontName": "x"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "mAPBi",
+                  "name": "Cuerpo",
+                  "slot": [
+                    "1xIHQ"
+                  ],
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    32,
+                    32,
+                    32
+                  ],
+                  "children": [
+                    {
+                      "id": "PP7HA",
+                      "type": "ref",
+                      "ref": "1xIHQ",
+                      "width": "fill_container",
+                      "name": "content",
+                      "height": "fit_content",
+                      "x": 32,
+                      "y": 24,
+                      "descendants": {
+                        "iIbLR": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "JPZ3K": {
+                          "width": "fill_container"
+                        },
+                        "TrlDF": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 42
+                        },
+                        "Xe51A": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "XBxyI": {
+                          "width": "fill_container"
+                        },
+                        "yGmri": {
+                          "x": 502
+                        },
+                        "C58fM": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "emwHT": {
+                          "width": "fill_container"
+                        },
+                        "k70EV": {
+                          "width": "fill_container"
+                        },
+                        "CD31m": {
+                          "x": 750
+                        },
+                        "ritUX": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "z0pRX": {
+                          "width": "fill_container"
+                        },
+                        "2ux2L": {
+                          "width": "fill_container"
+                        },
+                        "7O6HS": {
+                          "x": 656
+                        },
+                        "GuOdL": {
+                          "x": 732
+                        },
+                        "tsrnQ": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "ME3ql": {
+                          "width": "fill_container"
+                        },
+                        "VjXiN": {
+                          "x": 676
+                        },
+                        "pusbf": {
+                          "width": "fill_container"
+                        },
+                        "Ax8sO": {
+                          "width": "fill_container"
+                        },
+                        "Ax8sO/TnSHi": {
+                          "width": "fill_container"
+                        },
+                        "Ax8sO/AQWUV": {
+                          "width": "fill_container"
+                        },
+                        "Ax8sO/apkmj": {
+                          "x": 321
+                        },
+                        "SXT8R": {
+                          "width": "fill_container",
+                          "x": 367
+                        },
+                        "SXT8R/TnSHi": {
+                          "width": "fill_container"
+                        },
+                        "SXT8R/AQWUV": {
+                          "width": "fill_container"
+                        },
+                        "K2RLK": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "BStVs": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "KOkfY": {
+                          "width": "fill_container"
+                        },
+                        "BBszJ": {
+                          "width": "fill_container"
+                        },
+                        "jbS5d": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "x": 243.33333333333334
+                        },
+                        "TuPPR": {
+                          "width": "fill_container"
+                        },
+                        "DHoMW": {
+                          "width": "fill_container"
+                        },
+                        "G86GJ": {
+                          "width": "fill_container",
+                          "x": 486.6666666666667
+                        },
+                        "gSWii": {
+                          "width": "fill_container"
+                        },
+                        "FA9WF": {
+                          "width": "fill_container"
+                        },
+                        "ExlMW": {
+                          "width": "fill_container",
+                          "y": 345
+                        },
+                        "bSXRa": {
+                          "width": "fill_container"
+                        },
+                        "cE5fB": {
+                          "width": "fill_container",
+                          "x": 362
+                        },
+                        "YJkVM": {
+                          "width": "fill_container",
+                          "y": 418
+                        },
+                        "Vhp80": {
+                          "width": "fill_container"
+                        },
+                        "Vhp80/TnSHi": {
+                          "width": "fill_container"
+                        },
+                        "Vhp80/AQWUV": {
+                          "width": "fill_container"
+                        },
+                        "Vhp80/apkmj": {
+                          "x": 322
+                        },
+                        "2bZUT": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "x": 366,
+                          "y": 32
+                        },
+                        "5wUaN": {
+                          "width": "fill_container",
+                          "height": "fit_content"
+                        },
+                        "xaELO": {
+                          "width": "fill_container"
+                        },
+                        "v6Vr8": {
+                          "x": 294,
+                          "y": 6.5
+                        },
+                        "CJGSp": {
+                          "width": "fill_container",
+                          "y": 581
+                        },
+                        "9Qeas": {
+                          "width": "fill_container"
+                        },
+                        "l0AGt": {
+                          "x": 722
+                        },
+                        "4SQD9": {
+                          "width": "fill_container",
+                          "y": 881
+                        },
+                        "CAatF": {
+                          "width": "fill_container"
+                        },
+                        "HhuNt": {
+                          "width": "fill_container"
+                        },
+                        "VaN6I": {
+                          "width": "fill_container"
+                        },
+                        "dscCL": {
+                          "width": "fill_container"
+                        },
+                        "QxGjO": {
+                          "x": 631
+                        },
+                        "W1c0u": {
+                          "width": "fill_container"
+                        },
+                        "YRp2Y": {
+                          "width": "fill_container"
+                        },
+                        "uK6cz": {
+                          "width": "fill_container"
+                        },
+                        "LzDoG": {
+                          "width": "fill_container"
+                        },
+                        "PudDf": {
+                          "x": 440
+                        },
+                        "cZDkZ": {
+                          "width": "fill_container"
+                        },
+                        "pYr4s": {
+                          "width": "fill_container"
+                        },
+                        "6ZfYn": {
+                          "width": "fill_container"
+                        },
+                        "sUYHG": {
+                          "x": 440
+                        },
+                        "Sw2MG": {
+                          "width": "fill_container"
+                        },
+                        "LrlDQ": {
+                          "width": "fill_container"
+                        },
+                        "UuoTl": {
+                          "width": "fill_container"
+                        },
+                        "bjxsh": {
+                          "x": 440
+                        },
+                        "fcXwh": {
+                          "width": "fill_container"
+                        },
+                        "Wkysp": {
+                          "width": "fill_container"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "2Ukpu",
+                  "name": "Pie",
+                  "width": "fill_container",
+                  "fill": "#FBFCFE",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": {
+                      "top": 1
+                    },
+                    "fill": "$line"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    16,
+                    24,
+                    16,
+                    32
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mVBw2",
+                      "name": "Privacidad",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "yJ9Yl",
+                          "name": "lock",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "lock",
+                          "iconFontFamily": "lucide",
+                          "fill": "$ink-3"
+                        },
+                        {
+                          "type": "text",
+                          "id": "EA9cA",
+                          "name": "lockText",
+                          "fill": "$ink-3",
+                          "content": "Se guarda solo en este navegador.",
+                          "fontFamily": "Nunito",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "7jYPJ",
+                      "name": "Espacio",
+                      "width": "fill_container",
+                      "height": 10
+                    },
+                    {
+                      "id": "sGkWl",
+                      "type": "ref",
+                      "ref": "G8kG0",
+                      "name": "Cancelar",
+                      "height": 48,
+                      "width": "fit_content",
+                      "x": 563,
+                      "y": 16,
+                      "descendants": {
+                        "lZZoH": {
+                          "enabled": false
+                        },
+                        "8nD7F": {
+                          "content": "Cancelar",
+                          "x": 20,
+                          "y": 14
+                        }
+                      }
+                    },
+                    {
+                      "id": "kEbB0",
+                      "type": "ref",
+                      "ref": "RijKa",
+                      "name": "Guardar fechas",
+                      "height": 48,
+                      "width": "fit_content",
+                      "x": 676,
+                      "y": 16,
+                      "descendants": {
+                        "R4xwA": {
+                          "iconFontName": "check",
+                          "y": 15
+                        },
+                        "9cQqJ": {
+                          "content": "Guardar fechas",
+                          "y": 14
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Rf52E",
+              "name": "Marco vacaciones móvil",
+              "width": 390,
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Wyv9K",
+                  "name": "Vacaciones y festivos móvil",
+                  "reusable": true,
+                  "width": "fill_container",
+                  "fill": "$sheet-bg",
+                  "layout": "vertical",
+                  "padding": [
+                    14,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "i76Of",
+                      "name": "Hoja",
+                      "width": "fill_container",
+                      "fill": "$surface",
+                      "cornerRadius": [
+                        26,
+                        26,
+                        0,
+                        0
+                      ],
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "icuw4",
+                          "name": "Cabecera",
+                          "width": "fill_container",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": {
+                              "bottom": 1
+                            },
+                            "fill": "$line"
+                          },
+                          "layout": "vertical",
+                          "gap": 10,
+                          "padding": [
+                            8,
+                            16,
+                            18,
+                            20
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Q5fIp",
+                              "name": "Asa",
+                              "width": "fill_container",
+                              "justifyContent": "center",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "cornerRadius": 999,
+                                  "id": "b1HNu",
+                                  "name": "handle",
+                                  "fill": "$line-strong",
+                                  "width": 40,
+                                  "height": 5
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "MP7i7",
+                              "name": "Título",
+                              "width": "fill_container",
+                              "gap": 12,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "6Dmhu",
+                                  "name": "Encabezado",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "padding": [
+                                    6,
+                                    0,
+                                    0,
+                                    0
+                                  ],
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "pQEG0",
+                                      "name": "mOver",
+                                      "fill": "$ink-3",
+                                      "content": "CALENDARIO ESCOLAR",
+                                      "fontFamily": "Nunito",
+                                      "fontSize": 12,
+                                      "fontWeight": "800",
+                                      "letterSpacing": 0.7
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "dYIjJ",
+                                      "name": "mTitle",
+                                      "fill": "$ink",
+                                      "content": "Vacaciones y festivos",
+                                      "lineHeight": 1.15,
+                                      "fontFamily": "Nunito",
+                                      "fontSize": 23,
+                                      "fontWeight": "800",
+                                      "letterSpacing": -0.46
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "fryQy",
+                                      "name": "mDesc",
+                                      "fill": "$ink-2",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Cambian cada curso: apúntalos cuando el colegio publique su calendario. Solo necesitas el último día de clase y el día de vuelta; el día de cambio lo calculamos por ti.",
+                                      "lineHeight": 1.55,
+                                      "fontFamily": "Nunito",
+                                      "fontSize": 14,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "CyE5J",
+                                  "name": "Cerrar",
+                                  "width": 44,
+                                  "height": 44,
+                                  "fill": "$bg",
+                                  "cornerRadius": 999,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon_font",
+                                      "id": "gUHis",
+                                      "name": "mCloseIcon",
+                                      "width": 20,
+                                      "height": 20,
+                                      "iconFontName": "x",
+                                      "iconFontFamily": "lucide",
+                                      "fill": "$ink"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rjpvv",
+                          "name": "Cuerpo",
+                          "slot": [
+                            "1xIHQ"
+                          ],
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "padding": [
+                            20,
+                            16,
+                            28,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "id": "UaCyr",
+                              "type": "ref",
+                              "ref": "1xIHQ",
+                              "width": "fill_container",
+                              "name": "mContent",
+                              "height": "fit_content",
+                              "x": 16,
+                              "y": 20,
+                              "descendants": {
+                                "iIbLR": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 0
+                                },
+                                "JPZ3K": {
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                "TrlDF": {
+                                  "y": 20
+                                },
+                                "yGmri": {
+                                  "x": 20,
+                                  "y": 107
+                                },
+                                "C58fM": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 199
+                                },
+                                "emwHT": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "gap": 8
+                                },
+                                "SPMwM": {
+                                  "y": 14
+                                },
+                                "k70EV": {
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                },
+                                "qUXUw": {
+                                  "x": 0,
+                                  "y": 34
+                                },
+                                "CD31m": {
+                                  "x": 18,
+                                  "y": 114
+                                },
+                                "ritUX": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 176
+                                },
+                                "z0pRX": {
+                                  "width": "fill_container"
+                                },
+                                "2ux2L": {
+                                  "width": "fill_container"
+                                },
+                                "7O6HS": {
+                                  "x": 198
+                                },
+                                "GuOdL": {
+                                  "x": 274
+                                },
+                                "tsrnQ": {
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                "ME3ql": {
+                                  "width": "fill_container"
+                                },
+                                "VjXiN": {
+                                  "x": 218
+                                },
+                                "pusbf": {
+                                  "layout": "vertical",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                "Ax8sO": {
+                                  "width": "fill_container"
+                                },
+                                "Ax8sO/TnSHi": {
+                                  "width": "fill_container"
+                                },
+                                "Ax8sO/AQWUV": {
+                                  "width": "fill_container"
+                                },
+                                "Ax8sO/apkmj": {
+                                  "x": 230
+                                },
+                                "SXT8R": {
+                                  "width": "fill_container",
+                                  "x": 0,
+                                  "y": 91
+                                },
+                                "SXT8R/TnSHi": {
+                                  "width": "fill_container"
+                                },
+                                "SXT8R/AQWUV": {
+                                  "width": "fill_container"
+                                },
+                                "K2RLK": {
+                                  "layout": "vertical",
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 266
+                                },
+                                "BStVs": {
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                "KOkfY": {
+                                  "width": "fill_container"
+                                },
+                                "BBszJ": {
+                                  "width": "fill_container"
+                                },
+                                "jbS5d": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "x": 0,
+                                  "y": 143
+                                },
+                                "TuPPR": {
+                                  "width": "fill_container"
+                                },
+                                "DHoMW": {
+                                  "width": "fill_container"
+                                },
+                                "G86GJ": {
+                                  "width": "fill_container",
+                                  "x": 0,
+                                  "y": 305
+                                },
+                                "gSWii": {
+                                  "width": "fill_container"
+                                },
+                                "FA9WF": {
+                                  "width": "fill_container"
+                                },
+                                "ExlMW": {
+                                  "width": "fill_container",
+                                  "y": 741
+                                },
+                                "bSXRa": {
+                                  "width": "fill_container"
+                                },
+                                "cE5fB": {
+                                  "width": "fill_container",
+                                  "x": 133
+                                },
+                                "YJkVM": {
+                                  "layout": "vertical",
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 814
+                                },
+                                "Vhp80": {
+                                  "width": "fill_container"
+                                },
+                                "Vhp80/TnSHi": {
+                                  "width": "fill_container"
+                                },
+                                "Vhp80/AQWUV": {
+                                  "width": "fill_container"
+                                },
+                                "Vhp80/apkmj": {
+                                  "x": 230
+                                },
+                                "2bZUT": {
+                                  "width": "fill_container",
+                                  "x": 0,
+                                  "y": 89
+                                },
+                                "5wUaN": {
+                                  "width": "fill_container"
+                                },
+                                "xaELO": {
+                                  "width": "fill_container"
+                                },
+                                "v6Vr8": {
+                                  "x": 202
+                                },
+                                "CJGSp": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 1052,
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "gap": 4
+                                },
+                                "SveJh": {
+                                  "y": 14
+                                },
+                                "9Qeas": {
+                                  "width": "fill_container",
+                                  "y": 40
+                                },
+                                "l0AGt": {
+                                  "x": 18,
+                                  "y": 82
+                                },
+                                "4SQD9": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 1597
+                                },
+                                "CAatF": {
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                "HhuNt": {
+                                  "width": "fill_container"
+                                },
+                                "VaN6I": {
+                                  "width": "fill_container"
+                                },
+                                "dscCL": {
+                                  "width": "fill_container"
+                                },
+                                "QxGjO": {
+                                  "x": 20,
+                                  "y": 86
+                                },
+                                "W1c0u": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 154
+                                },
+                                "YRp2Y": {
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                "uK6cz": {
+                                  "width": "fill_container"
+                                },
+                                "LzDoG": {
+                                  "width": "fill_container"
+                                },
+                                "PudDf": {
+                                  "width": "fill_container",
+                                  "x": 14,
+                                  "y": 94
+                                },
+                                "CooBV": {
+                                  "width": "fill_container"
+                                },
+                                "PbWXl": {
+                                  "width": "fill_container"
+                                },
+                                "L80nK": {
+                                  "width": "fill_container",
+                                  "x": 126
+                                },
+                                "erbev": {
+                                  "width": "fill_container"
+                                },
+                                "n4Qhe": {
+                                  "x": 252
+                                },
+                                "cZDkZ": {
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 204
+                                },
+                                "pYr4s": {
+                                  "width": "fill_container"
+                                },
+                                "6ZfYn": {
+                                  "width": "fill_container"
+                                },
+                                "sUYHG": {
+                                  "width": "fill_container",
+                                  "x": 14,
+                                  "y": 94
+                                },
+                                "Q6aFk": {
+                                  "width": "fill_container"
+                                },
+                                "ibd7h": {
+                                  "width": "fill_container"
+                                },
+                                "dChUW": {
+                                  "width": "fill_container",
+                                  "x": 126
+                                },
+                                "0J0hM": {
+                                  "width": "fill_container"
+                                },
+                                "R5Gro": {
+                                  "x": 252
+                                },
+                                "Sw2MG": {
+                                  "layout": "vertical",
+                                  "alignItems": "start",
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 392
+                                },
+                                "LrlDQ": {
+                                  "width": "fill_container"
+                                },
+                                "UuoTl": {
+                                  "width": "fill_container"
+                                },
+                                "bjxsh": {
+                                  "width": "fill_container",
+                                  "x": 14,
+                                  "y": 94
+                                },
+                                "kKzrG": {
+                                  "width": "fill_container"
+                                },
+                                "AuEXS": {
+                                  "width": "fill_container"
+                                },
+                                "mB3um": {
+                                  "width": "fill_container",
+                                  "x": 126
+                                },
+                                "CkMim": {
+                                  "width": "fill_container"
+                                },
+                                "MZ3hE": {
+                                  "x": 252
+                                },
+                                "fcXwh": {
+                                  "width": "fill_container",
+                                  "height": "fit_content",
+                                  "y": 580
+                                },
+                                "Wkysp": {
+                                  "width": "fill_container"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ocrHB",
+                          "name": "Pie",
+                          "width": "fill_container",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": {
+                              "top": 1
+                            },
+                            "fill": "$line"
+                          },
+                          "gap": 10,
+                          "padding": [
+                            12,
+                            16,
+                            22,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "id": "AzAzh",
+                              "type": "ref",
+                              "ref": "G8kG0",
+                              "name": "Cancelar",
+                              "height": 52,
+                              "width": "fit_content",
+                              "x": 16,
+                              "y": 12,
+                              "descendants": {
+                                "lZZoH": {
+                                  "enabled": false
+                                },
+                                "8nD7F": {
+                                  "content": "Cancelar",
+                                  "fontSize": 16,
+                                  "x": 20,
+                                  "y": 15
+                                }
+                              }
+                            },
+                            {
+                              "id": "xT5E4",
+                              "type": "ref",
+                              "ref": "RijKa",
+                              "name": "Guardar fechas",
+                              "height": 52,
+                              "width": "fill_container",
+                              "x": 133,
+                              "y": 12,
+                              "descendants": {
+                                "R4xwA": {
+                                  "iconFontName": "check",
+                                  "x": 48.5,
+                                  "y": 17
+                                },
+                                "9cQqJ": {
+                                  "content": "Guardar fechas",
+                                  "fontSize": 16,
+                                  "x": 76.5,
                                   "y": 15
                                 }
                               }
@@ -4996,56 +6026,20 @@
             {
               "type": "frame",
               "id": "JBlPr",
-              "name": "Marco paso 4",
+              "name": "Marco · Vacaciones y festivos",
               "width": 660,
               "layout": "vertical",
               "children": [
                 {
                   "type": "frame",
                   "id": "1xIHQ",
-                  "name": "Paso 4 · Calendario escolar",
+                  "name": "Contenido · Vacaciones y festivos",
                   "reusable": true,
                   "width": "fill_container",
                   "fill": "$surface",
                   "layout": "vertical",
                   "gap": 24,
                   "children": [
-                    {
-                      "type": "frame",
-                      "id": "VYSjp",
-                      "name": "Encabezado",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 8,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "MyvtD",
-                          "name": "Título",
-                          "fill": "$ink",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Añade las fechas de cada curso.",
-                          "lineHeight": 1.15,
-                          "fontFamily": "Nunito",
-                          "fontSize": 30,
-                          "fontWeight": "800",
-                          "letterSpacing": -0.6
-                        },
-                        {
-                          "type": "text",
-                          "id": "ILrcn",
-                          "name": "Descripción",
-                          "fill": "$ink-2",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Solo necesitas el último día de clase y el día de vuelta. Calculamos el 30 de diciembre o el Miércoles Santo por ti, y puedes corregirlo antes de guardar.",
-                          "lineHeight": 1.6,
-                          "fontFamily": "Nunito",
-                          "fontSize": 16
-                        }
-                      ]
-                    },
                     {
                       "type": "frame",
                       "id": "iIbLR",
@@ -6796,14 +7790,14 @@
             {
               "type": "frame",
               "id": "TG6ym",
-              "name": "Marco paso 5",
+              "name": "Marco paso 4",
               "width": 660,
               "layout": "vertical",
               "children": [
                 {
                   "type": "frame",
                   "id": "c5VfZ",
-                  "name": "Paso 5 · Revisar",
+                  "name": "Paso 4 · Revisar",
                   "reusable": true,
                   "width": "fill_container",
                   "fill": "$surface",
@@ -7012,34 +8006,49 @@
                               }
                             },
                             {
-                              "id": "AZo47",
-                              "type": "ref",
-                              "ref": "cHIXo",
+                              "type": "frame",
+                              "id": "iGDRu",
+                              "name": "Hueco",
                               "width": "fill_container",
-                              "name": "k6",
-                              "height": "fit_content",
-                              "x": 336,
-                              "descendants": {
-                                "dsu8H": {
-                                  "iconFontName": "book-open"
-                                },
-                                "ovMGt": {
-                                  "width": "fill_container",
-                                  "height": "fit_content"
-                                },
-                                "pEABf": {
-                                  "content": "CALENDARIO ESCOLAR"
-                                },
-                                "aNgfn": {
-                                  "content": "2 cursos · 3 festivos y puentes",
-                                  "width": "fill_container"
-                                },
-                                "q9er9": {
-                                  "x": 272
-                                }
-                              }
+                              "height": 10
                             }
                           ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QgfQK",
+                      "name": "Nota calendario escolar",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "padding": [
+                        0,
+                        2
+                      ],
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "ytRpa",
+                          "name": "noteIcon",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "book-open",
+                          "iconFontFamily": "lucide",
+                          "fill": "$ink-2"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Titjs",
+                          "name": "noteText",
+                          "fill": "$ink-2",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Las vacaciones y los festivos cambian cada curso, así que se apuntan aparte desde «Calendario escolar», en la portada.",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Nunito",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -7104,6 +8113,893 @@
                           ]
                         }
                       ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dUZaw",
+          "name": "Fila · Calendario escolar",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "5g5jM",
+              "name": "Tarjeta curso escolar",
+              "reusable": true,
+              "width": 1280,
+              "fill": "$surface",
+              "cornerRadius": 24,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$line"
+              },
+              "gap": 28,
+              "padding": [
+                22,
+                24
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hxVoe",
+                  "name": "Intro",
+                  "width": 300,
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xyXcL",
+                      "name": "Icono",
+                      "width": 38,
+                      "height": 38,
+                      "fill": "$tint",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "cDbHr",
+                          "name": "Glifo",
+                          "width": 18,
+                          "height": 18,
+                          "iconFontName": "book-open",
+                          "iconFontFamily": "lucide",
+                          "fill": "$ink"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dS66G",
+                      "name": "Textos",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Tq2EY",
+                          "name": "over",
+                          "fill": "$ink-3",
+                          "content": "CALENDARIO ESCOLAR",
+                          "fontFamily": "Nunito",
+                          "fontSize": 13,
+                          "fontWeight": "800",
+                          "letterSpacing": 0.8
+                        },
+                        {
+                          "type": "text",
+                          "id": "o6DiT",
+                          "name": "Título",
+                          "fill": "$ink",
+                          "content": "Curso 2026/27",
+                          "fontFamily": "Nunito",
+                          "fontSize": 20,
+                          "fontWeight": "800",
+                          "letterSpacing": -0.2
+                        },
+                        {
+                          "type": "frame",
+                          "id": "MRxNI",
+                          "name": "Texto",
+                          "width": "fill_container",
+                          "padding": [
+                            4,
+                            0,
+                            0,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "d9J79",
+                              "name": "Descripción",
+                              "fill": "$ink-2",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Cambian cada curso. Cuando el colegio publique las del siguiente, añádelas aquí.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Nunito",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "5Tr94",
+                  "name": "Periodos",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "k8qSd",
+                      "name": "Navidad",
+                      "width": "fill_container",
+                      "fill": "$surface-soft",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "di8Lm",
+                          "name": "Etiqueta",
+                          "gap": 8,
+                          "padding": [
+                            0,
+                            0,
+                            2,
+                            0
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "OepO4",
+                              "name": "Muestra",
+                              "clip": true,
+                              "width": 16,
+                              "height": 16,
+                              "fill": "#E6EAF2",
+                              "cornerRadius": 5,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "ellipse",
+                                  "id": "UjE6w",
+                                  "x": 6,
+                                  "y": 9,
+                                  "name": "it1d",
+                                  "fill": "$ink",
+                                  "width": 4,
+                                  "height": 4
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "ivpsO",
+                              "name": "it1t",
+                              "fill": "$ink-2",
+                              "content": "Navidad",
+                              "fontFamily": "Nunito",
+                              "fontSize": 13,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "2QiJg",
+                          "name": "Fechas",
+                          "fill": "$ink",
+                          "content": "22 dic – 7 ene",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "OaclU",
+                          "name": "Detalle",
+                          "fill": "$ink-3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Cambio de mitad el 30 dic",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Nunito",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "co4cd",
+                      "name": "Semana Santa",
+                      "width": "fill_container",
+                      "cornerRadius": 16,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1.5,
+                        "fill": "$line-strong"
+                      },
+                      "layout": "vertical",
+                      "gap": 2,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "3fec4",
+                          "name": "Etiqueta",
+                          "gap": 8,
+                          "padding": [
+                            0,
+                            0,
+                            2,
+                            0
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Cwblo",
+                              "name": "Muestra",
+                              "clip": true,
+                              "width": 16,
+                              "height": 16,
+                              "fill": "#E6EAF2",
+                              "cornerRadius": 5,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "ellipse",
+                                  "id": "FBOt9",
+                                  "x": 6,
+                                  "y": 9,
+                                  "name": "it2d",
+                                  "fill": "$ink",
+                                  "width": 4,
+                                  "height": 4
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "1AeB4",
+                              "name": "it2t",
+                              "fill": "$ink-2",
+                              "content": "Semana Santa",
+                              "fontFamily": "Nunito",
+                              "fontSize": 13,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "oe4Dr",
+                          "name": "Fechas",
+                          "fill": "$ink-3",
+                          "content": "Sin fechas",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "kJCat",
+                          "name": "Detalle",
+                          "fill": "$ink-3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Añádelas para repartirlas",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Nunito",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "3NOKb",
+                      "name": "Festivos y puentes",
+                      "width": "fill_container",
+                      "fill": "$surface-soft",
+                      "cornerRadius": 16,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "padding": [
+                        12,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XCSqw",
+                          "name": "Etiqueta",
+                          "gap": 8,
+                          "padding": [
+                            0,
+                            0,
+                            2,
+                            0
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "keXdm",
+                              "name": "Muestra",
+                              "clip": true,
+                              "width": 16,
+                              "height": 16,
+                              "fill": "#E6EAF2",
+                              "cornerRadius": 5,
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "path",
+                                  "id": "KPU0x",
+                                  "x": 0,
+                                  "y": 0,
+                                  "name": "Rayado",
+                                  "geometry": "M-2 6l8-8m-8 14l14-14m-14 20l20-20m-14 20l14-14m-8 14l8-8",
+                                  "width": 16,
+                                  "height": 16,
+                                  "stroke": {
+                                    "align": "center",
+                                    "thickness": 2,
+                                    "fill": "#1D23403D"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "OSnrb",
+                              "name": "it3t",
+                              "fill": "$ink-2",
+                              "content": "Festivos y puentes",
+                              "fontFamily": "Nunito",
+                              "fontSize": 13,
+                              "fontWeight": "800"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "b6pFR",
+                          "name": "Fechas",
+                          "fill": "$ink",
+                          "content": "2 en el curso",
+                          "fontFamily": "Nunito",
+                          "fontSize": 16,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pru7G",
+                          "name": "Detalle",
+                          "fill": "$ink-3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Próximo: Fiesta Nacional, 12 oct",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Nunito",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "EqzPC",
+                  "type": "ref",
+                  "ref": "G8kG0",
+                  "name": "Editar fechas",
+                  "height": 48,
+                  "width": "fit_content",
+                  "x": 1097,
+                  "y": 54,
+                  "descendants": {
+                    "lZZoH": {
+                      "iconFontName": "pencil",
+                      "y": 15
+                    },
+                    "8nD7F": {
+                      "content": "Editar fechas",
+                      "y": 14
+                    }
+                  }
+                },
+                {
+                  "id": "rNTSq",
+                  "type": "ref",
+                  "ref": "RijKa",
+                  "name": "Añadir fechas",
+                  "height": 48,
+                  "enabled": false,
+                  "width": "fit_content",
+                  "descendants": {
+                    "R4xwA": {
+                      "iconFontName": "plus",
+                      "y": 15
+                    },
+                    "9cQqJ": {
+                      "content": "Añadir fechas",
+                      "y": 14
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OI1a3",
+              "name": "Marco tarjeta curso móvil",
+              "width": 358,
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sQk0G",
+                  "name": "Tarjeta curso escolar móvil",
+                  "reusable": true,
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$line"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Ujv6y",
+                      "name": "Intro",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "dnpnU",
+                          "name": "Icono",
+                          "width": 38,
+                          "height": 38,
+                          "fill": "$tint",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "X9FVl",
+                              "name": "Glifo",
+                              "width": 18,
+                              "height": 18,
+                              "iconFontName": "book-open",
+                              "iconFontFamily": "lucide",
+                              "fill": "$ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "9oCyh",
+                          "name": "Textos",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "MnymS",
+                              "name": "mover",
+                              "fill": "$ink-3",
+                              "content": "CALENDARIO ESCOLAR",
+                              "fontFamily": "Nunito",
+                              "fontSize": 12,
+                              "fontWeight": "800",
+                              "letterSpacing": 0.7
+                            },
+                            {
+                              "type": "text",
+                              "id": "WBSse",
+                              "name": "Título",
+                              "fill": "$ink",
+                              "content": "Curso 2026/27",
+                              "fontFamily": "Nunito",
+                              "fontSize": 18,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "R4Nlo",
+                              "name": "Texto",
+                              "width": "fill_container",
+                              "padding": [
+                                4,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "ZNGYT",
+                                  "name": "Descripción",
+                                  "fill": "$ink-2",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Cambian cada curso. Cuando el colegio publique las del siguiente, añádelas aquí.",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fGE8u",
+                      "name": "Periodos",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "P7Yaf",
+                          "name": "Fila vacaciones",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "lvIOI",
+                              "name": "Navidad",
+                              "width": "fill_container",
+                              "fill": "$surface-soft",
+                              "cornerRadius": 16,
+                              "layout": "vertical",
+                              "gap": 2,
+                              "padding": [
+                                12,
+                                14
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "YDYeY",
+                                  "name": "Etiqueta",
+                                  "gap": 8,
+                                  "padding": [
+                                    0,
+                                    0,
+                                    2,
+                                    0
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "AyHPF",
+                                      "name": "Muestra",
+                                      "clip": true,
+                                      "width": 16,
+                                      "height": 16,
+                                      "fill": "#E6EAF2",
+                                      "cornerRadius": 5,
+                                      "layout": "none",
+                                      "children": [
+                                        {
+                                          "type": "ellipse",
+                                          "id": "8llf2",
+                                          "x": 6,
+                                          "y": 9,
+                                          "name": "it1d",
+                                          "fill": "$ink",
+                                          "width": 4,
+                                          "height": 4
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "0YAbz",
+                                      "name": "it1t",
+                                      "fill": "$ink-2",
+                                      "content": "Navidad",
+                                      "fontFamily": "Nunito",
+                                      "fontSize": 13,
+                                      "fontWeight": "800"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "NGMur",
+                                  "name": "Fechas",
+                                  "fill": "$ink",
+                                  "content": "22 dic – 7 ene",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "qDW3a",
+                                  "name": "Detalle",
+                                  "fill": "$ink-3",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Cambio de mitad el 30 dic",
+                                  "lineHeight": 1.4,
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "y8ECt",
+                              "name": "Semana Santa",
+                              "width": "fill_container",
+                              "cornerRadius": 16,
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1.5,
+                                "fill": "$line-strong"
+                              },
+                              "layout": "vertical",
+                              "gap": 2,
+                              "padding": [
+                                12,
+                                14
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Rln26",
+                                  "name": "Etiqueta",
+                                  "gap": 8,
+                                  "padding": [
+                                    0,
+                                    0,
+                                    2,
+                                    0
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "6Hy8P",
+                                      "name": "Muestra",
+                                      "clip": true,
+                                      "width": 16,
+                                      "height": 16,
+                                      "fill": "#E6EAF2",
+                                      "cornerRadius": 5,
+                                      "layout": "none",
+                                      "children": [
+                                        {
+                                          "type": "ellipse",
+                                          "id": "R9A9f",
+                                          "x": 6,
+                                          "y": 9,
+                                          "name": "it2d",
+                                          "fill": "$ink",
+                                          "width": 4,
+                                          "height": 4
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "DjXFZ",
+                                      "name": "it2t",
+                                      "fill": "$ink-2",
+                                      "content": "Semana Santa",
+                                      "fontFamily": "Nunito",
+                                      "fontSize": 13,
+                                      "fontWeight": "800"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "vpkTb",
+                                  "name": "Fechas",
+                                  "fill": "$ink-3",
+                                  "content": "Sin fechas",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 16,
+                                  "fontWeight": "800"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cFRQe",
+                                  "name": "Detalle",
+                                  "fill": "$ink-3",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Añádelas para repartirlas",
+                                  "lineHeight": 1.4,
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "4qn3c",
+                          "name": "Festivos y puentes",
+                          "width": "fill_container",
+                          "fill": "$surface-soft",
+                          "cornerRadius": 16,
+                          "layout": "vertical",
+                          "gap": 2,
+                          "padding": [
+                            12,
+                            14
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "WRbFB",
+                              "name": "Etiqueta",
+                              "gap": 8,
+                              "padding": [
+                                0,
+                                0,
+                                2,
+                                0
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "zKDhn",
+                                  "name": "Muestra",
+                                  "clip": true,
+                                  "width": 16,
+                                  "height": 16,
+                                  "fill": "#E6EAF2",
+                                  "cornerRadius": 5,
+                                  "layout": "none",
+                                  "children": [
+                                    {
+                                      "type": "path",
+                                      "id": "Vhi7t",
+                                      "x": 0,
+                                      "y": 0,
+                                      "name": "Rayado",
+                                      "geometry": "M-2 6l8-8m-8 14l14-14m-14 20l20-20m-14 20l14-14m-8 14l8-8",
+                                      "width": 16,
+                                      "height": 16,
+                                      "stroke": {
+                                        "align": "center",
+                                        "thickness": 2,
+                                        "fill": "#1D23403D"
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "rZuWR",
+                                  "name": "it3t",
+                                  "fill": "$ink-2",
+                                  "content": "Festivos y puentes",
+                                  "fontFamily": "Nunito",
+                                  "fontSize": 13,
+                                  "fontWeight": "800"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "pPTiU",
+                              "name": "Fechas",
+                              "fill": "$ink",
+                              "content": "2 en el curso",
+                              "fontFamily": "Nunito",
+                              "fontSize": 16,
+                              "fontWeight": "800"
+                            },
+                            {
+                              "type": "text",
+                              "id": "qzeJN",
+                              "name": "Detalle",
+                              "fill": "$ink-3",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Próximo: Fiesta Nacional, 12 oct",
+                              "lineHeight": 1.4,
+                              "fontFamily": "Nunito",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "aMoVh",
+                      "type": "ref",
+                      "ref": "G8kG0",
+                      "name": "Editar fechas",
+                      "height": 48,
+                      "width": "fill_container",
+                      "x": 18,
+                      "y": 341,
+                      "descendants": {
+                        "lZZoH": {
+                          "iconFontName": "pencil",
+                          "x": 101.5,
+                          "y": 15
+                        },
+                        "8nD7F": {
+                          "content": "Editar fechas",
+                          "x": 127.5,
+                          "y": 14
+                        }
+                      }
+                    },
+                    {
+                      "id": "15Rqs",
+                      "type": "ref",
+                      "ref": "RijKa",
+                      "name": "Añadir fechas",
+                      "height": 48,
+                      "width": "fill_container(0)",
+                      "enabled": false,
+                      "descendants": {
+                        "R4xwA": {
+                          "iconFontName": "plus",
+                          "x": -63,
+                          "y": 15
+                        },
+                        "9cQqJ": {
+                          "content": "Añadir fechas",
+                          "x": -35,
+                          "y": 14
+                        }
+                      }
                     }
                   ]
                 }
@@ -8347,6 +10243,15 @@
               ]
             }
           ]
+        },
+        {
+          "id": "KyzYs",
+          "type": "ref",
+          "ref": "5g5jM",
+          "name": "Calendario escolar",
+          "width": "fill_container",
+          "x": 80,
+          "y": 854
         },
         {
           "type": "frame",
@@ -17639,7 +19544,21 @@
           "ref": "b8hgT",
           "name": "Fondo · calendario",
           "x": 0,
-          "y": -880
+          "y": -880,
+          "height": "fit_content",
+          "descendants": {
+            "KyzYs": {
+              "width": "fill_container",
+              "x": 80,
+              "y": 854
+            },
+            "naCpw": {
+              "y": 1038
+            },
+            "5JCJX": {
+              "y": 2296
+            }
+          }
         },
         {
           "type": "rectangle",
@@ -17768,7 +19687,21 @@
           "ref": "b8hgT",
           "name": "Fondo · calendario",
           "x": 0,
-          "y": 0
+          "y": 0,
+          "height": "fit_content",
+          "descendants": {
+            "KyzYs": {
+              "width": "fill_container",
+              "x": 80,
+              "y": 854
+            },
+            "naCpw": {
+              "y": 1038
+            },
+            "5JCJX": {
+              "y": 2296
+            }
+          }
         },
         {
           "type": "rectangle",
@@ -18033,7 +19966,21 @@
           "ref": "b8hgT",
           "name": "Fondo · calendario",
           "x": 0,
-          "y": 0
+          "y": 0,
+          "height": "fit_content",
+          "descendants": {
+            "KyzYs": {
+              "width": "fill_container",
+              "x": 80,
+              "y": 854
+            },
+            "naCpw": {
+              "y": 1038
+            },
+            "5JCJX": {
+              "y": 2296
+            }
+          }
         },
         {
           "type": "rectangle",
@@ -18096,7 +20043,7 @@
               "fill": "$ink"
             },
             "DafJi": {
-              "content": "Paso 2 de 5 · Semanas"
+              "content": "Paso 2 de 4 · Semanas"
             },
             "fuWcV": {
               "fill": "$ink"
@@ -18170,19 +20117,19 @@
                       "width": "fill_container"
                     },
                     "sYq7r": {
-                      "x": 20.428571428571423
+                      "x": 20.428571428571427
                     },
                     "FLBDG": {
-                      "x": 21.928571428571423
+                      "x": 21.928571428571427
                     },
                     "wL4XG": {
-                      "x": 21.928571428571423
+                      "x": 21.928571428571427
                     },
                     "a2mlX": {
-                      "x": 22.428571428571423
+                      "x": 22.428571428571427
                     },
                     "2Bg3p": {
-                      "x": 21.428571428571423
+                      "x": 21.428571428571427
                     },
                     "hLyPS": {
                       "width": "fill_container"
@@ -18303,7 +20250,21 @@
           "ref": "b8hgT",
           "name": "Fondo · calendario",
           "x": 0,
-          "y": 0
+          "y": 0,
+          "height": "fit_content",
+          "descendants": {
+            "KyzYs": {
+              "width": "fill_container",
+              "x": 80,
+              "y": 854
+            },
+            "naCpw": {
+              "y": 1038
+            },
+            "5JCJX": {
+              "y": 2296
+            }
+          }
         },
         {
           "type": "rectangle",
@@ -18385,7 +20346,7 @@
               "fill": "$ink"
             },
             "DafJi": {
-              "content": "Paso 3 de 5 · Verano"
+              "content": "Paso 3 de 4 · Verano"
             },
             "fuWcV": {
               "fill": "$ink"
@@ -18551,414 +20512,10 @@
     },
     {
       "type": "frame",
-      "id": "2qCv3",
+      "id": "r1u8t",
       "x": 7700,
       "y": 0,
-      "name": "Configuración 4 · Calendario escolar",
-      "clip": true,
-      "width": 1440,
-      "height": 1820,
-      "fill": "$bg",
-      "layout": "none",
-      "children": [
-        {
-          "id": "2USSC",
-          "type": "ref",
-          "ref": "b8hgT",
-          "name": "Fondo · calendario",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "type": "rectangle",
-          "id": "qfzOr",
-          "x": 0,
-          "y": 0,
-          "name": "Velo",
-          "fill": "$scrim",
-          "width": 1440,
-          "height": 1820
-        },
-        {
-          "id": "hbD4k",
-          "type": "ref",
-          "ref": "l81x1",
-          "x": 200,
-          "y": 60,
-          "height": "fit_content",
-          "name": "c4m",
-          "descendants": {
-            "OSQSb": {
-              "height": "fill_container"
-            },
-            "8C2wW": {
-              "fill": "#FFFFFF00",
-              "effect": []
-            },
-            "uKhyJ": {
-              "fill": "$ink"
-            },
-            "kfXUR": {
-              "enabled": false
-            },
-            "525c5": {
-              "enabled": true,
-              "x": 9,
-              "y": 9
-            },
-            "J9Xh4": {
-              "fill": "$ink",
-              "stroke": {
-                "align": "inside",
-                "thickness": 2,
-                "fill": "$ink"
-              }
-            },
-            "iryAg": {
-              "enabled": false
-            },
-            "y8OJh": {
-              "enabled": true,
-              "x": 9,
-              "y": 9
-            },
-            "PCBCR": {
-              "fill": "$ink"
-            },
-            "Un3dq": {
-              "fill": "$ink",
-              "stroke": {
-                "align": "inside",
-                "thickness": 2,
-                "fill": "$ink"
-              }
-            },
-            "6v4GX": {
-              "enabled": false
-            },
-            "ZodDV": {
-              "enabled": true,
-              "x": 9,
-              "y": 9
-            },
-            "GGxgY": {
-              "fill": "$ink"
-            },
-            "DB8eC": {
-              "fill": "#FFFFFF",
-              "effect": {
-                "type": "shadow",
-                "shadowType": "outer",
-                "color": "#1D23401A",
-                "offset": {
-                  "x": 0,
-                  "y": 1
-                },
-                "blur": 3
-              }
-            },
-            "eS8Ae": {
-              "fill": "#FFFFFF",
-              "stroke": {
-                "align": "inside",
-                "thickness": 2,
-                "fill": "$ink"
-              }
-            },
-            "0yRz5": {
-              "fill": "$ink"
-            },
-            "kf6j7": {
-              "fill": "$ink"
-            },
-            "o5h34": {
-              "height": "fill_container"
-            },
-            "VBOOm": {
-              "y": 1586
-            },
-            "1pofv": {
-              "height": "fit_content"
-            },
-            "DafJi": {
-              "content": "Paso 4 de 5 · Calendario escolar"
-            },
-            "fuWcV": {
-              "fill": "$ink"
-            },
-            "Ijt93": {
-              "fill": "$ink"
-            },
-            "7I0DG": {
-              "fill": "$ink"
-            },
-            "TMgUP": {
-              "height": "fit_content",
-              "children": [
-                {
-                  "id": "rRieA",
-                  "type": "ref",
-                  "ref": "1xIHQ",
-                  "width": "fill_container",
-                  "name": "c4c",
-                  "x": 40,
-                  "y": 10,
-                  "descendants": {
-                    "VYSjp": {
-                      "width": "fill_container"
-                    },
-                    "MyvtD": {
-                      "width": "fill_container"
-                    },
-                    "ILrcn": {
-                      "width": "fill_container"
-                    },
-                    "iIbLR": {
-                      "width": "fill_container"
-                    },
-                    "JPZ3K": {
-                      "width": "fill_container"
-                    },
-                    "TrlDF": {
-                      "width": "fill_container"
-                    },
-                    "Xe51A": {
-                      "width": "fill_container"
-                    },
-                    "XBxyI": {
-                      "width": "fill_container"
-                    },
-                    "yGmri": {
-                      "x": 366
-                    },
-                    "C58fM": {
-                      "width": "fill_container"
-                    },
-                    "emwHT": {
-                      "width": "fill_container"
-                    },
-                    "k70EV": {
-                      "width": "fill_container"
-                    },
-                    "CD31m": {
-                      "x": 614
-                    },
-                    "ritUX": {
-                      "width": "fill_container"
-                    },
-                    "z0pRX": {
-                      "width": "fill_container"
-                    },
-                    "2ux2L": {
-                      "width": "fill_container"
-                    },
-                    "7O6HS": {
-                      "x": 520
-                    },
-                    "GuOdL": {
-                      "x": 596
-                    },
-                    "tsrnQ": {
-                      "width": "fill_container"
-                    },
-                    "ME3ql": {
-                      "width": "fill_container"
-                    },
-                    "VjXiN": {
-                      "x": 540
-                    },
-                    "pusbf": {
-                      "width": "fill_container"
-                    },
-                    "Ax8sO": {
-                      "width": "fill_container"
-                    },
-                    "Ax8sO/TnSHi": {
-                      "width": "fill_container"
-                    },
-                    "Ax8sO/AQWUV": {
-                      "width": "fill_container"
-                    },
-                    "Ax8sO/apkmj": {
-                      "x": 253
-                    },
-                    "SXT8R": {
-                      "width": "fill_container",
-                      "x": 299
-                    },
-                    "SXT8R/TnSHi": {
-                      "width": "fill_container"
-                    },
-                    "SXT8R/AQWUV": {
-                      "width": "fill_container"
-                    },
-                    "K2RLK": {
-                      "width": "fill_container"
-                    },
-                    "BStVs": {
-                      "width": "fill_container"
-                    },
-                    "KOkfY": {
-                      "width": "fill_container"
-                    },
-                    "BBszJ": {
-                      "width": "fill_container"
-                    },
-                    "jbS5d": {
-                      "width": "fill_container",
-                      "x": 198
-                    },
-                    "TuPPR": {
-                      "width": "fill_container"
-                    },
-                    "DHoMW": {
-                      "width": "fill_container"
-                    },
-                    "G86GJ": {
-                      "width": "fill_container",
-                      "x": 396
-                    },
-                    "gSWii": {
-                      "width": "fill_container"
-                    },
-                    "FA9WF": {
-                      "width": "fill_container"
-                    },
-                    "ExlMW": {
-                      "width": "fill_container"
-                    },
-                    "bSXRa": {
-                      "width": "fill_container"
-                    },
-                    "cE5fB": {
-                      "width": "fill_container",
-                      "x": 294
-                    },
-                    "YJkVM": {
-                      "width": "fill_container"
-                    },
-                    "Vhp80": {
-                      "width": "fill_container"
-                    },
-                    "Vhp80/TnSHi": {
-                      "width": "fill_container"
-                    },
-                    "Vhp80/AQWUV": {
-                      "width": "fill_container"
-                    },
-                    "Vhp80/apkmj": {
-                      "x": 254
-                    },
-                    "2bZUT": {
-                      "width": "fill_container",
-                      "x": 298
-                    },
-                    "5wUaN": {
-                      "width": "fill_container"
-                    },
-                    "xaELO": {
-                      "width": "fill_container"
-                    },
-                    "v6Vr8": {
-                      "x": 226
-                    },
-                    "CJGSp": {
-                      "width": "fill_container"
-                    },
-                    "9Qeas": {
-                      "width": "fill_container"
-                    },
-                    "l0AGt": {
-                      "x": 586
-                    },
-                    "4SQD9": {
-                      "width": "fill_container"
-                    },
-                    "CAatF": {
-                      "width": "fill_container"
-                    },
-                    "HhuNt": {
-                      "width": "fill_container"
-                    },
-                    "VaN6I": {
-                      "width": "fill_container"
-                    },
-                    "dscCL": {
-                      "width": "fill_container"
-                    },
-                    "QxGjO": {
-                      "x": 495
-                    },
-                    "W1c0u": {
-                      "width": "fill_container"
-                    },
-                    "YRp2Y": {
-                      "width": "fill_container"
-                    },
-                    "uK6cz": {
-                      "width": "fill_container"
-                    },
-                    "LzDoG": {
-                      "width": "fill_container"
-                    },
-                    "PudDf": {
-                      "x": 304
-                    },
-                    "cZDkZ": {
-                      "width": "fill_container"
-                    },
-                    "pYr4s": {
-                      "width": "fill_container"
-                    },
-                    "6ZfYn": {
-                      "width": "fill_container"
-                    },
-                    "sUYHG": {
-                      "x": 304
-                    },
-                    "Sw2MG": {
-                      "width": "fill_container"
-                    },
-                    "LrlDQ": {
-                      "width": "fill_container"
-                    },
-                    "UuoTl": {
-                      "width": "fill_container"
-                    },
-                    "bjxsh": {
-                      "x": 304
-                    },
-                    "fcXwh": {
-                      "width": "fill_container"
-                    },
-                    "Wkysp": {
-                      "width": "fill_container"
-                    }
-                  }
-                }
-              ]
-            },
-            "0l3SK": {
-              "y": 1618
-            },
-            "hnG1z": {
-              "width": "fill_container"
-            },
-            "E1Psq": {
-              "enabled": true,
-              "x": 464,
-              "y": 16
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "r1u8t",
-      "x": 9240,
-      "y": 0,
-      "name": "Configuración 5 · Revisar",
+      "name": "Configuración 4 · Revisar",
       "clip": true,
       "width": 1440,
       "height": 900,
@@ -18971,7 +20528,21 @@
           "ref": "b8hgT",
           "name": "Fondo · calendario",
           "x": 0,
-          "y": 0
+          "y": 0,
+          "height": "fit_content",
+          "descendants": {
+            "KyzYs": {
+              "width": "fill_container",
+              "x": 80,
+              "y": 854
+            },
+            "naCpw": {
+              "y": 1038
+            },
+            "5JCJX": {
+              "y": 2296
+            }
+          }
         },
         {
           "type": "rectangle",
@@ -19044,25 +20615,6 @@
             "GGxgY": {
               "fill": "$ink"
             },
-            "eS8Ae": {
-              "fill": "$ink",
-              "stroke": {
-                "align": "inside",
-                "thickness": 2,
-                "fill": "$ink"
-              }
-            },
-            "0yRz5": {
-              "enabled": false
-            },
-            "DfEuB": {
-              "enabled": true,
-              "x": 9,
-              "y": 9
-            },
-            "kf6j7": {
-              "fill": "$ink"
-            },
             "AJ2Bk": {
               "fill": "#FFFFFF",
               "effect": {
@@ -19091,7 +20643,7 @@
               "fill": "$ink"
             },
             "DafJi": {
-              "content": "Paso 5 de 5 · Revisar"
+              "content": "Paso 4 de 4 · Revisar"
             },
             "fuWcV": {
               "fill": "$ink"
@@ -19100,9 +20652,6 @@
               "fill": "$ink"
             },
             "7I0DG": {
-              "fill": "$ink"
-            },
-            "Kql5F": {
               "fill": "$ink"
             },
             "TMgUP": {
@@ -19115,6 +20664,7 @@
                   "name": "c5c",
                   "x": 40,
                   "y": 10,
+                  "height": "fit_content",
                   "descendants": {
                     "bRuwY": {
                       "width": "fill_container"
@@ -19199,18 +20749,21 @@
                     "ZNF7u/q9er9": {
                       "x": 282
                     },
-                    "AZo47": {
+                    "iGDRu": {
                       "width": "fill_container",
                       "x": 346
                     },
-                    "AZo47/ovMGt": {
-                      "width": "fill_container"
+                    "QgfQK": {
+                      "width": "fill_container",
+                      "y": 426,
+                      "height": "fit_content"
                     },
-                    "AZo47/aNgfn": {
-                      "width": "fill_container"
+                    "ytRpa": {
+                      "x": 2
                     },
-                    "AZo47/q9er9": {
-                      "x": 282
+                    "Titjs": {
+                      "width": "fill_container",
+                      "x": 30
                     },
                     "BaBfx": {
                       "width": "fill_container"
@@ -20068,7 +21621,7 @@
                         "0EC6t": {
                           "content": "10",
                           "fontWeight": "800",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     },
@@ -20087,7 +21640,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "11",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     }
@@ -20111,7 +21664,7 @@
                         },
                         "0EC6t": {
                           "content": "12",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20157,7 +21710,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "13",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20171,7 +21724,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "14",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20185,7 +21738,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "15",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20199,7 +21752,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "16",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20213,7 +21766,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "17",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20233,7 +21786,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "18",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     }
@@ -20259,7 +21812,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "19",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     },
@@ -20272,7 +21825,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "20",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     },
@@ -20285,7 +21838,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "21",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     },
@@ -20298,7 +21851,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "22",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     },
@@ -20311,7 +21864,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "23",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     },
@@ -20324,7 +21877,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "24",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     },
@@ -20343,7 +21896,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "25",
-                          "x": 14.357142857142856
+                          "x": 14.357142857142858
                         }
                       }
                     }
@@ -20370,7 +21923,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "26",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20384,7 +21937,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "27",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20398,7 +21951,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "28",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20412,7 +21965,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "29",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20426,7 +21979,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "30",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -20446,7 +21999,7 @@
                       "descendants": {
                         "0EC6t": {
                           "content": "31",
-                          "x": 14.357142857142858
+                          "x": 14.357142857142856
                         }
                       }
                     },
@@ -21095,6 +22648,15 @@
               ]
             }
           ]
+        },
+        {
+          "id": "q4Ixp",
+          "type": "ref",
+          "ref": "sQk0G",
+          "name": "Calendario escolar",
+          "width": "fill_container",
+          "x": 16,
+          "y": 1513
         },
         {
           "type": "frame",
@@ -25315,72 +26877,78 @@
           "name": "Fondo · calendario",
           "x": 0,
           "y": -360,
+          "height": "fit_content",
           "descendants": {
             "9kOLQ/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "ogIRa/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "AhbBD/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "CFqv5/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "UJmBx/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "ksg6m/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "9PFag/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "tNgAD/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "UBHds/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "qsGvz/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "TKd2e/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "EjXip/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "vD9It/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "wl7Sk/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "1T9B0/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "xwizO/0EC6t": {
-              "x": 14.357142857142856
+              "x": 14.357142857142858
             },
             "c3SF8/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "zpRbl/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "pg1Z2/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "e9kmC/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "s7SFR/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
             },
             "dFXpk/0EC6t": {
-              "x": 14.357142857142858
+              "x": 14.357142857142856
+            },
+            "q4Ixp": {
+              "width": "fill_container",
+              "x": 16,
+              "y": 1513
             },
             "zlIYf": {
               "x": 66.19047619047619
@@ -25565,6 +27133,9 @@
       "descendants": {
         "k3mD8": {
           "height": "fit_content"
+        },
+        "jdBsD": {
+          "content": "Paso 1 de 4 · Personas"
         },
         "tpBv1": {
           "height": "fit_content",
@@ -25819,7 +27390,7 @@
           "height": "fit_content"
         },
         "jdBsD": {
-          "content": "Paso 2 de 5 · Semanas"
+          "content": "Paso 2 de 4 · Semanas"
         },
         "N288Z": {
           "fill": "$ink"
@@ -26084,7 +27655,7 @@
           "height": "fit_content"
         },
         "jdBsD": {
-          "content": "Paso 3 de 5 · Verano",
+          "content": "Paso 3 de 4 · Verano",
           "x": 69
         },
         "N288Z": {
@@ -26281,10 +27852,10 @@
       }
     },
     {
-      "id": "WUKhC",
+      "id": "w9Oc9",
       "type": "ref",
       "ref": "7ECjD",
-      "name": "Móvil · Configuración 4 · Calendario escolar",
+      "name": "Móvil · Configuración 4 · Revisar",
       "x": 2450,
       "y": 2600,
       "width": 390,
@@ -26294,422 +27865,7 @@
           "height": "fit_content"
         },
         "jdBsD": {
-          "content": "Paso 4 de 5 · Calendario escolar",
-          "x": 34.5
-        },
-        "N288Z": {
-          "fill": "$ink"
-        },
-        "kmScf": {
-          "fill": "$ink"
-        },
-        "vwvgm": {
-          "fill": "$ink"
-        },
-        "tpBv1": {
-          "height": "fit_content",
-          "children": [
-            {
-              "id": "PyC7l",
-              "type": "ref",
-              "ref": "1xIHQ",
-              "width": "fill_container",
-              "name": "mc4c",
-              "height": "fit_content",
-              "x": 20,
-              "y": 22,
-              "descendants": {
-                "VYSjp": {
-                  "width": "fill_container",
-                  "height": "fit_content"
-                },
-                "MyvtD": {
-                  "width": "fill_container"
-                },
-                "ILrcn": {
-                  "width": "fill_container",
-                  "y": 78
-                },
-                "iIbLR": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 206
-                },
-                "JPZ3K": {
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "width": "fill_container",
-                  "height": "fit_content"
-                },
-                "TrlDF": {
-                  "y": 20
-                },
-                "yGmri": {
-                  "x": 20,
-                  "y": 107
-                },
-                "C58fM": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 199
-                },
-                "emwHT": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "gap": 8
-                },
-                "SPMwM": {
-                  "y": 14
-                },
-                "k70EV": {
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "width": "fit_content",
-                  "height": "fit_content"
-                },
-                "qUXUw": {
-                  "x": 0,
-                  "y": 34
-                },
-                "CD31m": {
-                  "x": 18,
-                  "y": 114
-                },
-                "ritUX": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 176
-                },
-                "z0pRX": {
-                  "width": "fill_container"
-                },
-                "2ux2L": {
-                  "width": "fill_container"
-                },
-                "7O6HS": {
-                  "x": 190
-                },
-                "GuOdL": {
-                  "x": 266
-                },
-                "tsrnQ": {
-                  "width": "fill_container",
-                  "height": "fit_content"
-                },
-                "ME3ql": {
-                  "width": "fill_container"
-                },
-                "VjXiN": {
-                  "x": 210
-                },
-                "pusbf": {
-                  "layout": "vertical",
-                  "width": "fill_container",
-                  "height": "fit_content"
-                },
-                "Ax8sO": {
-                  "width": "fill_container"
-                },
-                "Ax8sO/TnSHi": {
-                  "width": "fill_container"
-                },
-                "Ax8sO/AQWUV": {
-                  "width": "fill_container"
-                },
-                "Ax8sO/apkmj": {
-                  "x": 222
-                },
-                "SXT8R": {
-                  "width": "fill_container",
-                  "x": 0,
-                  "y": 91
-                },
-                "SXT8R/TnSHi": {
-                  "width": "fill_container"
-                },
-                "SXT8R/AQWUV": {
-                  "width": "fill_container"
-                },
-                "K2RLK": {
-                  "layout": "vertical",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 266
-                },
-                "BStVs": {
-                  "width": "fill_container",
-                  "height": "fit_content"
-                },
-                "KOkfY": {
-                  "width": "fill_container"
-                },
-                "BBszJ": {
-                  "width": "fill_container"
-                },
-                "jbS5d": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "x": 0,
-                  "y": 143
-                },
-                "TuPPR": {
-                  "width": "fill_container"
-                },
-                "DHoMW": {
-                  "width": "fill_container"
-                },
-                "G86GJ": {
-                  "width": "fill_container",
-                  "x": 0,
-                  "y": 305
-                },
-                "gSWii": {
-                  "width": "fill_container"
-                },
-                "FA9WF": {
-                  "width": "fill_container"
-                },
-                "ExlMW": {
-                  "width": "fill_container",
-                  "y": 741
-                },
-                "bSXRa": {
-                  "width": "fill_container"
-                },
-                "cE5fB": {
-                  "width": "fill_container",
-                  "x": 129
-                },
-                "YJkVM": {
-                  "layout": "vertical",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 814
-                },
-                "Vhp80": {
-                  "width": "fill_container"
-                },
-                "Vhp80/TnSHi": {
-                  "width": "fill_container"
-                },
-                "Vhp80/AQWUV": {
-                  "width": "fill_container"
-                },
-                "Vhp80/apkmj": {
-                  "x": 222
-                },
-                "2bZUT": {
-                  "width": "fill_container",
-                  "x": 0,
-                  "y": 89
-                },
-                "5wUaN": {
-                  "width": "fill_container"
-                },
-                "xaELO": {
-                  "width": "fill_container"
-                },
-                "v6Vr8": {
-                  "x": 194
-                },
-                "CJGSp": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 1052,
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "gap": 4
-                },
-                "SveJh": {
-                  "y": 14
-                },
-                "9Qeas": {
-                  "width": "fill_container",
-                  "y": 40
-                },
-                "l0AGt": {
-                  "x": 18,
-                  "y": 82
-                },
-                "4SQD9": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 1803
-                },
-                "CAatF": {
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "width": "fill_container",
-                  "height": "fit_content"
-                },
-                "HhuNt": {
-                  "width": "fill_container"
-                },
-                "VaN6I": {
-                  "width": "fill_container"
-                },
-                "dscCL": {
-                  "width": "fill_container"
-                },
-                "QxGjO": {
-                  "x": 20,
-                  "y": 86
-                },
-                "W1c0u": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 154
-                },
-                "YRp2Y": {
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "width": "fill_container",
-                  "height": "fit_content"
-                },
-                "uK6cz": {
-                  "width": "fill_container"
-                },
-                "LzDoG": {
-                  "width": "fill_container"
-                },
-                "PudDf": {
-                  "width": "fill_container",
-                  "x": 14,
-                  "y": 94
-                },
-                "CooBV": {
-                  "width": "fill_container"
-                },
-                "PbWXl": {
-                  "width": "fill_container"
-                },
-                "L80nK": {
-                  "width": "fill_container",
-                  "x": 122
-                },
-                "erbev": {
-                  "width": "fill_container"
-                },
-                "n4Qhe": {
-                  "x": 244
-                },
-                "cZDkZ": {
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 204
-                },
-                "pYr4s": {
-                  "width": "fill_container"
-                },
-                "6ZfYn": {
-                  "width": "fill_container"
-                },
-                "sUYHG": {
-                  "width": "fill_container",
-                  "x": 14,
-                  "y": 94
-                },
-                "Q6aFk": {
-                  "width": "fill_container"
-                },
-                "ibd7h": {
-                  "width": "fill_container"
-                },
-                "dChUW": {
-                  "width": "fill_container",
-                  "x": 122
-                },
-                "0J0hM": {
-                  "width": "fill_container"
-                },
-                "R5Gro": {
-                  "x": 244
-                },
-                "Sw2MG": {
-                  "layout": "vertical",
-                  "alignItems": "start",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 392
-                },
-                "LrlDQ": {
-                  "width": "fill_container"
-                },
-                "UuoTl": {
-                  "width": "fill_container"
-                },
-                "bjxsh": {
-                  "width": "fill_container",
-                  "x": 14,
-                  "y": 94
-                },
-                "kKzrG": {
-                  "width": "fill_container"
-                },
-                "AuEXS": {
-                  "width": "fill_container"
-                },
-                "mB3um": {
-                  "width": "fill_container",
-                  "x": 122
-                },
-                "CkMim": {
-                  "width": "fill_container"
-                },
-                "MZ3hE": {
-                  "x": 244
-                },
-                "fcXwh": {
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "y": 580
-                },
-                "Wkysp": {
-                  "width": "fill_container"
-                }
-              }
-            }
-          ]
-        },
-        "Sb4RY": {
-          "y": 2770
-        },
-        "vhGZK": {
-          "enabled": true,
-          "x": 16,
-          "y": 12
-        },
-        "xTOzk": {
-          "width": "fill_container",
-          "x": 156
-        },
-        "dn2ML": {
-          "x": 60
-        },
-        "lwdnN": {
-          "x": 140
-        }
-      }
-    },
-    {
-      "id": "w9Oc9",
-      "type": "ref",
-      "ref": "7ECjD",
-      "name": "Móvil · Configuración 5 · Revisar",
-      "x": 2940,
-      "y": 2600,
-      "width": 390,
-      "height": "fit_content",
-      "descendants": {
-        "k3mD8": {
-          "height": "fit_content"
-        },
-        "jdBsD": {
-          "content": "Paso 5 de 5 · Revisar",
+          "content": "Paso 4 de 4 · Revisar",
           "x": 68.5
         },
         "N288Z": {
@@ -26719,9 +27875,6 @@
           "fill": "$ink"
         },
         "vwvgm": {
-          "fill": "$ink"
-        },
-        "3dRkb": {
           "fill": "$ink"
         },
         "tpBv1": {
@@ -26835,24 +27988,27 @@
                 "ZNF7u/q9er9": {
                   "x": 298
                 },
-                "AZo47": {
+                "iGDRu": {
                   "width": "fill_container",
-                  "x": 0,
-                  "y": 107
+                  "y": 107,
+                  "x": 0
                 },
-                "AZo47/ovMGt": {
-                  "width": "fill_container"
+                "QgfQK": {
+                  "width": "fill_container",
+                  "y": 644,
+                  "height": "fit_content"
                 },
-                "AZo47/aNgfn": {
-                  "width": "fill_container"
+                "ytRpa": {
+                  "x": 2
                 },
-                "AZo47/q9er9": {
-                  "x": 298
+                "Titjs": {
+                  "width": "fill_container",
+                  "x": 30
                 },
                 "BaBfx": {
                   "width": "fill_container",
                   "height": "fit_content",
-                  "y": 729
+                  "y": 731
                 },
                 "TFQVE": {
                   "width": "fill_container",
@@ -26866,7 +28022,7 @@
           ]
         },
         "Sb4RY": {
-          "y": 1028
+          "y": 1030
         },
         "vhGZK": {
           "enabled": true,
@@ -26925,6 +28081,230 @@
       "fontFamily": "Nunito",
       "fontSize": 72,
       "fontWeight": "800"
+    },
+    {
+      "type": "frame",
+      "id": "T2u68",
+      "x": 9240,
+      "y": 0,
+      "name": "Escritorio · Vacaciones y festivos",
+      "clip": true,
+      "width": 1440,
+      "height": 1766,
+      "fill": "$bg",
+      "layout": "none",
+      "children": [
+        {
+          "id": "LFZaD",
+          "type": "ref",
+          "ref": "b8hgT",
+          "name": "Fondo · calendario",
+          "x": 0,
+          "y": 0,
+          "height": "fit_content",
+          "descendants": {
+            "KyzYs": {
+              "width": "fill_container",
+              "x": 80,
+              "y": 854
+            },
+            "naCpw": {
+              "y": 1038
+            },
+            "5JCJX": {
+              "y": 2296
+            }
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "W70t8",
+          "x": 0,
+          "y": 0,
+          "name": "Velo",
+          "fill": "$scrim",
+          "width": 1440,
+          "height": 1766
+        },
+        {
+          "id": "V38U5",
+          "type": "ref",
+          "ref": "PEhEg",
+          "name": "Vacaciones y festivos",
+          "x": 280,
+          "y": 60
+        }
+      ]
+    },
+    {
+      "id": "vrAVO",
+      "type": "ref",
+      "ref": "Wyv9K",
+      "name": "Móvil · Vacaciones y festivos",
+      "x": 2940,
+      "y": 2600,
+      "width": 390
+    },
+    {
+      "type": "frame",
+      "id": "cV5zt",
+      "x": 10780,
+      "y": 0,
+      "name": "Estados · Calendario escolar",
+      "fill": "$bg",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 48,
+      "children": [
+        {
+          "type": "text",
+          "id": "TWUGa",
+          "name": "sTitle",
+          "fill": "$ink",
+          "content": "Tarjeta del curso · sin fechas",
+          "fontFamily": "Nunito",
+          "fontSize": 24,
+          "fontWeight": "800"
+        },
+        {
+          "type": "text",
+          "id": "FKQzj",
+          "name": "sNote",
+          "fill": "$ink-2",
+          "textGrowth": "fixed-width",
+          "width": 720,
+          "content": "Aparece cuando el curso actual aún no tiene vacaciones ni festivos. El botón abre «Vacaciones y festivos» con ese curso ya sugerido.",
+          "lineHeight": 1.5,
+          "fontFamily": "Nunito",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "kLsk1",
+          "name": "Variantes",
+          "gap": 40,
+          "children": [
+            {
+              "id": "g7Fyk",
+              "type": "ref",
+              "ref": "5g5jM",
+              "name": "Escritorio · sin fechas",
+              "fill": "$warm-soft",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$warm-line"
+              },
+              "height": "fit_content",
+              "descendants": {
+                "hxVoe": {
+                  "width": "fill_container",
+                  "height": "fit_content"
+                },
+                "xyXcL": {
+                  "fill": "$sun-soft"
+                },
+                "cDbHr": {
+                  "fill": "#9A6A00"
+                },
+                "dS66G": {
+                  "width": "fill_container",
+                  "height": "fit_content"
+                },
+                "o6DiT": {
+                  "content": "Falta el curso 2026/27"
+                },
+                "MRxNI": {
+                  "width": "fill_container",
+                  "height": "fit_content"
+                },
+                "d9J79": {
+                  "content": "Añade las vacaciones y los festivos de este curso. Mientras tanto, el calendario sigue el turno semanal.",
+                  "fill": "#5C4410",
+                  "width": "fill_container"
+                },
+                "5Tr94": {
+                  "enabled": false
+                },
+                "EqzPC": {
+                  "enabled": false
+                },
+                "rNTSq": {
+                  "enabled": true,
+                  "x": 1086,
+                  "y": 33
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "YImuM",
+              "name": "Marco móvil",
+              "width": 358,
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "3P8X0",
+                  "type": "ref",
+                  "ref": "sQk0G",
+                  "name": "Móvil · sin fechas",
+                  "width": "fill_container",
+                  "fill": "$warm-soft",
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$warm-line"
+                  },
+                  "height": "fit_content",
+                  "descendants": {
+                    "Ujv6y": {
+                      "height": "fit_content"
+                    },
+                    "dnpnU": {
+                      "fill": "$sun-soft"
+                    },
+                    "X9FVl": {
+                      "fill": "#9A6A00"
+                    },
+                    "9oCyh": {
+                      "height": "fit_content"
+                    },
+                    "WBSse": {
+                      "content": "Falta el curso 2026/27"
+                    },
+                    "R4Nlo": {
+                      "height": "fit_content"
+                    },
+                    "ZNGYT": {
+                      "content": "Añade las vacaciones y los festivos de este curso. Mientras tanto, el calendario sigue el turno semanal.",
+                      "fill": "#5C4410"
+                    },
+                    "fGE8u": {
+                      "enabled": false
+                    },
+                    "aMoVh": {
+                      "enabled": false
+                    },
+                    "15Rqs": {
+                      "enabled": true,
+                      "width": "fill_container",
+                      "x": 18,
+                      "y": 142
+                    },
+                    "15Rqs/R4xwA": {
+                      "x": 98
+                    },
+                    "15Rqs/9cQqJ": {
+                      "x": 126
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {
