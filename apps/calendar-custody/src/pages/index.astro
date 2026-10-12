@@ -153,8 +153,12 @@ const months = [
               <Icon name="chevron-right" size={20} />
             </button>
           </div>
-          <div class="weekdays" aria-hidden="true">{weekdayLabels.map((label) => <span>{label}</span>)}</div>
-          <div id="mobile-month-days" class="month-days"></div>
+          <div class="month-grid">
+            <span class="week-corner" aria-hidden="true">Sem</span>
+            <div class="weekdays" aria-hidden="true">{weekdayLabels.map((label) => <span>{label}</span>)}</div>
+            <div id="mobile-week-numbers" class="week-numbers" aria-hidden="true"></div>
+            <div id="mobile-month-days" class="month-days"></div>
+          </div>
           <ul class="legend legend-compact" aria-label="Leyenda">
             <li><span class="legend-swatch is-father"></span><span data-person-name="father">Papá</span></li>
             <li><span class="legend-swatch is-mother"></span><span data-person-name="mother">Mamá</span></li>
@@ -1995,9 +1999,60 @@ const months = [
     text-align: center;
   }
 
-  .month-days {
+  /* Columna de números de semana + días del mes. */
+  .month-grid {
     --day-height: 36px;
     --day-radius: 10px;
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 10px 4px;
+  }
+
+  .week-corner,
+  .weekdays span {
+    display: grid;
+    place-items: center;
+    height: 24px;
+  }
+
+  .week-corner {
+    color: var(--ink-3);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .week-numbers {
+    display: grid;
+    grid-auto-rows: var(--day-height);
+    row-gap: 6px;
+  }
+
+  .week-number {
+    display: grid;
+    place-items: center;
+    color: var(--ink-3);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+  }
+
+  .week-number span {
+    display: grid;
+    place-items: center;
+    min-width: 24px;
+    height: 22px;
+    padding: 0 4px;
+    border-radius: 999px;
+  }
+
+  .week-number.is-current span {
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .month-days {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     row-gap: 6px;
@@ -2128,13 +2183,10 @@ const months = [
     border-color: var(--line);
   }
 
-  .mobile-month .weekdays {
-    padding-top: 4px;
-  }
-
-  .mobile-month .month-days {
+  .mobile-month .month-grid {
     --day-height: 44px;
     --day-radius: 12px;
+    padding-top: 4px;
   }
 
   .mobile-month .day {

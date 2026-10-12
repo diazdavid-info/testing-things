@@ -187,6 +187,7 @@ const mobileMonthSection = requiredElement<HTMLElement>('.mobile-month')
 const mobileMonthTitle = requiredElement<HTMLElement>('#mobile-month-title')
 const mobileMonthMeta = requiredElement<HTMLElement>('#mobile-month-meta')
 const mobileMonthDays = requiredElement<HTMLElement>('#mobile-month-days')
+const mobileWeekNumbers = requiredElement<HTMLElement>('#mobile-week-numbers')
 const previousMonthButton = requiredElement<HTMLButtonElement>('#previous-month')
 const nextMonthButton = requiredElement<HTMLButtonElement>('#next-month')
 const miniYearLabel = requiredElement<HTMLElement>('#mini-year-label')
@@ -1049,6 +1050,41 @@ function isCurrentMonth(year: number, month: number): boolean {
   return year === today.getFullYear() && month === today.getMonth()
 }
 
+function createWeekCorner(): HTMLElement {
+  const corner = document.createElement('span')
+  corner.className = 'week-corner'
+  corner.setAttribute('aria-hidden', 'true')
+  corner.textContent = 'Sem'
+  return corner
+}
+
+// Número de semana ISO de cada fila; resalta la semana en curso.
+function createWeekNumberCells(year: number, month: number): HTMLElement[] {
+  const firstWeekday = (new Date(Date.UTC(year, month, 1)).getUTCDay() + 6) % DAYS_PER_WEEK
+  const rows = Math.ceil((firstWeekday + daysInMonth(year, month)) / DAYS_PER_WEEK)
+  const currentRow = isCurrentMonth(year, month) ? Math.floor((firstWeekday + today.getDate() - 1) / DAYS_PER_WEEK) : -1
+  return Array.from({ length: rows }, (_, row) => {
+    const firstDayOfRow = Math.max(1, 1 + row * DAYS_PER_WEEK - firstWeekday)
+    const week = getIsoWeek(year, month, firstDayOfRow).week
+    const cell = document.createElement('span')
+    const label = document.createElement('span')
+    cell.className = 'week-number'
+    cell.classList.toggle('is-current', row === currentRow)
+    cell.title = `Semana ${week}`
+    label.textContent = String(week)
+    cell.append(label)
+    return cell
+  })
+}
+
+function createWeekNumbers(year: number, month: number): HTMLElement {
+  const weekNumbers = document.createElement('div')
+  weekNumbers.className = 'week-numbers'
+  weekNumbers.setAttribute('aria-hidden', 'true')
+  weekNumbers.append(...createWeekNumberCells(year, month))
+  return weekNumbers
+}
+
 function createMonthBadge(year: number, month: number): HTMLElement {
   const badge = document.createElement('span')
   if (isCurrentMonth(year, month)) {
@@ -1068,6 +1104,7 @@ function createMonth(year: number, month: number): HTMLElement {
   const monthElement = document.createElement('article')
   const header = document.createElement('header')
   const title = document.createElement('h3')
+  const grid = document.createElement('div')
   const days = document.createElement('div')
   monthElement.className = 'month'
   monthElement.classList.toggle('is-current', isCurrentMonth(year, month))
@@ -1078,7 +1115,9 @@ function createMonth(year: number, month: number): HTMLElement {
   header.append(title, createMonthBadge(year, month))
   days.className = 'month-days'
   days.append(...createMonthDays(year, month))
-  monthElement.append(header, createWeekdays(), days)
+  grid.className = 'month-grid'
+  grid.append(createWeekCorner(), createWeekdays(), createWeekNumbers(year, month), days)
+  monthElement.append(header, grid)
   return monthElement
 }
 
@@ -1122,6 +1161,7 @@ function renderMobileMonth(): void {
     ? `Verano · cambios los días ${formatList(configuration.summer.splitDays.map(String))}`
     : `Semanas ${getIsoWeek(displayedYear, displayedMonth, 1).week} – ${getIsoWeek(displayedYear, displayedMonth, totalDays).week}`
   mobileMonthDays.replaceChildren(...createMonthDays(displayedYear, displayedMonth))
+  mobileWeekNumbers.replaceChildren(...createWeekNumberCells(displayedYear, displayedMonth))
   previousMonthButton.disabled = displayedYear === earliest.year && displayedMonth <= earliest.month
   miniYearGrid.querySelectorAll<HTMLElement>('.mini-month').forEach((element) => {
     const active = Number(element.dataset.month) === displayedMonth
